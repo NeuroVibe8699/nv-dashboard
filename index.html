@@ -1,32 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8"><title>NeuroVibe | Login Portal</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>body { background: #0F1115; font-family: 'Inter', sans-serif; }</style>
-</head>
-<body class="flex items-center justify-center min-h-screen">
-    <div class="bg-gray-900 p-10 rounded-2xl border border-gray-800 w-full max-w-sm text-center shadow-2xl">
-        <h1 class="text-3xl font-black text-white mb-8 uppercase italic">NEURO<span class="text-orange-500">VIBE</span></h1>
-        <div class="space-y-4">
-            <input type="text" id="userid" placeholder="User ID / Site ID" class="w-full bg-black p-4 border border-gray-800 rounded-xl text-orange-500 outline-none">
-            <input type="password" id="passkey" placeholder="Terminal Password" class="w-full bg-black p-4 border border-gray-800 rounded-xl text-orange-500 outline-none">
-            <button onclick="login()" class="w-full bg-gradient-to-r from-orange-500 to-orange-700 p-4 rounded-xl font-bold uppercase tracking-widest text-white shadow-lg">Authenticate</button>
-            <p id="err" class="text-red-500 text-xs mt-2 hidden">ACCESS DENIED</p>
-        </div>
-    </div>
-    <script>
-        function login() {
-            const u = document.getElementById('userid').value;
-            const p = document.getElementById('passkey').value;
-            if (u === 'admin' && p === 'nvdashboard8699') {
-                window.location.href = 'admin.html';
-            } else if (u === 'client01' && p === 'client8699') {
-                window.location.href = 'dashboard.html';
-            } else {
-                document.getElementById('err').classList.remove('hidden');
-            }
-        }
-    </script>
-</body>
-</html>
+<!-- Login Page Updates -->
+<div class="mt-4 text-center">
+    <button onclick="forgotPass()" class="text-gray-500 text-[10px] hover:text-orange-500 uppercase font-bold tracking-widest">
+        Forgot System Key?
+    </button>
+</div>
+
+<script>
+    function forgotPass() {
+        alert("SECURITY PROTOCOL: Please contact NeuroVibe Admin to request a password reset.");
+        // Future: Yahan hum Admin ka WhatsApp link bhi daal sakte hain.
+    }
+</script>
