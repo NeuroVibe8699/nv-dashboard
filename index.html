@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>NeuroVibe AI | Predictive Dashboard</title>
+</head>
+<body class="bg-slate-50 font-sans min-h-screen flex flex-col items-center p-6">
+
+    <!-- Nav Bar -->
+    <nav class="w-full max-w-6xl flex justify-between items-center py-6 mb-12 border-b border-slate-200">
+        <div class="text-3xl font-black italic tracking-tighter">
+            <span class="text-[#FF9933]">NEURO</span><span class="text-slate-400 font-normal uppercase">Vibe AI</span>
+        </div>
+        <div class="hidden md:flex gap-4">
+            <div class="bg-white shadow-sm border border-slate-200 px-6 py-2 rounded-full flex items-center gap-2">
+                <span class="text-green-500 font-bold">●</span> <span class="font-bold text-slate-700">ML & AI Enabled</span>
+            </div>
+            <div class="bg-white shadow-sm border border-slate-200 px-6 py-2 rounded-full flex items-center gap-2">
+                <span class="text-green-500 font-bold">●</span> <span class="font-bold text-slate-700">IoT Sensors Active</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Headline -->
+    <div class="text-center mb-16">
+        <h1 class="text-5xl md:text-7xl font-extrabold text-slate-800 mb-8 leading-tight">
+            Predict Failures Before <br> <span class="text-[#FF9933]">They Happen.</span>
+        </h1>
+        <button class="bg-[#FF9933] text-white text-2xl font-bold px-12 py-5 rounded-2xl shadow-[0_15px_40px_-10px_rgba(255,153,51,0.6)] hover:scale-105 transition-all active:scale-95">
+            Get Started
+        </button>
+    </div>
+
+    <!-- Live Dashboard (Industrial Gray Theme) -->
+    <div class="w-full max-w-5xl bg-[#1A1A1D] rounded-[3rem] p-8 md:p-12 shadow-2xl border-[12px] border-white relative overflow-hidden">
+        <div class="flex justify-between items-center mb-10 border-b border-gray-800 pb-6">
+            <div>
+                <h2 class="text-[#FF9933] text-2xl font-bold uppercase tracking-widest">Live Asset Monitoring</h2>
+                <p class="text-gray-500 text-sm mt-1">Gateway: NV-G8699 | Online</p>
+            </div>
+            <div class="bg-gray-800 text-gray-400 px-4 py-2 rounded-lg text-xs font-mono">
+                UPTIME: 99.9%
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-12">
+            <!-- Overall Risk (Donut Chart Style) -->
+            <div class="bg-[#242427] p-8 rounded-[2rem] border border-gray-800 flex flex-col items-center">
+                <h3 class="text-gray-300 mb-8 font-semibold">Overall Risk Profile</h3>
+                <div class="relative w-56 h-56 flex items-center justify-center">
+                    <svg class="w-full h-full transform -rotate-90">
+                        <circle cx="112" cy="112" r="100" stroke="#333" stroke-width="20" fill="transparent" />
+                        <circle cx="112" cy="112" r="100" stroke="#FF9933" stroke-width="20" fill="transparent" stroke-dasharray="628" stroke-dashoffset="120" />
+                    </svg>
+                    <div class="absolute text-center">
+                        <span class="text-white text-5xl font-black block leading-none">82%</span>
+                        <span class="text-gray-500 text-xs uppercase mt-2 block tracking-widest">High Alert</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Asset Health List -->
+            <div class="bg-[#242427] p-8 rounded-[2rem] border border-gray-800">
+                <h3 class="text-gray-300 mb-8 font-semibold">Sensor Nodes Health (PA5/PF4)</h3>
+                <div class="space-y-6">
+                    <div class="flex justify-between items-center border-b border-gray-800 pb-4">
+                        <div class="text-gray-400">
+                            <p class="text-white font-bold">Ammonia Pump #01</p>
+                            <p class="text-xs text-gray-600">Location: Tank Farm</p>
+                        </div>
+                        <span class="text-[#FF9933] font-black animate-pulse text-xs tracking-tighter">● CRITICAL RISK</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-gray-800 pb-4">
+                        <div class="text-gray-400">
+                            <p class="text-white font-bold">Blower Unit #04</p>
+                            <p class="text-xs text-gray-600">Location: Exhaust Zone</p>
+                        </div>
+                        <span class="text-green-500 font-bold text-xs tracking-tighter">● STABLE</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-gray-800 pb-4">
+                        <div class="text-gray-400">
+                            <p class="text-white font-bold">Main Conveyor Belt</p>
+                            <p class="text-xs text-gray-600">Location: Production</p>
+                        </div>
+                        <span class="text-green-500 font-bold text-xs tracking-tighter">● STABLE</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-24 text-slate-400 text-sm flex flex-col items-center gap-2">
+        <p class="font-bold">NVPREDICTIVE.COM</p>
+        <p>© 2026 NeuroVibe AI | Boss8699 Industrial Intelligence</p>
+    </footer>
+
+</body>
+</html>
