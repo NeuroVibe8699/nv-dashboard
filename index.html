@@ -3,175 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroVibe Cloud | Master Control</title>
+    <title>NeuroVibe Cloud | Unified Industrial OS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com">
     <style>
         :root { --bhagwa: #FF9933; --dark-gray: #1E1F22; --bg: #0F1115; }
-        body { background-color: var(--bg); color: #E4E6EB; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        body { background-color: var(--bg); color: #E4E6EB; font-family: 'Inter', sans-serif; overflow: hidden; }
         #login-screen { background: radial-gradient(circle at center, #1E1F22 0%, #0F1115 100%); z-index: 1000; position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; }
         #main-dashboard { display: none; } 
         .sidebar { background-color: var(--dark-gray); width: 260px; position: fixed; height: 100vh; border-right: 1px solid #373A40; z-index: 100; }
-        .glass-card { background: rgba(30, 31, 34, 0.8); border: 1px solid #373A40; border-radius: 12px; transition: 0.3s; }
-        .glass-card:hover { border-color: var(--bhagwa); }
+        .glass-card { background: rgba(30, 31, 34, 0.8); border: 1px solid #373A40; border-radius: 12px; }
         .bhagwa-btn { background: linear-gradient(135deg, #FF9933 0%, #E67E22 100%); color: white; font-weight: 800; text-transform: uppercase; cursor: pointer; }
-        .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
-        .online { background: #4CAF50; box-shadow: 0 0 10px #4CAF50; }
         .spec-label { font-size: 10px; color: #888; font-weight: 700; text-transform: uppercase; }
-        input, select { background: #000; border: 1px solid #444; color: #FF9933; padding: 12px; border-radius: 8px; outline: none; }
-        input:focus { border-color: var(--bhagwa); }
+        .manual-card { background: #25262B; border-left: 4px solid var(--bhagwa); border-radius: 8px; padding: 15px; margin-bottom: 15px; }
     </style>
 </head>
-<body>
+<body class="flex">
 
-    <!-- 🔐 LOGIN SCREEN (Section-1 of your Paper) -->
+    <!-- 🔐 LOGIN SCREEN -->
     <div id="login-screen">
         <div class="glass-card p-10 w-full max-w-md text-center shadow-2xl border-orange-900/30">
-            <div class="mb-8 text-center">
-                <h1 class="text-4xl font-black text-white tracking-tighter">NEURO<span class="text-orange-500">VIBE</span></h1>
-                <p class="text-[10px] uppercase tracking-[0.4em] text-gray-500 font-bold mt-2 italic">Industrial OS Access</p>
-            </div>
-            <div class="space-y-4">
-                <input type="password" id="pass-key" placeholder="Enter Terminal Key" class="w-full text-center tracking-[0.5em] font-mono">
-                <button onclick="checkLogin()" class="w-full bhagwa-btn py-4 rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition-all">Authorize Terminal</button>
-                <p id="err-msg" class="text-red-500 text-xs font-bold mt-2 hidden uppercase">Access Denied: Invalid Key</p>
-            </div>
+            <h1 class="text-4xl font-black text-white uppercase tracking-tighter mb-8 text-center">NEURO<span class="text-orange-500">VIBE</span></h1>
+            <input type="password" id="pass-key" placeholder="Enter Terminal Key" class="w-full bg-black/60 border border-gray-700 p-4 rounded-xl text-center text-orange-500 outline-none mb-4 font-mono tracking-[0.5em]">
+            <button onclick="checkLogin()" class="w-full bhagwa-btn py-4 rounded-xl shadow-lg">Authorize Terminal</button>
+            <p id="err-msg" class="text-red-500 text-xs font-bold mt-2 hidden">ACCESS DENIED</p>
         </div>
     </div>
 
-    <!-- 🏠 MAIN DASHBOARD (As per Hand-drawn Specs) -->
-    <div id="main-dashboard" class="flex">
+    <!-- 🏠 MAIN DASHBOARD -->
+    <div id="main-dashboard" class="flex w-full">
         <!-- Sidebar -->
-        <aside class="sidebar p-6 flex flex-col justify-between shadow-2xl">
+        <aside class="sidebar p-6 flex flex-col justify-between">
             <div>
-                <div class="mb-10 text-center">
-                    <h2 class="text-2xl font-black text-white uppercase tracking-tight">NEURO<span class="text-orange-500">VIBE</span></h2>
-                </div>
+                <h2 class="text-2xl font-black text-white uppercase text-center mb-10">NEURO<span class="text-orange-500">VIBE</span></h2>
                 <nav class="space-y-3">
-                    <button onclick="showPage('overview')" class="w-full flex items-center space-x-3 text-white p-3 rounded-lg bg-gray-800 text-sm font-bold"><i class="fas fa-chart-line text-orange-500"></i> <span>Overview</span></button>
-                    <button onclick="showPage('admin')" class="w-full flex items-center space-x-3 text-gray-400 p-3 hover:text-white text-sm font-bold"><i class="fas fa-user-shield"></i> <span>Manage Users</span></button>
-                    <button onclick="showPage('mapping')" class="w-full flex items-center space-x-3 text-gray-400 p-3 hover:text-white text-sm font-bold"><i class="fas fa-link"></i> <span>Mapping Logic</span></button>
-                    <button onclick="showPage('inventory')" class="w-full flex items-center space-x-3 text-gray-400 p-3 hover:text-white text-sm font-bold"><i class="fas fa-warehouse"></i> <span>Inventory (CRUD)</span></button>
+                    <button onclick="showPage('overview')" class="w-full flex items-center space-x-3 text-white p-3 rounded-lg bg-gray-800 text-sm font-bold active-nav"><i class="fas fa-chart-line text-orange-500"></i> <span>Overview</span></button>
+                    <button onclick="showPage('mapping')" class="w-full flex items-center space-x-3 text-gray-400 p-3 hover:text-white text-sm font-bold"><i class="fas fa-link"></i> <span>Mapping Portal</span></button>
+                    <button onclick="showPage('manual')" class="w-full flex items-center space-x-3 text-gray-400 p-3 hover:text-white text-sm font-bold"><i class="fas fa-book-open"></i> <span>User Manual</span></button>
                 </nav>
             </div>
-            <div class="space-y-4">
-                <button onclick="window.open('https://wa.me')" class="w-full bhagwa-btn p-3 rounded-xl flex items-center justify-center space-x-2 text-[10px]">
-                    <i class="fab fa-whatsapp text-lg"></i> <span>Support Protocol</span>
-                </button>
-                <button onclick="window.location.reload()" class="w-full text-gray-600 hover:text-red-500 text-[10px] font-bold uppercase tracking-widest"><i class="fas fa-sign-out-alt"></i> Logout</button>
-            </div>
+            <button onclick="window.location.reload()" class="text-gray-600 hover:text-red-500 text-xs font-bold uppercase tracking-widest"><i class="fas fa-sign-out-alt"></i> Logout System</button>
         </aside>
 
-        <!-- Main Content Surface -->
+        <!-- Content Area -->
         <main class="ml-[260px] w-full p-10 overflow-y-auto h-screen">
             
-            <!-- PAGE: OVERVIEW (Real-time Telemetry) -->
+            <!-- OVERVIEW PAGE -->
             <div id="page-overview" class="page-content">
-                <h3 class="text-3xl font-black mb-8 border-b border-gray-800 pb-4 uppercase tracking-tighter">Live Fleet Intelligence</h3>
+                <h3 class="text-3xl font-black mb-8 border-b border-gray-800 pb-4 uppercase tracking-tighter">Fleet Analytics</h3>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
                     <div class="glass-card p-6 border-l-4 border-green-500">
                         <p class="spec-label">Gateways Active</p>
-                        <h4 class="text-4xl font-black mt-2">08 <span class="text-xs text-gray-500">/ 10</span></h4>
+                        <h4 class="text-4xl font-black mt-2">08</h4>
                     </div>
                     <div class="glass-card p-6 border-l-4 border-orange-500">
-                        <p class="spec-label">Nodes Reporting</p>
-                        <h4 class="text-4xl font-black mt-2">45 <span class="text-xs text-gray-500">/ 50</span></h4>
+                        <p class="spec-label">Mapped Nodes</p>
+                        <h4 class="text-4xl font-black mt-2">45</h4>
                     </div>
                     <div class="glass-card p-6 border-l-4 border-blue-500">
-                        <p class="spec-label">System Health</p>
-                        <h4 class="text-4xl font-black text-green-500 mt-2">98.4%</h4>
+                        <p class="spec-label">System Pulse</p>
+                        <h4 class="text-4xl font-black text-green-500 mt-2">STABLE</h4>
                     </div>
                 </div>
-
-                <div class="glass-card p-8 mb-8">
-                    <h5 class="text-sm font-bold uppercase mb-6 tracking-widest text-orange-500 italic">Vibration Velocity Analytics (mm/s)</h5>
-                    <div class="h-48 flex items-end space-x-2 border-b border-gray-700 pb-2">
+                <!-- Vibration Graph -->
+                <div class="glass-card p-8">
+                    <h4 class="text-sm font-bold uppercase mb-6 text-orange-500 tracking-widest">Real-time Vibration (mm/s)</h4>
+                    <div class="h-48 w-full bg-black/40 rounded-xl flex items-end p-4 space-x-2">
                         <div class="bg-orange-500 w-full h-[40%] opacity-40"></div>
-                        <div class="bg-orange-500 w-full h-[65%] opacity-70"></div>
-                        <div class="bg-orange-500 w-full h-[95%] shadow-lg shadow-orange-500/20"></div>
-                        <div class="bg-orange-500 w-full h-[50%] opacity-50"></div>
-                        <div class="bg-orange-500 w-full h-[35%] opacity-30"></div>
-                    </div>
-                    <div class="mt-4 flex justify-between text-[10px] text-gray-500 font-bold uppercase italic">
-                        <span>Collation Logic Active</span>
-                        <span>Source: NV-G1001 Hybrid LoRa-RF Link</span>
+                        <div class="bg-orange-500 w-full h-[85%]"></div>
+                        <div class="bg-orange-500 w-full h-[60%] opacity-70"></div>
+                        <div class="bg-orange-500 w-full h-[30%] opacity-50"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- PAGE: MANAGE USERS (Creating ID/Password) -->
-            <div id="page-admin" class="page-content hidden">
-                <h3 class="text-3xl font-black mb-8 border-b border-gray-800 pb-4 uppercase tracking-tighter">User Provisioning Portal</h3>
-                <div class="glass-card p-8 max-w-2xl">
-                    <h4 class="text-sm font-bold mb-6 uppercase text-gray-400">Create New Customer Access</h4>
-                    <div class="grid grid-cols-2 gap-4 mb-6">
-                        <input type="text" placeholder="User ID / Site Name" id="new-user">
-                        <input type="password" placeholder="Set Access Password" id="new-pass">
+            <!-- USER MANUAL PAGE (The New Added Part) -->
+            <div id="page-manual" class="page-content hidden">
+                <h3 class="text-3xl font-black mb-8 border-b border-gray-800 pb-4 uppercase tracking-tighter">NV-Series <span class="text-orange-500 text-sm">Technical Manual</span></h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="text-xl font-bold mb-4 text-white uppercase italic">Gateway (NV-G1001)</h4>
+                        <div class="manual-card">
+                            <p class="text-orange-500 font-bold text-xs uppercase mb-1">Architecture</p>
+                            <p class="text-sm">i.MX6 Dual-Lite Industrial Processor + 8-Layer HDI Shielded PCB.</p>
+                        </div>
+                        <div class="manual-card">
+                            <p class="text-orange-500 font-bold text-xs uppercase mb-1">Fail-Safe</p>
+                            <p class="text-sm">Unbrickable Hardware Recovery Mode via Dedicated USB-SD Toggle.</p>
+                        </div>
                     </div>
-                    <select class="w-full mb-6">
-                        <option>Select Assigned Gateway (NV-G Series)</option>
-                        <option>NV-G1001-HQ-DELHI</option>
-                        <option>NV-G1002-MUMBAI-UNIT</option>
-                    </select>
-                    <button onclick="alert('Client ID Provisioned Successfully!')" class="bhagwa-btn px-10 py-3 rounded-xl shadow-xl w-full md:w-auto">Confirm & Link Hardware</button>
+                    <div>
+                        <h4 class="text-xl font-bold mb-4 text-white uppercase italic">Nodes (NV-S1001)</h4>
+                        <div class="manual-card" style="border-left-color: #007AFF;">
+                            <p class="text-blue-400 font-bold text-xs uppercase mb-1">Sensing Fusion</p>
+                            <p class="text-sm">Fusion of PA5 Vibration & PF4 Ultrasonic Acoustic Telemetry.</p>
+                        </div>
+                        <div class="manual-card" style="border-left-color: #007AFF;">
+                            <p class="text-blue-400 font-bold text-xs uppercase mb-1">Field Config</p>
+                            <p class="text-sm">Integrated BLE 5.0 for Zero-Touch Mobile Device Provisioning.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- PAGE: MAPPING LOGIC (Section-2 of Paper) -->
+            <!-- MAPPING PAGE (Placeholder as per previous) -->
             <div id="page-mapping" class="page-content hidden">
-                <h3 class="text-3xl font-black mb-8 border-b border-gray-800 pb-4 uppercase tracking-tighter">Hardware Mapping Matrix</h3>
-                <div class="glass-card overflow-hidden">
-                    <table class="w-full text-left text-sm">
-                        <thead class="bg-black/60 text-gray-400">
-                            <tr><th class="p-4 uppercase text-[10px]">Customer Site</th><th class="p-4 uppercase text-[10px]">Gateway MAC</th><th class="p-4 uppercase text-[10px]">Mapped Nodes</th><th class="p-4 uppercase text-[10px]">Status</th></tr>
-                        </thead>
-                        <tbody class="text-gray-300">
-                            <tr class="border-t border-gray-800 hover:bg-gray-800/20 transition-colors">
-                                <td class="p-4 font-black text-orange-500 italic">AMMONIA_PLANT_01</td>
-                                <td class="p-4 font-mono">00:1A:2B:3C:4D:5E</td>
-                                <td class="p-4 text-xs font-bold text-blue-400 underline cursor-pointer">04 Nodes Linked</td>
-                                <td class="p-4"><span class="status-dot online mr-2"></span> <span class="text-[10px] font-bold uppercase text-green-500">Data Flowing</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <h3 class="text-3xl font-black mb-8 border-b border-gray-800 pb-4 uppercase tracking-tighter">Hardware Mapping Portal</h3>
+                <div class="glass-card p-6 overflow-hidden">
+                    <p class="text-gray-500 italic">"Display mapping between Gateway and Sensor nodes here..."</p>
                 </div>
             </div>
 
         </main>
     </div>
 
-    <!-- 🛠️ SCRIPTS: The Logic Engine -->
     <script>
-        // 🔐 Authentication Logic
         function checkLogin() {
             const key = document.getElementById('pass-key').value;
-            const error = document.getElementById('err-msg');
-            const loginScreen = document.getElementById('login-screen');
-            const dashboard = document.getElementById('main-dashboard');
-
             if (key === 'nvdashboard8699') {
-                loginScreen.style.display = 'none';
-                dashboard.style.display = 'flex';
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('main-dashboard').style.display = 'flex';
                 document.body.style.overflow = 'auto';
             } else {
-                error.classList.remove('hidden');
-                setTimeout(() => error.classList.add('hidden'), 2000);
+                document.getElementById('err-msg').classList.remove('hidden');
             }
         }
 
-        // 📄 Navigation Logic
         function showPage(pageId) {
-            // Hide all pages
             document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
-            // Show selected page
             document.getElementById('page-' + pageId).classList.remove('hidden');
-            
-            // Update sidebar active state
-            document.querySelectorAll('nav button').forEach(btn => {
-                btn.classList.remove('bg-gray-800', 'text-white');
-                btn.classList.add('text-gray-400');
-            });
-            event.currentTarget.classList.add('bg-gray-800', 'text-white');
         }
     </script>
 </body>
