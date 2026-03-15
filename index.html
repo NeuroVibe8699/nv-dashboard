@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroVibe Cloud | Unified Industrial OS</title>
+    <title>NeuroVibe Cloud | Master Control</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com">
     <style>
@@ -12,95 +12,95 @@
         #login-screen { background: radial-gradient(circle at center, #1E1F22 0%, #0F1115 100%); z-index: 1000; position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; }
         #main-dashboard { display: none; } 
         .sidebar { background-color: var(--dark-gray); width: 260px; position: fixed; height: 100vh; border-right: 1px solid #373A40; z-index: 100; }
-        .glass-card { background: rgba(30, 31, 34, 0.8); border: 1px solid #373A40; border-radius: 12px; }
+        .glass-card { background: rgba(30, 31, 34, 0.8); border: 1px solid #373A40; border-radius: 12px; margin-bottom: 20px; }
         .bhagwa-btn { background: linear-gradient(135deg, #FF9933 0%, #E67E22 100%); color: white; font-weight: 800; text-transform: uppercase; cursor: pointer; }
-        .spec-label { font-size: 10px; color: #888; font-weight: 700; text-transform: uppercase; }
-        .manual-card { background: #25262B; border-left: 4px solid var(--bhagwa); border-radius: 8px; padding: 15px; margin-bottom: 15px; }
+        .page-content { display: none; }
+        .active-page { display: block; }
+        .nav-btn { width: 100%; text-align: left; padding: 12px; color: #888; font-weight: 600; font-size: 14px; transition: 0.3s; border-radius: 8px; margin-bottom: 5px; }
+        .nav-btn:hover, .nav-active { background: #25262B; color: white; border-left: 3px solid var(--bhagwa); }
     </style>
 </head>
 <body class="flex">
 
-    <!-- 🔐 LOGIN SCREEN (Always First) -->
+    <!-- 🔐 LOGIN SCREEN -->
     <div id="login-screen">
         <div class="glass-card p-10 w-full max-w-md text-center shadow-2xl border-orange-900/30">
             <h1 class="text-4xl font-black text-white uppercase tracking-tighter mb-8">NEURO<span class="text-orange-500">VIBE</span></h1>
             <input type="password" id="pass-key" placeholder="Enter Terminal Key" class="w-full bg-black/60 border border-gray-700 p-4 rounded-xl text-center text-orange-500 outline-none mb-4 font-mono tracking-[0.5em]">
             <button onclick="checkLogin()" class="w-full bhagwa-btn py-4 rounded-xl shadow-lg">Authorize Terminal</button>
-            <p id="err-msg" class="text-red-500 text-xs font-bold mt-2 hidden uppercase">Access Denied</p>
         </div>
     </div>
 
     <!-- 🏠 MAIN DASHBOARD -->
     <div id="main-dashboard" class="flex w-full">
+        <!-- Sidebar Menu (RE-ADDED EVERYTHING) -->
         <aside class="sidebar p-6 flex flex-col justify-between">
             <div>
                 <h2 class="text-2xl font-black text-white uppercase text-center mb-10">NEURO<span class="text-orange-500">VIBE</span></h2>
-                <nav class="space-y-3">
-                    <button onclick="showPage('overview')" class="w-full flex items-center space-x-3 text-white p-3 rounded-lg bg-gray-800 text-sm font-bold"><i class="fas fa-chart-line text-orange-500"></i> <span>Overview</span></button>
-                    <button onclick="showPage('mapping')" class="w-full flex items-center space-x-3 text-gray-400 p-3 hover:text-white text-sm font-bold"><i class="fas fa-link"></i> <span>Mapping Portal</span></button>
-                    <button onclick="showPage('manual')" class="w-full flex items-center space-x-3 text-gray-400 p-3 hover:text-white text-sm font-bold"><i class="fas fa-book-open"></i> <span>User Manual</span></button>
+                <nav>
+                    <button onclick="showPage('overview')" class="nav-btn nav-active"><i class="fas fa-chart-line mr-3"></i> Overview</button>
+                    <button onclick="showPage('admin')" class="nav-btn"><i class="fas fa-user-shield mr-3"></i> Admin Login</button>
+                    <button onclick="showPage('inventory')" class="nav-btn"><i class="fas fa-warehouse mr-3"></i> Inventory</button>
+                    <button onclick="showPage('mapping')" class="nav-btn"><i class="fas fa-link mr-3"></i> Mapping Portal</button>
+                    <button onclick="showPage('manual')" class="nav-btn"><i class="fas fa-book-open mr-3"></i> User Manual</button>
+                    <button onclick="showPage('enquiry')" class="nav-btn"><i class="fas fa-envelope mr-3"></i> Enquiry</button>
                 </nav>
             </div>
-            <button onclick="window.location.reload()" class="text-gray-600 hover:text-red-500 text-[10px] font-bold uppercase tracking-widest"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            <!-- Support Trigger -->
+            <button onclick="window.open('https://wa.me')" class="bhagwa-btn p-4 rounded-xl flex items-center justify-center space-x-2 text-[10px]">
+                <i class="fab fa-whatsapp text-lg"></i> <span>Instant Support</span>
+            </button>
         </aside>
 
+        <!-- Content Area -->
         <main class="ml-[260px] w-full p-10 overflow-y-auto h-screen">
             
-            <!-- OVERVIEW PAGE (Same as before) -->
-            <div id="page-overview" class="page-content">
-                <h3 class="text-3xl font-black mb-8 border-b border-gray-800 pb-4 uppercase tracking-tighter">Fleet Analytics</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <!-- LIVE DASHBOARD OVERVIEW -->
+            <div id="page-overview" class="page-content active-page">
+                <h3 class="text-3xl font-black mb-8 border-b border-gray-800 pb-4 uppercase tracking-tighter">Live Dashboard</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     <div class="glass-card p-6 border-l-4 border-green-500">
-                        <p class="spec-label">Gateways Online</p>
-                        <h4 class="text-4xl font-black mt-2">08</h4>
+                        <p class="text-xs text-gray-500 font-bold uppercase">Online Gateways</p>
+                        <h4 class="text-4xl font-black">08</h4>
                     </div>
                     <div class="glass-card p-6 border-l-4 border-orange-500">
-                        <p class="spec-label">Nodes Reporting</p>
-                        <h4 class="text-4xl font-black mt-2">45</h4>
-                    </div>
-                    <div class="glass-card p-6 border-l-4 border-blue-500">
-                        <p class="spec-label">System Pulse</p>
-                        <h4 class="text-4xl font-black text-green-500 mt-2">ACTIVE</h4>
+                        <p class="text-xs text-gray-500 font-bold uppercase">Nodes Mapped</p>
+                        <h4 class="text-4xl font-black">45</h4>
                     </div>
                 </div>
             </div>
 
-            <!-- 📄 USER MANUAL (Updated with SenseGrow Specs) -->
-            <div id="page-manual" class="page-content hidden">
-                <h3 class="text-3xl font-black mb-8 border-b border-gray-800 pb-4 uppercase tracking-tighter">NV-Series <span class="text-orange-500 text-sm">Hardware Guide</span></h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- SENSORS -->
-                    <div>
-                        <h4 class="text-xl font-bold mb-4 text-white uppercase italic underline decoration-orange-500">Intelligent Sensors</h4>
-                        <div class="manual-card">
-                            <p class="text-orange-500 font-bold text-xs uppercase mb-1">Model: NV-S1001 (Wireless)</p>
-                            <p class="text-sm text-gray-300 italic">Battery-powered node monitoring Vibration, Ultrasound, Magnetic Flux, and Temperature.</p>
-                        </div>
-                        <div class="manual-card">
-                            <p class="text-orange-500 font-bold text-xs uppercase mb-1">Model: NV-S2001 (Industrial PoE)</p>
-                            <p class="text-sm text-gray-300 italic">Measures RPM, Run-Hours, and detailed Vibration for AI-driven predictive analysis.</p>
-                        </div>
+            <!-- ADMIN LOGON / INVENTORY -->
+            <div id="page-admin" class="page-content">
+                <h3 class="text-3xl font-black mb-8 border-b border-gray-800 pb-4">Admin Inventory System</h3>
+                <div class="glass-card p-8">
+                    <button class="bhagwa-btn px-6 py-3 rounded-lg text-xs mb-6">+ Provision New User ID</button>
+                    <div class="text-gray-500 italic">Inventory CRUD operations (Create, Read, Update, Delete) are active here.</div>
+                </div>
+            </div>
+
+            <!-- USER MANUAL (With SenseGrow Style Specs) -->
+            <div id="page-manual" class="page-content">
+                <h3 class="text-3xl font-black mb-8 border-b border-gray-800 pb-4">NeuroVibe <span class="text-orange-500 text-sm">Hardware Manual</span></h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm">
+                    <div class="glass-card p-6 border-t-2 border-orange-500">
+                        <h4 class="font-bold mb-4 uppercase">Node NV-S1001</h4>
+                        <p class="italic text-gray-400">Battery-powered sensing for Vibration, Temperature, Ultrasound, and Magnetic Flux Analysis.</p>
                     </div>
-                    <!-- GATEWAY & FEATURES -->
-                    <div>
-                        <h4 class="text-xl font-bold mb-4 text-white uppercase italic underline decoration-orange-500">Cloud Bridge & Features</h4>
-                        <div class="manual-card">
-                            <p class="text-orange-500 font-bold text-xs uppercase mb-1">Gateway: NV-G1001</p>
-                            <p class="text-sm text-gray-300 italic">Bridges field sensor data to the NeuroVibe Cloud with 90%+ autonomous accuracy score.</p>
-                        </div>
-                        <div class="manual-card">
-                            <p class="text-orange-500 font-bold text-xs uppercase mb-1">Operational Protocol</p>
-                            <p class="text-sm text-gray-300 italic">Autonomous monitoring and AI modeling to identify faults weeks before critical failure.</p>
-                        </div>
+                    <div class="glass-card p-6 border-t-2 border-blue-500">
+                        <h4 class="font-bold mb-4 uppercase">Gateway NV-G1001</h4>
+                        <p class="italic text-gray-400">Bridges IoT sensors to cloud with 90%+ autonomous accuracy score.</p>
                     </div>
                 </div>
             </div>
 
-            <!-- MAPPING PAGE (Same as before) -->
-            <div id="page-mapping" class="page-content hidden">
-                <h3 class="text-3xl font-black mb-8 border-b border-gray-800 pb-4 uppercase tracking-tighter">Device Mapping Matrix</h3>
-                <div class="glass-card p-6 overflow-hidden">
-                    <p class="text-gray-500 italic">Mapping portal remains intact as per Phase-2 design...</p>
+            <!-- ENQUIRY -->
+            <div id="page-enquiry" class="page-content text-center py-20">
+                <h3 class="text-3xl font-black mb-4">Direct Enquiry Protocol</h3>
+                <p class="text-gray-500 mb-8 italic">Contact us for custom Industry 4.0 implementations.</p>
+                <div class="glass-card p-10 max-w-md mx-auto">
+                    <input type="text" placeholder="Your Name" class="w-full mb-4 bg-black border border-gray-700 p-3 rounded">
+                    <button class="w-full bhagwa-btn p-3 rounded-lg">Send Request</button>
                 </div>
             </div>
 
@@ -113,11 +113,13 @@
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('main-dashboard').style.display = 'flex';
                 document.body.style.overflow = 'auto';
-            } else { document.getElementById('err-msg').classList.remove('hidden'); }
+            }
         }
         function showPage(pageId) {
-            document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
-            document.getElementById('page-' + pageId).classList.remove('hidden');
+            document.querySelectorAll('.page-content').forEach(p => p.style.display = 'none');
+            document.getElementById('page-' + pageId).style.display = 'block';
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('nav-active'));
+            event.currentTarget.classList.add('nav-active');
         }
     </script>
 </body>
