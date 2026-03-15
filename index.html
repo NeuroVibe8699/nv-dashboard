@@ -3,158 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroVibe Cloud | Industrial Intelligence</title>
+    <title>NeuroVibe Cloud | Master Control</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com">
     <style>
-        :root { --bhagwa: #FF9933; --industrial-gray: #1E1F22; --border-color: #373A40; }
-        body { background-color: #0F1115; color: #E4E6EB; font-family: 'Inter', sans-serif; overflow-x: hidden; }
-        .sidebar { background-color: var(--industrial-gray); width: 260px; position: fixed; height: 100vh; border-right: 1px solid var(--border-color); z-index: 100; }
-        .glass-card { background: rgba(30, 31, 34, 0.8); border: 1px solid var(--border-color); border-radius: 12px; transition: 0.3s; }
+        :root { --bhagwa: #FF9933; --dark-gray: #1E1F22; --bg: #0F1115; }
+        body { background-color: var(--bg); color: #E4E6EB; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        #login-screen { background: radial-gradient(circle at center, #1E1F22 0%, #0F1115 100%); z-index: 1000; position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; }
+        #main-dashboard { display: none; } 
+        .sidebar { background-color: var(--dark-gray); width: 260px; position: fixed; height: 100vh; border-right: 1px solid #373A40; z-index: 100; }
+        .glass-card { background: rgba(30, 31, 34, 0.8); border: 1px solid #373A40; border-radius: 12px; transition: 0.3s; }
         .glass-card:hover { border-color: var(--bhagwa); }
-        .bhagwa-btn { background: linear-gradient(135deg, #FF9933 0%, #E67E22 100%); color: white; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+        .bhagwa-btn { background: linear-gradient(135deg, #FF9933 0%, #E67E22 100%); color: white; font-weight: 800; text-transform: uppercase; cursor: pointer; }
         .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
         .online { background: #4CAF50; box-shadow: 0 0 10px #4CAF50; }
-        .offline { background: #F44336; box-shadow: 0 0 10px #F44336; }
         .spec-label { font-size: 10px; color: #888; font-weight: 700; text-transform: uppercase; }
+        input, select { background: #000; border: 1px solid #444; color: #FF9933; padding: 12px; border-radius: 8px; outline: none; }
+        input:focus { border-color: var(--bhagwa); }
     </style>
 </head>
-<body class="flex">
+<body>
 
-    <!-- Sidebar: The Core Access (Admin & User Role) -->
-    <aside class="sidebar p-6 flex flex-col justify-between">
-        <div>
-            <div class="mb-10 text-center">
-                <h1 class="text-2xl font-black tracking-tighter text-white">NEURO<span class="text-orange-500">VIBE</span></h1>
-                <p class="text-[9px] uppercase tracking-[0.3em] text-gray-500 font-bold mt-1">Cloud Command Center</p>
+    <!-- 🔐 LOGIN SCREEN (Section-1 of your Paper) -->
+    <div id="login-screen">
+        <div class="glass-card p-10 w-full max-w-md text-center shadow-2xl border-orange-900/30">
+            <div class="mb-8 text-center">
+                <h1 class="text-4xl font-black text-white tracking-tighter">NEURO<span class="text-orange-500">VIBE</span></h1>
+                <p class="text-[10px] uppercase tracking-[0.4em] text-gray-500 font-bold mt-2 italic">Industrial OS Access</p>
             </div>
-            <nav class="space-y-4">
-                <a href="#" class="flex items-center space-x-3 text-white p-3 rounded-lg bg-gray-800"><i class="fas fa-desktop text-orange-500"></i> <span>Dashboard Home</span></a>
-                <a href="#admin" class="flex items-center space-x-3 text-gray-400 p-3 hover:text-white"><i class="fas fa-user-shield"></i> <span>Admin (Inventory)</span></a>
-                <a href="#mapping" class="flex items-center space-x-3 text-gray-400 p-3 hover:text-white"><i class="fas fa-link"></i> <span>Mapping Portal</span></a>
-                <a href="#devices" class="flex items-center space-x-3 text-gray-400 p-3 hover:text-white"><i class="fas fa-microchip"></i> <span>Device Fleet</span></a>
-            </nav>
+            <div class="space-y-4">
+                <input type="password" id="pass-key" placeholder="Enter Terminal Key" class="w-full text-center tracking-[0.5em] font-mono">
+                <button onclick="checkLogin()" class="w-full bhagwa-btn py-4 rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition-all">Authorize Terminal</button>
+                <p id="err-msg" class="text-red-500 text-xs font-bold mt-2 hidden uppercase">Access Denied: Invalid Key</p>
+            </div>
         </div>
-        <button onclick="window.open('https://wa.me')" class="bhagwa-btn p-3 rounded-xl flex items-center justify-center space-x-2 text-xs">
-            <i class="fab fa-whatsapp text-lg"></i> <span>Instant Support</span>
-        </button>
-    </aside>
+    </div>
 
-    <!-- Main Viewport -->
-    <main class="ml-[260px] w-full p-8">
-        
-        <!-- SECTION 1: SYSTEM OVERVIEW (As per Hand-drawing) -->
-        <header class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
-            <div class="glass-card p-5 text-center">
-                <p class="spec-label">Total Sites</p>
-                <h4 class="text-3xl font-black">12 <span class="text-xs text-gray-500">Active</span></h4>
+    <!-- 🏠 MAIN DASHBOARD (As per Hand-drawn Specs) -->
+    <div id="main-dashboard" class="flex">
+        <!-- Sidebar -->
+        <aside class="sidebar p-6 flex flex-col justify-between shadow-2xl">
+            <div>
+                <div class="mb-10 text-center">
+                    <h2 class="text-2xl font-black text-white uppercase tracking-tight">NEURO<span class="text-orange-500">VIBE</span></h2>
+                </div>
+                <nav class="space-y-3">
+                    <button onclick="showPage('overview')" class="w-full flex items-center space-x-3 text-white p-3 rounded-lg bg-gray-800 text-sm font-bold"><i class="fas fa-chart-line text-orange-500"></i> <span>Overview</span></button>
+                    <button onclick="showPage('admin')" class="w-full flex items-center space-x-3 text-gray-400 p-3 hover:text-white text-sm font-bold"><i class="fas fa-user-shield"></i> <span>Manage Users</span></button>
+                    <button onclick="showPage('mapping')" class="w-full flex items-center space-x-3 text-gray-400 p-3 hover:text-white text-sm font-bold"><i class="fas fa-link"></i> <span>Mapping Logic</span></button>
+                    <button onclick="showPage('inventory')" class="w-full flex items-center space-x-3 text-gray-400 p-3 hover:text-white text-sm font-bold"><i class="fas fa-warehouse"></i> <span>Inventory (CRUD)</span></button>
+                </nav>
             </div>
-            <div class="glass-card p-5 text-center">
-                <p class="spec-label">Online Gateways</p>
-                <h4 class="text-3xl font-black text-green-500">08</h4>
+            <div class="space-y-4">
+                <button onclick="window.open('https://wa.me')" class="w-full bhagwa-btn p-3 rounded-xl flex items-center justify-center space-x-2 text-[10px]">
+                    <i class="fab fa-whatsapp text-lg"></i> <span>Support Protocol</span>
+                </button>
+                <button onclick="window.location.reload()" class="w-full text-gray-600 hover:text-red-500 text-[10px] font-bold uppercase tracking-widest"><i class="fas fa-sign-out-alt"></i> Logout</button>
             </div>
-            <div class="glass-card p-5 text-center">
-                <p class="spec-label">Online Sensors</p>
-                <h4 class="text-3xl font-black text-green-500">45</h4>
-            </div>
-            <div class="glass-card p-5 text-center">
-                <p class="spec-label">Offline Devices</p>
-                <h4 class="text-3xl font-black text-red-500">03</h4>
-            </div>
-        </header>
+        </aside>
 
-        <!-- SECTION 2: ADMIN & INVENTORY (Locked Logic) -->
-        <section id="admin" class="mb-12">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-xl font-bold text-white border-l-4 border-orange-500 pl-3 uppercase tracking-widest">Admin Control (Inventory)</h3>
-                <button class="bhagwa-btn px-4 py-2 rounded-lg text-[10px]">+ Create Inventory</button>
-            </div>
-            <div class="glass-card p-6 overflow-x-auto">
-                <table class="w-full text-left text-sm">
-                    <thead>
-                        <tr class="text-gray-500 border-b border-gray-800">
-                            <th class="pb-4">Device ID</th>
-                            <th class="pb-4">Type</th>
-                            <th class="pb-4">Mapped To</th>
-                            <th class="pb-4">Status</th>
-                            <th class="pb-4">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-gray-300">
-                        <tr class="border-b border-gray-800/50">
-                            <td class="py-4">NV-G1001-A21</td>
-                            <td>Gateway (i.MX6)</td>
-                            <td>Site-001 (Ammonia Plant)</td>
-                            <td><span class="status-dot online mr-2"></span>Online</td>
-                            <td><i class="fas fa-edit mr-3 cursor-pointer"></i> <i class="fas fa-trash cursor-pointer text-red-900"></i></td>
-                        </tr>
-                        <tr>
-                            <td class="py-4">NV-S1001-N45</td>
-                            <td>Node (PA5+PF4)</td>
-                            <td>Pump-A (VFD Drive)</td>
-                            <td><span class="status-dot offline mr-2"></span>Offline</td>
-                            <td><i class="fas fa-edit mr-3 cursor-pointer"></i> <i class="fas fa-trash cursor-pointer text-red-900"></i></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
+        <!-- Main Content Surface -->
+        <main class="ml-[260px] w-full p-10 overflow-y-auto h-screen">
+            
+            <!-- PAGE: OVERVIEW (Real-time Telemetry) -->
+            <div id="page-overview" class="page-content">
+                <h3 class="text-3xl font-black mb-8 border-b border-gray-800 pb-4 uppercase tracking-tighter">Live Fleet Intelligence</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                    <div class="glass-card p-6 border-l-4 border-green-500">
+                        <p class="spec-label">Gateways Active</p>
+                        <h4 class="text-4xl font-black mt-2">08 <span class="text-xs text-gray-500">/ 10</span></h4>
+                    </div>
+                    <div class="glass-card p-6 border-l-4 border-orange-500">
+                        <p class="spec-label">Nodes Reporting</p>
+                        <h4 class="text-4xl font-black mt-2">45 <span class="text-xs text-gray-500">/ 50</span></h4>
+                    </div>
+                    <div class="glass-card p-6 border-l-4 border-blue-500">
+                        <p class="spec-label">System Health</p>
+                        <h4 class="text-4xl font-black text-green-500 mt-2">98.4%</h4>
+                    </div>
+                </div>
 
-        <!-- SECTION 3: MAPPING & LIVE ANALYTICS (Hand-drawn Logic) -->
-        <section id="mapping" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Site Selection (Mapping Portal) -->
-            <div class="lg:col-span-1 space-y-6">
-                <div class="glass-card p-6">
-                    <h4 class="text-sm font-bold mb-4 uppercase text-orange-500">Mapping Configuration</h4>
-                    <select class="w-full bg-gray-900 border border-gray-700 p-3 rounded-xl mb-4 text-sm outline-none">
-                        <option>Select Site Name</option>
-                        <option>Ammonia Plant - Unit 1</option>
-                        <option>Blower Section - Unit 4</option>
+                <div class="glass-card p-8 mb-8">
+                    <h5 class="text-sm font-bold uppercase mb-6 tracking-widest text-orange-500 italic">Vibration Velocity Analytics (mm/s)</h5>
+                    <div class="h-48 flex items-end space-x-2 border-b border-gray-700 pb-2">
+                        <div class="bg-orange-500 w-full h-[40%] opacity-40"></div>
+                        <div class="bg-orange-500 w-full h-[65%] opacity-70"></div>
+                        <div class="bg-orange-500 w-full h-[95%] shadow-lg shadow-orange-500/20"></div>
+                        <div class="bg-orange-500 w-full h-[50%] opacity-50"></div>
+                        <div class="bg-orange-500 w-full h-[35%] opacity-30"></div>
+                    </div>
+                    <div class="mt-4 flex justify-between text-[10px] text-gray-500 font-bold uppercase italic">
+                        <span>Collation Logic Active</span>
+                        <span>Source: NV-G1001 Hybrid LoRa-RF Link</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE: MANAGE USERS (Creating ID/Password) -->
+            <div id="page-admin" class="page-content hidden">
+                <h3 class="text-3xl font-black mb-8 border-b border-gray-800 pb-4 uppercase tracking-tighter">User Provisioning Portal</h3>
+                <div class="glass-card p-8 max-w-2xl">
+                    <h4 class="text-sm font-bold mb-6 uppercase text-gray-400">Create New Customer Access</h4>
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <input type="text" placeholder="User ID / Site Name" id="new-user">
+                        <input type="password" placeholder="Set Access Password" id="new-pass">
+                    </div>
+                    <select class="w-full mb-6">
+                        <option>Select Assigned Gateway (NV-G Series)</option>
+                        <option>NV-G1001-HQ-DELHI</option>
+                        <option>NV-G1002-MUMBAI-UNIT</option>
                     </select>
-                    <div class="p-4 bg-black/40 border border-gray-800 rounded-xl mb-4">
-                        <p class="spec-label">Mapped Gateway MAC</p>
-                        <p class="text-xs font-mono text-gray-300">00:0A:95:9D:68:16</p>
-                    </div>
-                    <button class="w-full bhagwa-btn p-3 rounded-xl text-xs">Run Mapping Sync</button>
-                </div>
-
-                <div class="glass-card p-6 border-t-4 border-t-blue-500">
-                    <h4 class="text-sm font-bold mb-2 uppercase">Field Intelligence</h4>
-                    <p class="text-[10px] text-gray-500 leading-relaxed italic">Collate data from Gateway -> Apply Math Formulas -> Generate Health Status (As per Paper Spec Section-3)</p>
+                    <button onclick="alert('Client ID Provisioned Successfully!')" class="bhagwa-btn px-10 py-3 rounded-xl shadow-xl w-full md:w-auto">Confirm & Link Hardware</button>
                 </div>
             </div>
 
-            <!-- Live Dashboard Data (Graphs & Assets) -->
-            <div class="lg:col-span-2 space-y-6">
-                <div class="glass-card p-6">
-                    <div class="flex justify-between items-center mb-6">
-                        <h4 class="text-sm font-bold uppercase tracking-wider text-white">Real-Time Telemetry (Vibration mm/s)</h4>
-                        <span class="bg-orange-500/10 text-orange-500 text-[10px] px-2 py-1 rounded font-bold">LIVE DATA</span>
-                    </div>
-                    <!-- Analytics Graph Visual -->
-                    <div class="h-[200px] w-full bg-black/50 rounded-xl flex items-end p-4 space-x-2">
-                        <div class="bg-orange-500 w-full h-[40%] rounded-t opacity-40"></div>
-                        <div class="bg-orange-500 w-full h-[60%] rounded-t opacity-60"></div>
-                        <div class="bg-orange-500 w-full h-[85%] rounded-t"></div>
-                        <div class="bg-orange-500 w-full h-[30%] rounded-t opacity-50"></div>
-                        <div class="bg-orange-500 w-full h-[70%] rounded-t opacity-80"></div>
-                    </div>
-                    <div class="flex justify-between mt-4 text-[10px] text-gray-500 uppercase font-bold">
-                        <span>08:00 AM</span><span>Current Time</span><span>Predictive Trend</span>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="glass-card p-4 flex items-center justify-center border-dashed border-gray-600 min-h-[120px]">
-                        <p class="text-[10px] text-gray-600 font-bold uppercase tracking-widest"></p>
-                    </div>
-                    <div class="glass-card p-4 flex items-center justify-center border-dashed border-gray-600 min-h-[120px]">
-                        <p class="text-[10px] text-gray-600 font-bold uppercase tracking-widest"></p>
-                    </div>
+            <!-- PAGE: MAPPING LOGIC (Section-2 of Paper) -->
+            <div id="page-mapping" class="page-content hidden">
+                <h3 class="text-3xl font-black mb-8 border-b border-gray-800 pb-4 uppercase tracking-tighter">Hardware Mapping Matrix</h3>
+                <div class="glass-card overflow-hidden">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-black/60 text-gray-400">
+                            <tr><th class="p-4 uppercase text-[10px]">Customer Site</th><th class="p-4 uppercase text-[10px]">Gateway MAC</th><th class="p-4 uppercase text-[10px]">Mapped Nodes</th><th class="p-4 uppercase text-[10px]">Status</th></tr>
+                        </thead>
+                        <tbody class="text-gray-300">
+                            <tr class="border-t border-gray-800 hover:bg-gray-800/20 transition-colors">
+                                <td class="p-4 font-black text-orange-500 italic">AMMONIA_PLANT_01</td>
+                                <td class="p-4 font-mono">00:1A:2B:3C:4D:5E</td>
+                                <td class="p-4 text-xs font-bold text-blue-400 underline cursor-pointer">04 Nodes Linked</td>
+                                <td class="p-4"><span class="status-dot online mr-2"></span> <span class="text-[10px] font-bold uppercase text-green-500">Data Flowing</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </section>
 
-    </main>
+        </main>
+    </div>
+
+    <!-- 🛠️ SCRIPTS: The Logic Engine -->
+    <script>
+        // 🔐 Authentication Logic
+        function checkLogin() {
+            const key = document.getElementById('pass-key').value;
+            const error = document.getElementById('err-msg');
+            const loginScreen = document.getElementById('login-screen');
+            const dashboard = document.getElementById('main-dashboard');
+
+            if (key === 'nvdashboard8699') {
+                loginScreen.style.display = 'none';
+                dashboard.style.display = 'flex';
+                document.body.style.overflow = 'auto';
+            } else {
+                error.classList.remove('hidden');
+                setTimeout(() => error.classList.add('hidden'), 2000);
+            }
+        }
+
+        // 📄 Navigation Logic
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
+            // Show selected page
+            document.getElementById('page-' + pageId).classList.remove('hidden');
+            
+            // Update sidebar active state
+            document.querySelectorAll('nav button').forEach(btn => {
+                btn.classList.remove('bg-gray-800', 'text-white');
+                btn.classList.add('text-gray-400');
+            });
+            event.currentTarget.classList.add('bg-gray-800', 'text-white');
+        }
+    </script>
 </body>
 </html>
