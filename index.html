@@ -1,90 +1,147 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net"></script>
-    <title>NeuroVibe AI | Industrial Intelligence</title>
+    <title>NeuroVibe AI | Predictive Industrial Intelligence</title>
+    <style>
+        @import url('https://fonts.googleapis.com');
+        body { font-family: 'Inter', sans-serif; }
+    </style>
 </head>
-<body class="bg-[#0F1115] text-slate-300 font-sans min-h-screen">
+<body class="bg-[#0A0C10] text-slate-300 min-h-screen">
 
-    <!-- Header -->
-    <nav class="border-b border-gray-800 p-6 flex justify-between items-center bg-[#16191E]">
+    <!-- Professional Navigation Bar -->
+    <nav class="bg-[#111418] border-b border-gray-800 sticky top-0 z-50 p-5 md:px-12 flex justify-between items-center">
         <div class="text-2xl font-black italic tracking-tighter">
-            <span class="text-[#FF9933]">NEURO</span><span class="text-white font-normal uppercase">VIBE AI</span>
+            <span class="text-[#FF9933]">NEURO</span><span class="text-white font-normal uppercase tracking-widest ml-1">VIBE AI</span>
         </div>
-        <div class="flex gap-3">
-            <span class="bg-green-500/10 text-green-500 px-3 py-1 rounded-full text-xs font-bold border border-green-500/20">NV-G8699 ONLINE</span>
-            <span class="bg-[#FF9933]/10 text-[#FF9933] px-3 py-1 rounded-full text-xs font-bold border border-[#FF9933]/20">AI ACTIVE</span>
+        <div class="hidden md:flex gap-8 text-[10px] font-black uppercase tracking-[0.2em] text-gray-500">
+            <a href="#products" class="hover:text-[#FF9933] transition-colors">Products</a>
+            <a href="#gateway" class="hover:text-[#FF9933] transition-colors">NV-Gateway</a>
+            <a href="#dashboard" class="text-[#FF9933] border-b-2 border-orange-500/50 pb-1">Live Dashboard</a>
         </div>
+        <button class="bg-[#FF9933] text-white text-[10px] font-black px-6 py-2 rounded-lg uppercase tracking-widest shadow-lg shadow-orange-900/20">Login</button>
     </nav>
 
-    <main class="p-4 md:p-8 max-w-7xl mx-auto">
-        <!-- AI Diagnostics Row -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div class="bg-[#16191E] p-6 rounded-2xl border border-gray-800">
-                <p class="text-gray-500 text-sm font-bold uppercase">Overall Machine Health</p>
-                <h2 class="text-4xl font-black text-white mt-2">82% <span class="text-xs text-[#FF9933] font-normal italic">NEEDS ATTENTION</span></h2>
-                <div class="w-full bg-gray-800 h-2 mt-4 rounded-full overflow-hidden">
-                    <div class="bg-[#FF9933] h-full w-[82%]"></div>
-                </div>
+    <main class="max-w-7xl mx-auto p-6 md:p-12 space-y-16">
+        
+        <!-- Hero Section: The New Way (As per your Image) -->
+        <header class="text-center py-10">
+            <h1 class="text-5xl md:text-7xl font-black text-white leading-tight mb-8">
+                The new and better way <br> to <span class="text-[#FF9933]">Maintenance</span>
+            </h1>
+            <p class="text-gray-500 max-w-2xl mx-auto text-sm md:text-base leading-relaxed mb-10 font-medium">
+                Eliminate unplanned downtime with NeuroVibe's autonomous machine monitoring. <br> 
+                Powered by Wireless PA5 Sensors and Edge AI Technology.
+            </p>
+            <div class="flex flex-col md:flex-row justify-center gap-4">
+                <button class="bg-white text-black font-black px-10 py-4 rounded-2xl text-xs uppercase tracking-widest">View Case Studies</button>
+                <button class="bg-[#FF9933] text-white font-black px-10 py-4 rounded-2xl text-xs uppercase tracking-widest shadow-xl shadow-orange-900/40">Request a Demo</button>
             </div>
-            <div class="bg-[#16191E] p-6 rounded-2xl border border-gray-800">
-                <p class="text-gray-500 text-sm font-bold uppercase">Vibration Severity (PA5)</p>
-                <h2 class="text-4xl font-black text-[#FF9933] mt-2">4.2 <span class="text-xs text-gray-500 font-normal">mm/s RMS</span></h2>
-                <p class="text-[10px] mt-2 text-gray-600">ISO 10816 CLASS II COMPLIANT</p>
-            </div>
-            <div class="bg-[#16191E] p-6 rounded-2xl border border-gray-800">
-                <p class="text-gray-500 text-sm font-bold uppercase">Acoustic Stress (PF4)</p>
-                <h2 class="text-4xl font-black text-green-500 mt-2">Low <span class="text-xs text-gray-500 font-normal">ULTRASONIC NOISE</span></h2>
-                <p class="text-[10px] mt-2 text-gray-600">BEARING LUBRICATION: OPTIMAL</p>
-            </div>
-        </div>
+        </header>
 
-        <!-- Charts & Asset List -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <!-- Real-time Vibration Graph -->
-            <div class="bg-[#16191E] p-6 rounded-3xl border border-gray-800 shadow-2xl">
-                <h3 class="text-[#FF9933] font-bold mb-6 flex justify-between">
-                    LIVE VIBRATION SPECTRUM (32mm Stack)
-                    <span class="animate-pulse text-red-500">● REC</span>
-                </h3>
-                <canvas id="vibrationChart" height="200"></canvas>
+        <!-- Product Cards (Our Nodes & Hardware) -->
+        <section id="products" class="grid md:grid-cols-2 gap-10">
+            <div class="bg-[#111418] p-10 rounded-[3rem] border border-gray-800 shadow-2xl relative overflow-hidden group">
+                <div class="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <span class="text-6xl font-black text-[#FF9933]">PA5</span>
+                </div>
+                <h3 class="text-white text-2xl font-black mb-4">Wireless Vibration Node</h3>
+                <p class="text-gray-500 text-sm mb-6 leading-relaxed">
+                    32mm Circular Stack Design (SS 316L). 3-Axis vibration analysis with spectral fingerprinting. Autonomous battery life up to 5 years.
+                </p>
+                <div class="text-[10px] font-mono text-[#FF9933] uppercase">DWG: NV-32MM-STK-V2</div>
             </div>
 
-            <!-- AI Predictive Insights -->
-            <div class="bg-[#16191E] p-6 rounded-3xl border border-gray-800">
-                <h3 class="text-white font-bold mb-6">AI PREDICTIVE INSIGHTS (SenseGrow Ref)</h3>
-                <div class="space-y-4">
-                    <div class="bg-[#1c2026] p-4 rounded-xl border-l-4 border-[#FF9933]">
-                        <p class="text-white font-bold text-sm">Ammonia Pump #01: Misalignment Detected</p>
-                        <p class="text-xs text-gray-500 mt-1 italic">AI Confidence: 94.2% | Severity: Moderate</p>
+            <div class="bg-[#111418] p-10 rounded-[3rem] border border-gray-800 shadow-2xl relative overflow-hidden group">
+                <div class="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <span class="text-6xl font-black text-blue-500">PF4</span>
+                </div>
+                <h3 class="text-white text-2xl font-black mb-4">Acoustic Stress Node</h3>
+                <p class="text-gray-500 text-sm mb-6 leading-relaxed">
+                    Ultrasonic frequency detection for early bearing fault diagnosis. Integrated PoE / Wireless options for heavy industrial zones.
+                </p>
+                <div class="text-[10px] font-mono text-blue-500 uppercase">DWG: NV-PF4-ACOUSTIC-REF</div>
+            </div>
+        </section>
+
+        <!-- Live Dashboard (Clean NeuroVibe Branding) -->
+        <section id="dashboard" class="bg-[#16191E] rounded-[3.5rem] p-8 md:p-12 border border-gray-800 shadow-2xl">
+            <div class="flex justify-between items-center mb-12 border-b border-gray-800 pb-8">
+                <div>
+                    <h2 class="text-[#FF9933] text-2xl font-black uppercase tracking-widest italic leading-none">NeuroVibe Predictive Analytics</h2>
+                    <p class="text-gray-600 text-xs mt-3 uppercase tracking-tighter">AI Core Engine v3.5 | Real-time Edge Monitoring</p>
+                </div>
+                <div class="hidden md:flex gap-2">
+                    <span class="w-3 h-3 bg-red-500 rounded-full animate-ping"></span>
+                    <span class="text-red-500 text-[10px] font-black uppercase tracking-widest">High Alert Detected</span>
+                </div>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12">
+                <!-- AI Chart -->
+                <div class="bg-[#111418] p-8 rounded-[2rem] border border-gray-800">
+                    <h4 class="text-gray-500 text-[10px] font-black uppercase mb-8 tracking-widest">Vibration Spectrum (mm/s)</h4>
+                    <canvas id="nvLiveChart" height="180"></canvas>
+                </div>
+                <!-- Predictive Log -->
+                <div class="space-y-6">
+                    <div class="bg-[#1b1f26] p-6 rounded-2xl border-l-8 border-[#FF9933] shadow-lg">
+                        <p class="text-white font-black text-sm uppercase">Main Ammonia Pump #01</p>
+                        <p class="text-xs text-gray-400 mt-2 italic font-medium leading-relaxed">
+                            <span class="text-[#FF9933] font-bold uppercase not-italic mr-2 underline underline-offset-4">Anomaly:</span> 
+                            Early stage bearing fault suspected at 4.21 mm/s RMS. Confidence: 96.8%.
+                        </p>
                     </div>
-                    <div class="bg-[#1c2026] p-4 rounded-xl border-l-4 border-green-500">
-                        <p class="text-white font-bold text-sm">Blower Unit #04: Normal Operation</p>
-                        <p class="text-xs text-gray-600 mt-1 italic">Vibration within limits (1.2 mm/s)</p>
+                    <div class="bg-[#1b1f26] p-6 rounded-2xl border-l-8 border-green-500 shadow-lg">
+                        <p class="text-white font-black text-sm uppercase">Industrial Blower #04</p>
+                        <p class="text-xs text-gray-500 mt-2">Operating within safe vibration envelope. No harmonics detected.</p>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
+
     </main>
 
+    <!-- Industrial Dark Footer -->
+    <footer id="gateway" class="mt-20 p-12 md:p-20 bg-[#0A0C10] border-t border-gray-900 text-center space-y-8">
+        <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 text-center items-center">
+            <div class="space-y-2">
+                <h5 class="text-gray-500 text-[10px] font-black uppercase tracking-widest">Gateway System</h5>
+                <p class="text-white font-bold text-sm">NV-G8699 Edge PC</p>
+            </div>
+            <div class="text-3xl font-black italic">
+                <span class="text-[#FF9933]">NEURO</span><span class="text-white font-normal uppercase ml-1">VIBE</span>
+            </div>
+            <div class="space-y-2">
+                <h5 class="text-gray-500 text-[10px] font-black uppercase tracking-widest">Mechanical Material</h5>
+                <p class="text-white font-bold text-sm">SS 316L Industrial Case</p>
+            </div>
+        </div>
+        <div class="pt-12 text-[10px] text-gray-800 font-bold uppercase tracking-[0.6em] border-t border-gray-900/50">
+            NeuroVibe AI Technologies | Boss8699 Exclusive
+        </div>
+        <p class="text-[9px] text-gray-800 uppercase tracking-widest">Proprietary AI/ML Logic • All Designs Internally Developed</p>
+    </footer>
+
     <script>
-        const ctx = document.getElementById('vibrationChart').getContext('2d');
-        const vibrationChart = new Chart(ctx, {
+        const ctx = document.getElementById('nvLiveChart').getContext('2d');
+        new Chart(ctx, {
             type: 'line',
             data: {
-                labels: Array.from({length: 20}, (_, i) => i),
+                labels: Array.from({length: 15}, (_, i) => i),
                 datasets: [{
-                    label: 'Velocity (mm/s)',
-                    data: [1.2, 1.5, 2.1, 1.8, 3.4, 4.2, 3.8, 2.9, 3.1, 4.5, 4.2, 3.9, 4.8, 5.2, 4.5, 4.1, 3.8, 4.2, 4.0, 4.2],
+                    label: 'Vibration',
+                    data: [1.5, 2.8, 2.1, 4.5, 3.2, 5.1, 4.8, 4.2, 3.9, 5.5, 4.1, 4.3, 4.2, 4.4, 4.5],
                     borderColor: '#FF9933',
-                    borderWidth: 3,
+                    borderWidth: 4,
                     tension: 0.4,
                     pointRadius: 0,
                     fill: true,
-                    backgroundColor: 'rgba(255, 153, 51, 0.1)'
+                    backgroundColor: 'rgba(255, 153, 51, 0.05)'
                 }]
             },
             options: {
@@ -92,7 +149,7 @@
                 plugins: { legend: { display: false } },
                 scales: {
                     x: { display: false },
-                    y: { grid: { color: '#2d333b' }, ticks: { color: '#545d68' } }
+                    y: { grid: { color: '#1f2937' }, ticks: { color: '#4b5563' } }
                 }
             }
         });
