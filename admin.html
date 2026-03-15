@@ -1,47 +1,101 @@
-<!-- Add this inside your admin.html Content Area -->
-<section id="security-manager" class="mt-12">
-    <h3 class="text-2xl font-black mb-6 flex items-center text-orange-500">
-        <i class="fas fa-user-shield mr-3"></i> Security & Access Manager
-    </h3>
-    
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <!-- Password Reset Form -->
-        <div class="bg-gray-900 p-8 rounded-2xl border border-gray-800 shadow-xl">
-            <h4 class="font-bold mb-4 uppercase text-xs tracking-widest text-gray-400 italic">Reset Client Access Key</h4>
-            <div class="space-y-4">
-                <input type="text" id="reset-userid" placeholder="Enter Client Site ID (e.g. client01)" class="w-full bg-black p-4 border border-gray-800 rounded-xl text-orange-500 outline-none text-sm">
-                <input type="password" id="new-client-pass" placeholder="Set New System Key" class="w-full bg-black p-4 border border-gray-800 rounded-xl text-orange-500 outline-none text-sm">
-                <button onclick="resetPassword()" class="w-full bg-gradient-to-r from-orange-500 to-red-600 p-4 rounded-xl font-black uppercase tracking-widest text-white shadow-lg hover:scale-105 transition-transform text-xs">
-                    Authorize Password Overwrite
-                </button>
-            </div>
-        </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroVibe | Master Admin Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com">
+    <style>
+        :root { --bhagwa: #FF9933; --dark: #0F1115; --card: #1E1F22; }
+        body { background-color: var(--dark); color: #E4E6EB; font-family: 'Inter', sans-serif; margin: 0; }
+        .sidebar { background-color: var(--card); width: 260px; height: 100vh; position: fixed; border-right: 1px solid #373A40; z-index: 50; }
+        .premium-card { background: var(--card); border: 1px solid #373A40; border-radius: 16px; padding: 25px; transition: 0.3s; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .premium-card:hover { border-color: var(--bhagwa); }
+        .bhagwa-btn { background: linear-gradient(135deg, #FF9933 0%, #E67E22 100%); color: white; font-weight: bold; padding: 12px 24px; border-radius: 12px; cursor: pointer; transition: 0.3s; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; }
+        .bhagwa-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 153, 51, 0.3); }
+        input { background: #000; border: 1px solid #444; color: var(--bhagwa); padding: 12px; border-radius: 10px; width: 100%; outline: none; margin-bottom: 15px; }
+    </style>
+</head>
+<body class="flex min-h-screen">
 
-        <!-- System Log for Changes -->
-        <div class="bg-gray-900 p-8 rounded-2xl border border-gray-800 flex flex-col justify-between">
-            <div>
-                <h4 class="font-bold mb-4 uppercase text-[10px] tracking-[0.3em] text-gray-500">Access Protocols</h4>
-                <p class="text-xs text-gray-400 italic leading-relaxed">
-                    "Admin override enabled. Changing a password here will immediately revoke old access from the selected Client Site ID."
-                </p>
+    <!-- Premium Sidebar -->
+    <aside class="sidebar p-6 flex flex-col justify-between hidden md:flex">
+        <div>
+            <div class="mb-10 text-center">
+                <h1 class="text-2xl font-black text-white italic">NEURO<span class="text-orange-500">VIBE</span></h1>
+                <p class="text-[10px] uppercase tracking-widest text-gray-500 font-bold mt-1">Master Access</p>
             </div>
-            <div class="mt-6 p-3 bg-black/40 border-l-2 border-orange-500 rounded text-[10px] font-mono text-orange-500">
-                LATEST LOG: Admin initialized password reset sequence...
-            </div>
+            <nav class="space-y-4">
+                <button class="w-full text-left p-3 bg-gray-800 rounded-xl text-orange-500 font-bold"><i class="fas fa-warehouse mr-3"></i> Inventory</button>
+                <button class="w-full text-left p-3 text-gray-400 hover:text-white transition-all"><i class="fas fa-users mr-3"></i> Client List</button>
+                <button class="w-full text-left p-3 text-gray-400 hover:text-white transition-all"><i class="fas fa-exchange-alt mr-3"></i> Move Devices</button>
+            </nav>
         </div>
-    </div>
-</section>
+        <button onclick="location.href='index.html'" class="text-gray-600 text-xs font-bold uppercase hover:text-red-500 transition-all"><i class="fas fa-sign-out-alt mr-2"></i> Logout</button>
+    </aside>
 
-<script>
-    function resetPassword() {
-        const u = document.getElementById('reset-userid').value;
-        const p = document.getElementById('new-client-pass').value;
+    <!-- Main Content Area -->
+    <main class="flex-1 md:ml-[260px] p-8 lg:p-12 overflow-y-auto">
         
-        if(u && p) {
-            alert("PROTOCOL SUCCESS: Access Key for " + u + " has been updated to: " + p);
-            console.log("System Log: Password changed for " + u);
-        } else {
-            alert("ERROR: Please enter both Site ID and New Password.");
-        }
-    }
-</script>
+        <!-- Header -->
+        <header class="flex justify-between items-end mb-12">
+            <div>
+                <h2 class="text-4xl font-black text-white">System <span class="text-orange-500">Control Hub</span></h2>
+                <p class="text-gray-500 text-sm mt-2 uppercase tracking-widest">Inventory Management & Provisioning Protocol</p>
+            </div>
+            <div class="hidden lg:block text-right">
+                <span class="text-xs text-green-500 font-bold uppercase"><i class="fas fa-circle text-[8px] mr-2"></i> Cloud Core Active</span>
+            </div>
+        </header>
+
+        <!-- Stats Overview -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div class="premium-card border-l-4 border-orange-500">
+                <p class="text-xs text-gray-500 font-bold uppercase mb-2 tracking-tighter">Registered Gateways</p>
+                <h3 class="text-4xl font-black">14 <span class="text-xs text-gray-600">/ Units</span></h3>
+            </div>
+            <div class="premium-card border-l-4 border-blue-500">
+                <p class="text-xs text-gray-500 font-bold uppercase mb-2 tracking-tighter">Reporting Sensors</p>
+                <h3 class="text-4xl font-black">58 <span class="text-xs text-gray-600">/ Active</span></h3>
+            </div>
+            <div class="premium-card border-l-4 border-green-500">
+                <p class="text-xs text-gray-500 font-bold uppercase mb-2 tracking-tighter">Clients Online</p>
+                <h3 class="text-4xl font-black">09 <span class="text-xs text-gray-600">/ Global</span></h3>
+            </div>
+        </div>
+
+        <!-- Security & User Manager Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+            <div class="premium-card">
+                <h4 class="text-lg font-bold mb-6 text-white uppercase italic border-b border-gray-800 pb-2">Access Key Override</h4>
+                <div class="space-y-2">
+                    <label class="text-[10px] font-bold text-gray-500 uppercase">Target Site ID</label>
+                    <input type="text" placeholder="e.g. client01_unit4">
+                    <label class="text-[10px] font-bold text-gray-500 uppercase">New System Key</label>
+                    <input type="password" placeholder="Enter New Password">
+                    <button class="bhagwa-btn w-full mt-4">Authorize Reset Protocol</button>
+                </div>
+            </div>
+
+            <!-- Device Migration (Move sensor from one account to another) -->
+            <div class="premium-card">
+                <h4 class="text-lg font-bold mb-6 text-white uppercase italic border-b border-gray-800 pb-2">Device Migration Logic</h4>
+                <p class="text-xs text-gray-500 mb-6 italic">Move Gateway/Sensor from one Client ID to another Client ID instantly.</p>
+                <select class="w-full bg-black border border-gray-700 p-3 rounded-xl mb-4 text-orange-500 text-sm outline-none">
+                    <option>Select Hardware (NV-G / NV-S)</option>
+                    <option>NV-G1001-A90 (Master Gateway)</option>
+                    <option>NV-S1001-B12 (Sensor Node)</option>
+                </select>
+                <select class="w-full bg-black border border-gray-700 p-3 rounded-xl mb-6 text-orange-500 text-sm outline-none">
+                    <option>Select Target Client ID</option>
+                    <option>Client_01 (Industrial Unit)</option>
+                    <option>Client_05 (Blower Section)</option>
+                </select>
+                <button class="bhagwa-btn w-full">Confirm Hardware Migration</button>
+            </div>
+        </div>
+
+    </main>
+</body>
+</html>
