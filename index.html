@@ -1,101 +1,101 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>NeuroVibe AI | Predictive Dashboard</title>
+    <script src="https://cdn.jsdelivr.net"></script>
+    <title>NeuroVibe AI | Industrial Intelligence</title>
 </head>
-<body class="bg-slate-50 font-sans min-h-screen flex flex-col items-center p-6">
+<body class="bg-[#0F1115] text-slate-300 font-sans min-h-screen">
 
-    <!-- Nav Bar -->
-    <nav class="w-full max-w-6xl flex justify-between items-center py-6 mb-12 border-b border-slate-200">
-        <div class="text-3xl font-black italic tracking-tighter">
-            <span class="text-[#FF9933]">NEURO</span><span class="text-slate-400 font-normal uppercase">Vibe AI</span>
+    <!-- Header -->
+    <nav class="border-b border-gray-800 p-6 flex justify-between items-center bg-[#16191E]">
+        <div class="text-2xl font-black italic tracking-tighter">
+            <span class="text-[#FF9933]">NEURO</span><span class="text-white font-normal uppercase">VIBE AI</span>
         </div>
-        <div class="hidden md:flex gap-4">
-            <div class="bg-white shadow-sm border border-slate-200 px-6 py-2 rounded-full flex items-center gap-2">
-                <span class="text-green-500 font-bold">●</span> <span class="font-bold text-slate-700">ML & AI Enabled</span>
-            </div>
-            <div class="bg-white shadow-sm border border-slate-200 px-6 py-2 rounded-full flex items-center gap-2">
-                <span class="text-green-500 font-bold">●</span> <span class="font-bold text-slate-700">IoT Sensors Active</span>
-            </div>
+        <div class="flex gap-3">
+            <span class="bg-green-500/10 text-green-500 px-3 py-1 rounded-full text-xs font-bold border border-green-500/20">NV-G8699 ONLINE</span>
+            <span class="bg-[#FF9933]/10 text-[#FF9933] px-3 py-1 rounded-full text-xs font-bold border border-[#FF9933]/20">AI ACTIVE</span>
         </div>
     </nav>
 
-    <!-- Hero Headline -->
-    <div class="text-center mb-16">
-        <h1 class="text-5xl md:text-7xl font-extrabold text-slate-800 mb-8 leading-tight">
-            Predict Failures Before <br> <span class="text-[#FF9933]">They Happen.</span>
-        </h1>
-        <button class="bg-[#FF9933] text-white text-2xl font-bold px-12 py-5 rounded-2xl shadow-[0_15px_40px_-10px_rgba(255,153,51,0.6)] hover:scale-105 transition-all active:scale-95">
-            Get Started
-        </button>
-    </div>
-
-    <!-- Live Dashboard (Industrial Gray Theme) -->
-    <div class="w-full max-w-5xl bg-[#1A1A1D] rounded-[3rem] p-8 md:p-12 shadow-2xl border-[12px] border-white relative overflow-hidden">
-        <div class="flex justify-between items-center mb-10 border-b border-gray-800 pb-6">
-            <div>
-                <h2 class="text-[#FF9933] text-2xl font-bold uppercase tracking-widest">Live Asset Monitoring</h2>
-                <p class="text-gray-500 text-sm mt-1">Gateway: NV-G8699 | Online</p>
+    <main class="p-4 md:p-8 max-w-7xl mx-auto">
+        <!-- AI Diagnostics Row -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-[#16191E] p-6 rounded-2xl border border-gray-800">
+                <p class="text-gray-500 text-sm font-bold uppercase">Overall Machine Health</p>
+                <h2 class="text-4xl font-black text-white mt-2">82% <span class="text-xs text-[#FF9933] font-normal italic">NEEDS ATTENTION</span></h2>
+                <div class="w-full bg-gray-800 h-2 mt-4 rounded-full overflow-hidden">
+                    <div class="bg-[#FF9933] h-full w-[82%]"></div>
+                </div>
             </div>
-            <div class="bg-gray-800 text-gray-400 px-4 py-2 rounded-lg text-xs font-mono">
-                UPTIME: 99.9%
+            <div class="bg-[#16191E] p-6 rounded-2xl border border-gray-800">
+                <p class="text-gray-500 text-sm font-bold uppercase">Vibration Severity (PA5)</p>
+                <h2 class="text-4xl font-black text-[#FF9933] mt-2">4.2 <span class="text-xs text-gray-500 font-normal">mm/s RMS</span></h2>
+                <p class="text-[10px] mt-2 text-gray-600">ISO 10816 CLASS II COMPLIANT</p>
+            </div>
+            <div class="bg-[#16191E] p-6 rounded-2xl border border-gray-800">
+                <p class="text-gray-500 text-sm font-bold uppercase">Acoustic Stress (PF4)</p>
+                <h2 class="text-4xl font-black text-green-500 mt-2">Low <span class="text-xs text-gray-500 font-normal">ULTRASONIC NOISE</span></h2>
+                <p class="text-[10px] mt-2 text-gray-600">BEARING LUBRICATION: OPTIMAL</p>
             </div>
         </div>
 
-        <div class="grid md:grid-cols-2 gap-12">
-            <!-- Overall Risk (Donut Chart Style) -->
-            <div class="bg-[#242427] p-8 rounded-[2rem] border border-gray-800 flex flex-col items-center">
-                <h3 class="text-gray-300 mb-8 font-semibold">Overall Risk Profile</h3>
-                <div class="relative w-56 h-56 flex items-center justify-center">
-                    <svg class="w-full h-full transform -rotate-90">
-                        <circle cx="112" cy="112" r="100" stroke="#333" stroke-width="20" fill="transparent" />
-                        <circle cx="112" cy="112" r="100" stroke="#FF9933" stroke-width="20" fill="transparent" stroke-dasharray="628" stroke-dashoffset="120" />
-                    </svg>
-                    <div class="absolute text-center">
-                        <span class="text-white text-5xl font-black block leading-none">82%</span>
-                        <span class="text-gray-500 text-xs uppercase mt-2 block tracking-widest">High Alert</span>
-                    </div>
-                </div>
+        <!-- Charts & Asset List -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Real-time Vibration Graph -->
+            <div class="bg-[#16191E] p-6 rounded-3xl border border-gray-800 shadow-2xl">
+                <h3 class="text-[#FF9933] font-bold mb-6 flex justify-between">
+                    LIVE VIBRATION SPECTRUM (32mm Stack)
+                    <span class="animate-pulse text-red-500">● REC</span>
+                </h3>
+                <canvas id="vibrationChart" height="200"></canvas>
             </div>
 
-            <!-- Asset Health List -->
-            <div class="bg-[#242427] p-8 rounded-[2rem] border border-gray-800">
-                <h3 class="text-gray-300 mb-8 font-semibold">Sensor Nodes Health (PA5/PF4)</h3>
-                <div class="space-y-6">
-                    <div class="flex justify-between items-center border-b border-gray-800 pb-4">
-                        <div class="text-gray-400">
-                            <p class="text-white font-bold">Ammonia Pump #01</p>
-                            <p class="text-xs text-gray-600">Location: Tank Farm</p>
-                        </div>
-                        <span class="text-[#FF9933] font-black animate-pulse text-xs tracking-tighter">● CRITICAL RISK</span>
+            <!-- AI Predictive Insights -->
+            <div class="bg-[#16191E] p-6 rounded-3xl border border-gray-800">
+                <h3 class="text-white font-bold mb-6">AI PREDICTIVE INSIGHTS (SenseGrow Ref)</h3>
+                <div class="space-y-4">
+                    <div class="bg-[#1c2026] p-4 rounded-xl border-l-4 border-[#FF9933]">
+                        <p class="text-white font-bold text-sm">Ammonia Pump #01: Misalignment Detected</p>
+                        <p class="text-xs text-gray-500 mt-1 italic">AI Confidence: 94.2% | Severity: Moderate</p>
                     </div>
-                    <div class="flex justify-between items-center border-b border-gray-800 pb-4">
-                        <div class="text-gray-400">
-                            <p class="text-white font-bold">Blower Unit #04</p>
-                            <p class="text-xs text-gray-600">Location: Exhaust Zone</p>
-                        </div>
-                        <span class="text-green-500 font-bold text-xs tracking-tighter">● STABLE</span>
-                    </div>
-                    <div class="flex justify-between items-center border-b border-gray-800 pb-4">
-                        <div class="text-gray-400">
-                            <p class="text-white font-bold">Main Conveyor Belt</p>
-                            <p class="text-xs text-gray-600">Location: Production</p>
-                        </div>
-                        <span class="text-green-500 font-bold text-xs tracking-tighter">● STABLE</span>
+                    <div class="bg-[#1c2026] p-4 rounded-xl border-l-4 border-green-500">
+                        <p class="text-white font-bold text-sm">Blower Unit #04: Normal Operation</p>
+                        <p class="text-xs text-gray-600 mt-1 italic">Vibration within limits (1.2 mm/s)</p>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
-    <!-- Footer -->
-    <footer class="mt-24 text-slate-400 text-sm flex flex-col items-center gap-2">
-        <p class="font-bold">NVPREDICTIVE.COM</p>
-        <p>© 2026 NeuroVibe AI | Boss8699 Industrial Intelligence</p>
-    </footer>
-
+    <script>
+        const ctx = document.getElementById('vibrationChart').getContext('2d');
+        const vibrationChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: Array.from({length: 20}, (_, i) => i),
+                datasets: [{
+                    label: 'Velocity (mm/s)',
+                    data: [1.2, 1.5, 2.1, 1.8, 3.4, 4.2, 3.8, 2.9, 3.1, 4.5, 4.2, 3.9, 4.8, 5.2, 4.5, 4.1, 3.8, 4.2, 4.0, 4.2],
+                    borderColor: '#FF9933',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    pointRadius: 0,
+                    fill: true,
+                    backgroundColor: 'rgba(255, 153, 51, 0.1)'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { display: false },
+                    y: { grid: { color: '#2d333b' }, ticks: { color: '#545d68' } }
+                }
+            }
+        });
+    </script>
 </body>
 </html>
