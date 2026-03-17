@@ -1,120 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"><title>NeuroVibe | Predictive Plant-OS</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroVibe | Enterprise Plant-OS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com">
     <style>
-        :root { --nv-saffron: #FF9933; --nv-sapphire: #0D0F14; --nv-graphite: #161922; --nv-cyan: #00F2FF; }
-        body { background-color: var(--nv-sapphire); color: #E4E6EB; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
-        .sidebar { background-color: var(--nv-graphite); width: 280px; height: 100vh; position: fixed; border-right: 1px solid #242933; z-index: 50; }
-        .premium-card { background: linear-gradient(145deg, #1C212B 0%, #11141A 100%); border: 1px solid #2D343F; border-radius: 24px; transition: 0.4s; box-shadow: 0 15px 50px rgba(0,0,0,0.6); }
-        .premium-card:hover { border-color: var(--nv-saffron); transform: translateY(-5px); }
-        .roi-badge { background: linear-gradient(90deg, #FF9933 0%, #00F2FF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; }
-        .bhagwa-btn { background: linear-gradient(135deg, #FF9933 0%, #E67E22 100%); color: white; font-weight: 800; border-radius: 16px; box-shadow: 0 10px 30px rgba(255, 153, 51, 0.2); }
-        .live-pulse { width: 10px; height: 10px; background: #4CAF50; border-radius: 50%; display: inline-block; box-shadow: 0 0 15px #4CAF50; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { transform: scale(0.9); opacity: 1; } 70% { transform: scale(1.6); opacity: 0; } 100% { transform: scale(0.9); opacity: 0; } }
+        :root { --nv-saffron: #FF9933; --nv-silver: #F3F4F6; --nv-white: #FFFFFF; --nv-text: #1F2937; }
+        body { background-color: var(--nv-silver); color: var(--nv-text); font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
+        .sidebar { background-color: #111827; width: 260px; height: 100vh; position: fixed; z-index: 50; }
+        .premium-card { background: var(--nv-white); border: 1px solid #E5E7EB; border-radius: 16px; padding: 24px; transition: 0.3s; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .premium-card:hover { border-color: var(--nv-saffron); transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+        .bhagwa-btn { background: linear-gradient(135deg, #FF9933 0%, #E67E22 100%); color: white; font-weight: 800; border-radius: 12px; }
+        .nav-btn { width: 100%; text-align: left; padding: 12px; color: #9CA3AF; font-size: 13px; border-radius: 10px; margin-bottom: 5px; transition: 0.3s; }
+        .nav-active { background: #374151; color: white; border-left: 4px solid var(--nv-saffron); }
+        .tab-content { display: none; }
+        .active-tab { display: block; }
     </style>
 </head>
 <body class="flex">
 
-    <!-- 🛡️ Professional Sidebar -->
-    <aside class="sidebar p-8 flex flex-col justify-between">
+    <!-- 🛡️ Sidebar -->
+    <aside class="sidebar p-6 flex flex-col justify-between shadow-2xl">
         <div>
-            <div class="mb-14 text-center">
-                <h1 class="text-3xl font-black tracking-tighter italic text-white uppercase">NEURO<span class="text-orange-500">VIBE</span></h1>
-                <p class="text-[9px] uppercase tracking-[0.4em] text-gray-500 font-bold mt-2">Plant Monitoring OS</p>
+            <div class="mb-10 text-center">
+                <h1 class="text-2xl font-black text-white italic">NEURO<span class="text-orange-500">VIBE</span></h1>
+                <p class="text-[9px] uppercase tracking-[0.3em] text-gray-500 font-bold mt-2">Unified Plant-OS</p>
             </div>
-            <nav class="space-y-4">
-                <button class="w-full text-left p-4 bg-[#252A34] text-white rounded-2xl border-r-4 border-orange-500 font-bold"><i class="fas fa-satellite mr-3"></i> Live Fleet</button>
-                <button class="w-full text-left p-4 text-gray-500 hover:text-white transition-all"><i class="fas fa-wave-square mr-3"></i> Spectrum Logic</button>
-                <button class="w-full text-left p-4 text-gray-500 hover:text-white transition-all"><i class="fas fa-file-invoice-dollar mr-3"></i> ROI Reports</button>
+            <nav class="space-y-2">
+                <button onclick="switchTab('fleet')" id="btn-fleet" class="nav-btn nav-active"><i class="fas fa-microchip mr-3"></i> Asset Fleet</button>
+                <button onclick="switchTab('roi')" id="btn-roi" class="nav-btn"><i class="fas fa-file-invoice-dollar mr-3"></i> ROI Analysis</button>
+                <button onclick="switchTab('spectrum')" id="btn-spectrum" class="nav-btn"><i class="fas fa-wave-square mr-3"></i> Spectrum Logic</button>
             </nav>
         </div>
-        <button onclick="window.open('https://wa.me')" class="bhagwa-btn p-4 flex items-center justify-center space-x-2 text-[10px] uppercase tracking-widest">
-            <i class="fab fa-whatsapp text-xl"></i> <span>Get Enterprise Support</span>
-        </button>
+        <button onclick="location.href='index.html'" class="text-gray-500 text-[10px] font-bold uppercase hover:text-red-500"><i class="fas fa-sign-out-alt mr-2"></i> Exit System</button>
     </aside>
 
-    <!-- 🌌 Main Dashboard Area -->
-    <main class="ml-[280px] w-full p-12 bg-[radial-gradient(ellipse_at_top_left,_#1C212B,_#0D0F14)] min-h-screen">
+    <!-- 🚀 Main Content Area -->
+    <main class="ml-[260px] w-full p-10 min-h-screen">
         
-        <!-- Header Section (PDF Standard) -->
-        <header class="flex justify-between items-end mb-16">
-            <div>
-                <div class="flex items-center space-x-3 mb-2">
-                    <span class="live-pulse"></span>
-                    <span class="text-green-500 font-black uppercase text-[10px] tracking-[0.4em]">Autonomous AI Active</span>
+        <!-- Header -->
+        <header class="flex justify-between items-center mb-10">
+            <h2 class="text-3xl font-black text-gray-800 uppercase tracking-tighter">NeuroVibe <span class="text-orange-500 italic">Predictive Hub</span></h2>
+            <div class="flex items-center space-x-4">
+                <div class="bg-white px-4 py-2 rounded-full border border-gray-200 text-[10px] font-bold flex items-center">
+                    <span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span> SYSTEM LIVE
                 </div>
-                <h2 class="text-5xl font-black text-white italic tracking-tighter">NeuroVibe <span class="roi-badge underline decoration-gray-800 underline-offset-8">Unit Insights</span></h2>
-            </div>
-            <div class="text-right p-8 premium-card border-none bg-black/30 shadow-2xl">
-                <p class="text-[10px] text-gray-500 font-black uppercase mb-1 tracking-widest">Calculated Production ROI</p>
-                <h3 class="text-4xl font-black text-white tracking-widest">$142,500<span class="text-xs text-gray-600">.00</span></h3>
             </div>
         </header>
 
-        <!-- KPI Grid (Energy + Health + Alerts) -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-16">
-            <div class="premium-card p-8 border-t-4 border-t-green-500">
-                <p class="text-[10px] text-gray-500 font-black uppercase tracking-widest mb-3">Asset Health Score</p>
-                <h4 class="text-5xl font-black text-green-500">96<span class="text-xs ml-1">%</span></h4>
-                <div class="mt-4 h-2 w-full bg-gray-900 rounded-full overflow-hidden"><div class="h-full bg-green-500 w-[96%]"></div></div>
+        <!-- Tab: FLEET OVERVIEW -->
+        <div id="tab-fleet" class="tab-content active-tab">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+                <div class="premium-card">
+                    <p class="text-[10px] text-gray-400 font-black uppercase mb-1">Health Score</p>
+                    <h3 class="text-3xl font-black text-green-600">96%</h3>
+                </div>
+                <div class="premium-card">
+                    <p class="text-[10px] text-gray-400 font-black uppercase mb-1">Active Nodes</p>
+                    <h3 class="text-3xl font-black text-gray-800">48 <span class="text-xs text-gray-400">/ 50</span></h3>
+                </div>
+                <div class="premium-card border-t-4 border-orange-500">
+                    <p class="text-[10px] text-gray-400 font-black uppercase mb-1">Predictive Alerts</p>
+                    <h3 class="text-3xl font-black text-orange-500">02</h3>
+                </div>
+                <div class="premium-card">
+                    <p class="text-[10px] text-gray-400 font-black uppercase mb-1">Energy Waste</p>
+                    <h3 class="text-3xl font-black text-red-500">2.4%</h3>
+                </div>
             </div>
-            <div class="premium-card p-8 border-t-4 border-t-cyan-500">
-                <p class="text-[10px] text-cyan-400 font-black uppercase tracking-widest mb-3">Energy Efficiency</p>
-                <h4 class="text-5xl font-black text-white">97.6<span class="text-xs ml-1">%</span></h4>
-            </div>
-            <div class="premium-card p-8 border-t-4 border-t-yellow-500">
-                <p class="text-[10px] text-yellow-500 font-black uppercase tracking-widest mb-3">Reporting Fleet</p>
-                <h4 class="text-5xl font-black text-white">48<span class="text-xs text-gray-700 ml-2">/ 50</span></h4>
-            </div>
-            <div class="premium-card p-8 border-t-4 border-t-red-600">
-                <p class="text-[10px] text-red-500 font-black uppercase tracking-widest mb-3">Critical Alerts</p>
-                <h4 class="text-5xl font-black text-red-600">02</h4>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2 premium-card">
+                    <h4 class="text-sm font-bold uppercase mb-6 text-gray-700">Machine Telemetry (mm/s)</h4>
+                    <div class="h-64 bg-gray-50 rounded-xl flex items-end p-4 space-x-2 border border-gray-100">
+                        <div class="bg-orange-400 w-full h-[30%] opacity-50"></div>
+                        <div class="bg-orange-500 w-full h-[70%]"></div>
+                        <div class="bg-orange-600 w-full h-[45%]"></div>
+                        <div class="bg-orange-500 w-full h-[90%] shadow-lg shadow-orange-500/30"></div>
+                    </div>
+                </div>
+                <div class="premium-card bg-orange-50 border-orange-200">
+                    <h4 class="text-xs font-black text-orange-600 uppercase mb-4">AI Prescriptive Action</h4>
+                    <p class="text-sm text-gray-700 leading-relaxed italic">
+                        "Structural anomaly detected in **Ammonia Pump #2**. High-frequency acoustic drift indicates potential seal leak. Action required within 48 hours."
+                    </p>
+                    <button class="w-full mt-10 bhagwa-btn py-3 text-xs uppercase">Generate Order</button>
+                </div>
             </div>
         </div>
 
-        <!-- Spectrum & Prescriptive AI Box (The PDF Logic) -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
-            <div class="lg:col-span-2 premium-card p-10">
+        <!-- Tab: ROI ANALYSIS -->
+        <div id="tab-roi" class="tab-content">
+            <h3 class="text-2xl font-black mb-6">Financial Impact & ROI</h3>
+            <div class="premium-card">
                 <div class="flex justify-between items-center mb-10">
-                    <h4 class="text-sm font-black uppercase text-white"><i class="fas fa-wave-square text-cyan-400 mr-3"></i> Frequency Spectrum Analysis (mm/s)</h4>
-                    <span class="text-[9px] text-gray-600 font-mono border border-gray-800 px-3 py-1 uppercase">NV-G1001-Master</span>
+                    <h4 class="text-xl font-bold">Maintenance Cost Savings</h4>
+                    <span class="text-4xl font-black text-green-600">$142,500.00</span>
                 </div>
-                <!-- Interactive Bars -->
-                <div class="h-72 flex items-end justify-between space-x-2 border-b border-gray-800 pb-4 px-4">
-                    <div class="w-full bg-cyan-500/20 h-[20%]"></div>
-                    <div class="w-full bg-cyan-500/40 h-[45%]"></div>
-                    <div class="w-full bg-cyan-500 h-[85%] shadow-[0_0_30px_rgba(0,242,255,0.3)]"></div>
-                    <div class="w-full bg-orange-500 h-[60%] shadow-[0_0_20px_rgba(255,153,51,0.2)]"></div>
-                    <div class="w-full bg-cyan-500/60 h-[75%]"></div>
-                    <div class="w-full bg-cyan-500 h-[95%] shadow-[0_0_30px_rgba(0,242,255,0.3)]"></div>
-                    <div class="w-full bg-cyan-500/30 h-[40%]"></div>
-                </div>
-                <div class="mt-4 flex justify-between text-[10px] text-gray-600 font-black uppercase italic tracking-widest">
-                    <span>Baseline Tracking Sync</span>
-                    <span class="text-cyan-400">Fused Telemetry: PA5 + PF4 Synergy</span>
-                </div>
+                <p class="text-gray-500 text-sm">Calculated by comparing predictive alerts vs. actual machine breakdown costs.</p>
             </div>
+        </div>
 
-            <!-- Prescriptive AI Report (Sensegrow Style) -->
-            <div class="premium-card p-10 flex flex-col justify-between border-l-4 border-l-orange-500">
-                <div>
-                    <h4 class="text-xs font-black uppercase text-orange-500 mb-8 border-b border-gray-800 pb-4 tracking-widest">AI Prescriptive Analytics</h4>
-                    <div class="p-6 bg-orange-500/5 border border-orange-500/20 rounded-2xl">
-                        <p class="text-[12px] text-orange-400 font-black leading-relaxed italic uppercase tracking-tight">
-                            "System detected structural anomaly in Ammonia Pump #2. Frequency drift indicates a potential seal leak or bearing looseness. Action required within 48 hours to avoid catastrophic failure."
-                        </p>
-                    </div>
-                </div>
-                <div class="mt-10 space-y-4">
-                    <p class="text-[10px] text-gray-600 font-bold uppercase italic text-center">Certified NeuroVibe Predictive Insights</p>
-                    <button class="w-full bhagwa-btn py-4 text-xs">Generate Maintenance Order</button>
+        <!-- Tab: SPECTRUM LOGIC -->
+        <div id="tab-spectrum" class="tab-content">
+            <h3 class="text-2xl font-black mb-6">Frequency Spectrum Analysis</h3>
+            <div class="premium-card">
+                <p class="text-gray-500 italic">Detailed Vibration and Ultrasound waterfall graphs (NV-S1001 Sensors)...</p>
+                <div class="h-64 mt-6 bg-gray-100 rounded-lg flex items-center justify-center border-dashed border-gray-300 border-2">
+                    <i class="fas fa-wave-square text-4xl text-gray-300"></i>
                 </div>
             </div>
         </div>
 
     </main>
+
+    <script>
+        function switchTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active-tab'));
+            // Show selected tab
+            document.getElementById('tab-' + tabId).classList.add('active-tab');
+            // Update buttons
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('nav-active'));
+            document.getElementById('btn-' + tabId).classList.add('nav-active');
+        }
+    </script>
 </body>
 </html>
