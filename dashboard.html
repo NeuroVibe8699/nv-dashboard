@@ -1,4 +1,142 @@
-<!DOCTYPE html>
+<!DOCTYPE<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroVibe AI | Enterprise Intelligence</title>
+    <style>
+        :root { --saffron: #FF9933; --silver: #F5F7F8; --deep-gray: #2C3E50; --white: #FFFFFF; }
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--silver); color: #333; overflow-x: hidden; }
+
+        .container { max-width: 1100px; margin: 20px auto; padding: 0 20px; }
+        .card-white { background: var(--white); padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        
+        /* Table Style */
+        .table-area { background: white; border-radius: 12px; overflow: hidden; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th { background: var(--deep-gray); color: white; padding: 12px; font-size: 0.8rem; }
+        td { padding: 12px; border-bottom: 1px solid #eee; font-size: 0.85rem; }
+
+        /* Progress Bars */
+        .progress-bar { background: #eee; height: 8px; border-radius: 5px; margin: 10px 0 15px; overflow: hidden; }
+        .bar-high { background: #E74C3C; width: 85%; height: 100%; }
+        .bar-med { background: var(--saffron); width: 45%; height: 100%; }
+
+        /* Deep Spectrum Box */
+        .spectrum-black { background: #12141D; padding: 25px; border-radius: 20px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        
+        /* New Content Cards */
+        .device-tech-card { background: white; padding: 25px; border-radius: 15px; border-left: 8px solid var(--saffron); box-shadow: 0 5px 20px rgba(0,0,0,0.05); margin-bottom: 25px; }
+        .arch-flow-box { background: white; padding: 25px; border-radius: 15px; text-align: center; border-top: 4px solid var(--saffron); box-shadow: 0 5px 20px rgba(0,0,0,0.05); margin-bottom: 50px; }
+    </style>
+</head>
+<body>
+
+    <header style="background: var(--deep-gray); color: white; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 5px solid var(--saffron);">
+        <h2 style="margin: 0; color: var(--saffron); font-size: 1.5rem;">NEUROVIBE AI</h2>
+        <nav><ul style="list-style: none; display: flex; gap: 20px; margin: 0; font-size: 0.8rem; font-weight: 600;"><li>Overview</li><li>Asset Risk</li><li>Reports</li></ul></nav>
+    </header>
+
+    <div class="container">
+        <!-- 1. Intro Card -->
+        <div class="card-white" style="border-left: 8px solid var(--saffron);">
+            <h2 style="margin:0; font-size: 1.3rem;">Industrial Intelligence Ecosystem</h2>
+            <p style="font-size:0.85rem; color:#666;">Real-time 30-day failure prediction using <strong>NV-PA5</strong> (PoE) and <strong>NV-PF4</strong> nodes.</p>
+        </div>
+
+        <!-- 2. Metrics Grid -->
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px;">
+            <div class="card-white" style="text-align: center;"><small style="font-weight:bold; color:#999;">FLEET HEALTH</small><h2 style="color:#27AE60; margin:5px 0;">96%</h2></div>
+            <div class="card-white" style="text-align: center;"><small style="font-weight:bold; color:#999;">ACTIVE ALERTS</small><h2 style="color:var(--saffron); margin:5px 0;">02</h2></div>
+            <div class="card-white" style="text-align: center;"><small style="font-weight:bold; color:#999;">ROI SAVED</small><h2 id="roi" style="margin:5px 0;">$142,503.34</h2></div>
+        </div>
+
+        <!-- 3. Asset Risk Table -->
+        <div class="table-area card-white">
+            <h3 style="margin:0 0 10px 0; font-size: 0.9rem; color: #555;">Active Asset Risk Profile</h3>
+            <table>
+                <thead><tr><th>Asset ID</th><th>Machine Name</th><th>Location</th><th>Risk Level</th><th>Status</th></tr></thead>
+                <tbody>
+                    <tr><td>A101</td><td>Asset 1</td><td style="color:#E74C3C; font-weight:bold;">HIGH</td><td>🔴 Critical</td><td>Active</td></tr>
+                    <tr><td>A102</td><td>Asset 2</td><td style="color:#E74C3C; font-weight:bold;">HIGH</td><td>🔴 Critical</td><td>Active</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 4. Deep Spectrum Waveform -->
+        <div class="spectrum-black">
+            <h5 style="margin:0 0 10px 0; font-size:0.75rem; color:var(--saffron); text-transform:uppercase;">NV-Deep Scan Spectrum (Live)</h5>
+            <canvas id="wave" style="width:100%; height:80px;"></canvas>
+        </div>
+
+        <!-- 5. Advanced Tech Specs (Merged with NV Branding) -->
+        <section class="device-tech-card">
+            <h3 style="margin:0 0 20px 0; color:var(--deep-gray);">NV-Intelligence: Device Technical Specifications</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div style="display: flex; gap: 15px;">
+                    <div style="background: #fdf2e9; padding: 10px; border-radius: 8px; border: 1px dashed var(--saffron); height: fit-content;">📟</div>
+                    <div>
+                        <h4 style="margin:0; font-size:0.9rem; color:var(--saffron);">NV-PA5 PoE Node</h4>
+                        <p style="font-size:0.75rem; color:#666;">High-fidelity capture at 12.8k samples/sec. <strong>SS 316 Chemically Resistant</strong> housing for corrosive environments.</p>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 15px;">
+                    <div style="background: #fdf2e9; padding: 10px; border-radius: 8px; border: 1px dashed var(--saffron); height: fit-content;">🎙️</div>
+                    <div>
+                        <h4 style="margin:0; font-size:0.9rem; color:var(--saffron);">NV-PF4 Sensor</h4>
+                        <p style="font-size:0.75rem; color:#666;">Multi-parameter: Vibration, <strong>Ultrasound</strong>, and Magnetic Flux. IP68 Rated with M12 PoE connectivity.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Ecosystem Workflow -->
+        <div class="arch-flow-box">
+            <h4 style="margin:0; font-size:0.9rem; color:#888;">NV-Predictive Ecosystem Connectivity</h4>
+            <div style="display: flex; justify-content: space-around; align-items: center; margin-top: 25px; font-size: 0.65rem; font-weight: 800; color: var(--saffron);">
+                <div>NV-SENSORS <br> <span style="color:#ccc;">>>></span></div>
+                <div>CORE GATEWAY <br> <span style="color:#ccc;">>>></span></div>
+                <div>CLOUD AI <br> <span style="color:#ccc;">>>></span></div>
+                <div>LIVE DASHBOARD</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ROI Real-time Increment
+        let r = 142503.34; 
+        setInterval(() => { 
+            r += 0.05; 
+            document.getElementById('roi').innerText = "$" + r.toLocaleString(undefined, {minimumFractionDigits:2}); 
+        }, 4000);
+
+        // Live Saffron Waveform Logic
+        const canvas = document.getElementById('wave');
+        const ctx = canvas.getContext('2d');
+        let offset = 0;
+
+        function draw() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.beginPath();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = '#FF9933'; // Saffron color
+
+            for (let x = 0; x < canvas.width; x++) {
+                // Sine wave formula with random jitter for realistic industrial look
+                let y = (canvas.height / 2) + Math.sin(x * 0.05 + offset) * 15 + (Math.random() * 5);
+                ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+            offset += 0.15;
+            requestAnimationFrame(draw);
+        }
+        draw();
+    </script>
+</body>
+</html>
+ html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
