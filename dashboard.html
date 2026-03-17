@@ -1,126 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroVibe | Full Spectrum Analytics</title>
+    <meta charset="UTF-8"><title>NeuroVibe | Predictive Analytics OS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com">
     <style>
-        :root { --nv-saffron: #FF9933; --nv-silver: #F9FAFB; --nv-text: #111827; }
-        body { background-color: var(--nv-silver); color: var(--nv-text); font-family: 'Inter', sans-serif; }
-        .sidebar { background-color: #111827; width: 280px; height: 100vh; position: fixed; z-index: 50; }
-        .premium-card { background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 20px; padding: 25px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); transition: 0.3s; }
-        .premium-card:hover { border-color: var(--nv-saffron); transform: translateY(-5px); }
-        .waterfall-bar { width: 100%; border-radius: 4px 4px 0 0; background: linear-gradient(to top, #FF9933, #00F2FF); opacity: 0.8; }
-        .nav-btn { width: 100%; text-align: left; padding: 14px; color: #9CA3AF; font-size: 13px; border-radius: 12px; margin-bottom: 8px; transition: 0.3s; }
-        .nav-active { background: #374151; color: white; border-right: 4px solid var(--nv-saffron); }
+        :root { --nv-saffron: #FF9933; --nv-silver: #F7F9FC; --nv-dark: #111827; }
+        body { background-color: var(--nv-silver); color: #1F2937; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        .sidebar { background-color: var(--nv-dark); width: 280px; height: 100vh; position: fixed; z-index: 100; border-right: 1px solid #2D333F; }
+        .nav-btn { width: 100%; text-align: left; padding: 15px; color: #9CA3AF; font-size: 13px; font-weight: 600; border-radius: 12px; margin-bottom: 8px; transition: 0.3s; }
+        .nav-active { background: #1F2937; color: white; border-left: 4px solid var(--nv-saffron); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .tab-content { display: none; }
+        .active-tab { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .premium-card { background: white; border-radius: 24px; padding: 30px; border: 1px solid #E5E7EB; box-shadow: 0 4px 25px rgba(0,0,0,0.03); }
+        .intro-box { background: linear-gradient(135deg, #111827 0%, #1F2937 100%); color: white; border-radius: 24px; }
     </style>
 </head>
 <body class="flex">
 
-    <!-- 🛡️ Sidebar -->
-    <aside class="sidebar p-8 flex flex-col justify-between shadow-2xl">
+    <!-- 🛡️ Professional Sidebar -->
+    <aside class="sidebar p-8 flex flex-col justify-between">
         <div>
             <div class="mb-14 text-center">
-                <h1 class="text-2xl font-black text-white italic uppercase tracking-tighter">NEURO<span class="text-orange-500">VIBE</span></h1>
-                <p class="text-[9px] uppercase tracking-[0.4em] text-gray-500 font-bold mt-2">Unified Plant-OS</p>
+                <h1 class="text-2xl font-black text-white italic uppercase">NEURO<span class="text-orange-500">VIBE</span></h1>
+                <p class="text-[9px] uppercase tracking-[0.4em] text-gray-500 font-bold mt-2">Industrial Plant-OS</p>
             </div>
-            <nav>
-                <button onclick="switchTab('fleet')" id="btn-fleet" class="nav-btn nav-active"><i class="fas fa-microchip mr-3"></i> Fleet Intelligence</button>
-                <button onclick="switchTab('spectrum')" id="btn-spectrum" class="nav-btn"><i class="fas fa-wave-square mr-3"></i> Spectrum Analysis</button>
-                <button onclick="switchTab('roi')" id="btn-roi" class="nav-btn"><i class="fas fa-file-invoice-dollar mr-3"></i> ROI Summary</button>
+            <nav id="sidebar-nav">
+                <button onclick="openTab(event, 'fleet')" class="nav-btn nav-active"><i class="fas fa-microchip mr-3"></i> Fleet Intelligence</button>
+                <button onclick="openTab(event, 'spectrum')" class="nav-btn"><i class="fas fa-wave-square mr-3"></i> Spectrum Analysis</button>
+                <button onclick="openTab(event, 'roi')" class="nav-btn"><i class="fas fa-file-invoice-dollar mr-3"></i> ROI Summary</button>
             </nav>
         </div>
-        <button onclick="location.href='index.html'" class="text-gray-500 text-[10px] font-bold uppercase hover:text-red-500"><i class="fas fa-sign-out-alt mr-2"></i> Logout</button>
+        <button onclick="location.href='index.html'" class="text-gray-500 text-xs font-bold uppercase hover:text-red-500 transition-all"><i class="fas fa-sign-out-alt mr-2"></i> Exit Hub</button>
     </aside>
 
-    <!-- 🚀 Main Analytics -->
-    <main class="ml-[280px] w-full p-12">
-        
-        <!-- Tab: FLEET INTELLIGENCE (Everything from PDF) -->
-        <div id="tab-fleet" class="space-y-10">
-            <header class="flex justify-between items-end">
-                <div>
-                    <span class="text-orange-500 font-bold uppercase text-[10px] tracking-[0.3em]">SenseFusion Platform</span>
-                    <h2 class="text-4xl font-black mt-2 uppercase tracking-tighter">Asset <span class="italic text-gray-400">Risk Profile</span></h2>
+    <!-- 🚀 Main Workspace -->
+    <main class="ml-[280px] w-full p-12 lg:p-16">
+
+        <!-- TAB 1: FLEET INTELLIGENCE (With Introduction) -->
+        <div id="fleet" class="tab-content active-tab space-y-12">
+            
+            <!-- PDF Style Introduction -->
+            <div class="intro-box p-10 flex flex-col md:flex-row justify-between items-center shadow-2xl">
+                <div class="max-w-2xl">
+                    <h3 class="text-orange-500 font-bold uppercase text-xs tracking-widest mb-4 italic underline decoration-gray-700 decoration-2 underline-offset-8">Our Visionary Edge</h3>
+                    <h2 class="text-4xl font-black mb-4">NeuroVibe: Beyond Vibration.</h2>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Unlike traditional sensors, NeuroVibe integrates **PA5 Vibration** and **PF4 Acoustic Sound Analysis**. We don't just detect movement; we hear mechanical failures before they happen. <b>Our proprietary SS 316L hardware delivers 90%+ diagnostic accuracy</b> for high-criticality assets.
+                    </p>
                 </div>
-                <div class="text-right p-6 premium-card border-none bg-orange-50">
-                    <p class="text-[9px] text-orange-600 font-black uppercase mb-1">Potential Savings (ROI)</p>
-                    <h3 class="text-3xl font-black text-gray-800">$142,500.00</h3>
+                <div class="mt-8 md:mt-0 text-center p-6 bg-white/5 rounded-2xl border border-white/10">
+                    <p class="text-[10px] text-gray-500 uppercase font-bold mb-1 tracking-widest">Calculated ROI</p>
+                    <span class="text-3xl font-black text-orange-500">$142,500.00</span>
                 </div>
-            </header>
+            </div>
 
             <!-- KPI Cards -->
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <div class="premium-card text-center">
-                    <p class="text-[10px] text-gray-400 font-bold uppercase mb-2 tracking-widest">Health Index</p>
-                    <h4 class="text-4xl font-black text-green-500">96%</h4>
+                <div class="premium-card border-t-4 border-green-500">
+                    <p class="text-[10px] text-gray-400 font-bold uppercase mb-2">Fleet Health</p>
+                    <h4 class="text-4xl font-black text-green-600">96%</h4>
                 </div>
-                <div class="premium-card text-center">
-                    <p class="text-[10px] text-gray-400 font-bold uppercase mb-2 tracking-widest">Energy Waste</p>
+                <div class="premium-card border-t-4 border-yellow-500">
+                    <p class="text-[10px] text-gray-400 font-bold uppercase mb-2">Energy Waste</p>
                     <h4 class="text-4xl font-black text-red-500">2.4%</h4>
                 </div>
-                <div class="premium-card text-center border-t-4 border-orange-500">
-                    <p class="text-[10px] text-orange-500 font-bold uppercase mb-2 tracking-widest">Active Alerts</p>
-                    <h4 class="text-4xl font-black">02</h4>
-                </div>
-                <div class="premium-card text-center">
-                    <p class="text-[10px] text-gray-400 font-bold uppercase mb-2 tracking-widest">Run-Hours</p>
+                <div class="premium-card">
+                    <p class="text-[10px] text-gray-400 font-bold uppercase mb-2">Run-Hours</p>
                     <h4 class="text-4xl font-black text-gray-800">1,248h</h4>
                 </div>
+                <div class="premium-card border-t-4 border-orange-500">
+                    <p class="text-[10px] text-orange-500 font-bold uppercase mb-2">Alert Status</p>
+                    <h4 class="text-4xl font-black">02</h4>
+                </div>
             </div>
+        </div>
 
-            <!-- Machine Detail Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <!-- Live Waterfall (Graphic Fix) -->
-                <div class="lg:col-span-2 premium-card">
-                    <div class="flex justify-between mb-8">
-                        <h4 class="text-sm font-bold uppercase tracking-widest"><i class="fas fa-wave-square text-cyan-500 mr-2"></i> Frequency Spectrum (mm/s)</h4>
-                        <span class="text-[9px] text-gray-400 uppercase font-mono">Source: NV-G1001 Gateway</span>
-                    </div>
-                    <div class="h-64 flex items-end justify-between space-x-1 px-4 border-b border-gray-100">
-                        <div class="waterfall-bar h-[30%]"></div>
-                        <div class="waterfall-bar h-[65%]"></div>
-                        <div class="waterfall-bar h-[95%]"></div>
-                        <div class="waterfall-bar h-[40%]"></div>
-                        <div class="waterfall-bar h-[55%]"></div>
-                        <div class="waterfall-bar h-[80%]"></div>
-                        <div class="waterfall-bar h-[35%]"></div>
-                    </div>
-                    <div class="mt-4 flex justify-between text-[9px] text-gray-400 font-bold uppercase">
-                        <span>0 Hz</span><span>500 Hz</span><span>1000 Hz</span><span>2000 Hz</span>
-                    </div>
+        <!-- TAB 2: SPECTRUM ANALYSIS (Waterfall Graphics) -->
+        <div id="spectrum" class="tab-content space-y-8">
+            <h2 class="text-3xl font-black uppercase tracking-tighter">Structural <span class="text-orange-500 italic underline">Frequency Waterfall</span></h2>
+            <div class="premium-card">
+                <div class="h-80 flex items-end justify-between space-x-1 border-b border-gray-100 px-4 pb-4">
+                    <div class="w-full bg-orange-100 h-[20%] rounded-t"></div>
+                    <div class="w-full bg-orange-300 h-[50%] rounded-t"></div>
+                    <div class="w-full bg-orange-500 h-[90%] rounded-t shadow-xl"></div>
+                    <div class="w-full bg-cyan-400 h-[65%] rounded-t"></div>
+                    <div class="w-full bg-orange-400 h-[40%] rounded-t"></div>
+                    <div class="w-full bg-cyan-600 h-[75%] rounded-t shadow-lg"></div>
                 </div>
+                <p class="mt-6 text-xs text-gray-500 font-bold uppercase italic tracking-widest text-center">Telemetry Source: NV-S1001 Fusion Sensor Node (Acoustic + Vibration)</p>
+            </div>
+        </div>
 
-                <!-- Product Image & Specs Card -->
-                <div class="premium-card flex flex-col justify-between">
-                    <div>
-                        <div class="bg-gray-100 h-40 rounded-xl mb-6 flex items-center justify-center border-dashed border-2 border-gray-200">
-                            <i class="fas fa-microchip text-4xl text-gray-300"></i>
-                            <span class="text-[10px] text-gray-400 font-bold ml-2 uppercase"></span>
-                        </div>
-                        <h4 class="font-bold text-gray-800 mb-2">NV-S1001 Sensor Node</h4>
-                        <ul class="text-[11px] text-gray-500 space-y-2 uppercase font-semibold">
-                            <li class="flex justify-between border-b pb-1"><span>Magnetic Flux:</span> <span class="text-orange-500">0.42T</span></li>
-                            <li class="flex justify-between border-b pb-1"><span>Ultrasound:</span> <span class="text-orange-500">32dB</span></li>
-                            <li class="flex justify-between border-b pb-1"><span>Peak RPM:</span> <span class="text-orange-500">2,850</span></li>
-                        </ul>
-                    </div>
-                    <div class="mt-6 p-4 bg-orange-50 border-l-4 border-orange-500 rounded text-[10px] italic text-orange-700 leading-relaxed font-bold">
-                        "AI ACTION: Abnormal bearing frequency detected in Pump #2. Schedule inspection."
-                    </div>
-                </div>
+        <!-- TAB 3: ROI SUMMARY (Financials) -->
+        <div id="roi" class="tab-content">
+            <div class="premium-card text-center py-20 bg-green-50/30">
+                <i class="fas fa-file-invoice-dollar text-6xl text-green-500 mb-8"></i>
+                <h2 class="text-4xl font-black mb-4">Cumulative ROI Analysis</h2>
+                <p class="text-gray-500 text-lg mb-10 max-w-xl mx-auto italic font-semibold">Total breakdown costs avoided through NeuroVibe predictive alerts during Q1 2026.</p>
+                <span class="text-7xl font-black text-gray-800">$142,500.00</span>
             </div>
         </div>
 
     </main>
 
+    <!-- 🛠️ TAB SWITCHING SCRIPT -->
     <script>
-        function switchTab(tabId) {
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('nav-active'));
-            event.currentTarget.classList.add('nav-active');
-            alert("Switching to: " + tabId.toUpperCase() + " (Adding graphics for this section...)");
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove("active-tab");
+            }
+            tablinks = document.getElementsByClassName("nav-btn");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("nav-active");
+            }
+            document.getElementById(tabName).classList.add("active-tab");
+            evt.currentTarget.classList.add("nav-active");
         }
     </script>
 </body>
