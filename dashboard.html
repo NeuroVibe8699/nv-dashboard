@@ -1,49 +1,136 @@
-<!-- Dashboard Look + PDF Intro Integration -->
-<div class="main-content" style="background: #F5F7F8; padding: 30px; font-family: 'Inter', sans-serif;">
-    <!-- 1. PDF Intro Section (NeuroVibe Branding) -->
-    <header style="background: white; padding: 25px; border-radius: 15px; border-left: 8px solid #FF9933; margin-bottom: 30px;">
-        <h1 style="color: #333; margin: 0;">NeuroVibe AI: Beyond Maintenance.</h1>
-        <p style="color: #666; font-size: 1.1rem; line-height: 1.6;">
-            AI-driven predictive ecosystem using <strong>PA5 Vibration</strong> and <strong>PF4 Acoustic Analysis</strong>. 
-            We predict failure risks within a <strong>30-day window</strong> based on PDF technical specs (Temperature, Ultrasound, Magnetic signatures).
-        </p>
-        <div style="margin-top: 10px;">
-            <span style="background: #F0F2F5; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">IP68 RATED | CE CERTIFIED</span>
-        </div>
-    </header>
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroVibe AI | Industrial Enterprise</title>
+    <link href="https://fonts.googleapis.com" rel="stylesheet">
+    <style>
+        :root { --bhagwa: #FF9933; --silver: #F5F7F8; --dark-gray: #2C3E50; --white: #FFFFFF; }
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--silver); display: flex; color: #333; }
+        
+        /* Sidebar - Enterprise Look */
+        .sidebar { width: 260px; background: var(--dark-gray); height: 100vh; position: fixed; border-right: 5px solid var(--bhagwa); padding: 30px 20px; color: white; }
+        .sidebar h1 { color: var(--bhagwa); font-size: 1.8rem; margin-bottom: 5px; }
+        .sidebar p { font-size: 0.7rem; opacity: 0.6; margin-bottom: 40px; letter-spacing: 1px; }
+        nav ul { list-style: none; padding: 0; }
+        nav ul li { padding: 15px 0; border-bottom: 1px solid #444; font-weight: 500; cursor: pointer; transition: 0.3s; }
+        nav ul li:hover { color: var(--bhagwa); padding-left: 10px; }
 
-    <!-- 2. Image Metrics (Exactly like your screenshot) -->
-    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px;">
-        <div style="background: white; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-            <span style="color: #666; font-size: 0.8rem;">HEALTH INDEX</span>
-            <h2 style="color: #27AE60; font-size: 2.2rem; margin: 5px 0;">96%</h2>
+        /* Main Content Area */
+        .content { margin-left: 300px; padding: 40px; width: 100%; }
+
+        /* Intro Section - From Page 2 & 6 of PDF */
+        .intro-card { background: var(--white); padding: 30px; border-radius: 15px; border-left: 10px solid var(--bhagwa); box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 30px; }
+        .intro-card h2 { margin: 0; font-size: 2rem; color: var(--dark-gray); }
+        .intro-card p { line-height: 1.6; color: #666; font-size: 1.1rem; }
+
+        /* Stats Grid - From Page 1 & 5 */
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px; }
+        .stat-box { background: var(--white); padding: 25px; border-radius: 15px; text-align: center; border-bottom: 5px solid var(--bhagwa); box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
+        .stat-box .val { font-size: 2.2rem; font-weight: 900; display: block; margin-top: 5px; }
+        .stat-box .label { font-size: 0.8rem; color: #888; font-weight: bold; text-transform: uppercase; }
+
+        /* Table - From Page 1 */
+        .table-section { background: var(--white); padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th { background: var(--dark-gray); color: white; padding: 15px; text-align: left; }
+        td { padding: 15px; border-bottom: 1px solid #eee; }
+        .risk-high { color: #E74C3C; font-weight: 900; }
+
+        /* Workflow - From Page 6 */
+        .workflow { display: flex; justify-content: space-between; margin-top: 40px; gap: 10px; }
+        .step { background: #E5E8E8; padding: 12px; border-radius: 5px; font-size: 0.75rem; flex: 1; text-align: center; font-weight: bold; border: 1px solid #ccc; }
+        .active-step { background: var(--bhagwa); color: white; border: none; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h1>NEUROVIBE AI</h1>
+        <p>BEYOND MAINTENANCE</p>
+        <nav>
+            <ul>
+                <li>Intelligence Overview</li>
+                <li>Asset Risk Profile</li>
+                <li>Predictive ML Logic</li>
+                <li>Spectrum Analysis</li>
+                <li>Maintenance Reports</li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="content">
+        <!-- Introduction: Data from Photos 2 & 6 -->
+        <section class="intro-card">
+            <h2>Industrial Intelligence Ecosystem</h2>
+            <p>
+                NeuroVibe AI integrates <strong>PA5 Vibration Telemetry</strong> and <strong>PF4 Neuro-Acoustic Analysis</strong> to provide 
+                a 30-day failure prediction window. Using autonomous ML models, we monitor Temperature, Ultrasound, 
+                and Vibration to ensure zero unplanned downtime.
+            </p>
+            <div style="font-size: 0.8rem; font-weight: bold; color: var(--bhagwa);">IP68 RATED | CE CERTIFIED | 72-MONTH ENTERPRISE DATA ARCHIVE</div>
+        </section>
+
+        <!-- Stats: Data from Photos 1 & 5 -->
+        <div class="stats-grid">
+            <div class="stat-box">
+                <span class="label">Fleet Health</span>
+                <span class="val" style="color: #27AE60;">96%</span>
+            </div>
+            <div class="stat-box">
+                <span class="label">Active Alerts</span>
+                <span class="val" style="color: var(--bhagwa);">02</span>
+            </div>
+            <div class="stat-box">
+                <span class="label">Calculated ROI</span>
+                <span id="roi-counter" class="val">$142,500.00</span>
+            </div>
+            <div class="stat-box">
+                <span class="label">Diagnosis Code</span>
+                <span class="val">1324</span>
+            </div>
         </div>
-        <div style="background: white; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-            <span style="color: #666; font-size: 0.8rem;">ACTIVE ALERTS</span>
-            <h2 style="color: #FF9933; font-size: 2.2rem; margin: 5px 0;">02</h2>
+
+        <!-- Asset Table: Data from Photo 1 -->
+        <div class="table-section">
+            <h3>Active Asset Risk Profile (HOGL Plant)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Asset ID</th>
+                        <th>Machine Name</th>
+                        <th>Location</th>
+                        <th>Risk Level</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>A101</td><td>Ammonia Pump #1</td><td>Tank Farm</td><td class="risk-high">HIGH (3 Alerts)</td><td>🔴 Critical</td></tr>
+                    <tr><td>A102</td><td>Ammonia Pump #2</td><td>Tank Farm</td><td class="risk-high">HIGH (2 Alerts)</td><td>🔴 Critical</td></tr>
+                    <tr><td>B131</td><td>Remelter Pump</td><td>Prill Tower</td><td style="color:var(--bhagwa); font-weight:bold;">MEDIUM</td><td>🟡 Monitoring</td></tr>
+                </tbody>
+            </table>
         </div>
-        <div style="background: white; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-            <span style="color: #666; font-size: 0.8rem;">POTENTIAL SAVINGS</span>
-            <h2 style="color: #333; font-size: 1.8rem; margin: 5px 0;">$142,500.00</h2>
+
+        <!-- Workflow: Data from Photo 6 -->
+        <h3>Autonomous Implementation Workflow</h3>
+        <div class="workflow">
+            <div class="step">1. Identify Indicators</div>
+            <div class="step">2. Install NV-Sensors</div>
+            <div class="step">3. Collect Telemetry</div>
+            <div class="step">4. AI Baselining</div>
+            <div class="step active-step">5. Trigger Maintenance Event</div>
         </div>
     </div>
 
-    <!-- 3. Ammonia Pump Table (From PDF Page 1) -->
-    <section style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-        <h3 style="color: #FF9933; margin-top: 0;">Active Asset Risk Profile (HOGL Plant)</h3>
-        <table style="width: 100%; border-collapse: collapse; text-align: left;">
-            <tr style="border-bottom: 2px solid #eee; color: #7F8C8D;">
-                <th style="padding: 12px;">Asset ID</th>
-                <th>Name</th>
-                <th>Risk Level</th>
-                <th>Status</th>
-            </tr>
-            <tr style="border-bottom: 1px solid #eee;">
-                <td>A101</td><td>Ammonia Pump #1</td><td style="color: #E74C3C; font-weight: bold;">HIGH</td><td>3 Alerts</td>
-            </tr>
-            <tr>
-                <td>A102</td><td>Ammonia Pump #2</td><td style="color: #E74C3C; font-weight: bold;">HIGH</td><td>2 Alerts</td>
-            </tr>
-        </table>
-    </section>
-</div>
+    <script>
+        // Real-Time ROI Logic
+        let currentROI = 142500.00;
+        setInterval(() => {
+            currentROI += 0.04;
+            document.getElementById('roi-counter').innerText = "$" + currentROI.toLocaleString(undefined, {minimumFractionDigits: 2});
+        }, 4000);
+    </script>
+</body>
+</html>
