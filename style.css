@@ -1,0 +1,39 @@
+:root {
+    --bhagwa: #FF9933;
+    --silver-white: #F0F2F5;
+    --gray-deep: #2C3E50;
+    --glass: rgba(255, 255, 255, 0.9);
+}
+
+body { 
+    background: var(--silver-white); 
+    font-family: 'Segoe UI', sans-serif; 
+    margin: 0; display: flex; 
+}
+
+/* Sidebar with Bhagwa Identity */
+.sidebar {
+    width: 250px; background: var(--gray-deep); height: 100vh;
+    border-right: 6px solid var(--bhagwa); color: white; padding: 20px;
+}
+
+.brand-h2 span { color: var(--bhagwa); text-shadow: 0 0 10px rgba(255,153,51,0.3); }
+
+/* ROI Neon Glow Card */
+.roi-card {
+    background: var(--bhagwa); color: white; padding: 15px;
+    border-radius: 12px; box-shadow: 0 10px 20px rgba(255,153,51,0.4);
+    font-weight: 800; text-align: center; margin-bottom: 30px;
+}
+
+/* Animated Asset Cards */
+.asset-card {
+    background: var(--glass); border-left: 5px solid var(--bhagwa);
+    padding: 20px; border-radius: 10px; margin: 15px 0;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s;
+}
+
+.asset-card:hover { transform: translateY(-5px); border-left: 8px solid var(--bhagwa); }
+
+.status-live { color: #27AE60; font-weight: bold; animation: blink 1.5s infinite; }
+@keyframes blink { 0% {opacity:1;} 50% {opacity:0.4;} 100% {opacity:1;} }
