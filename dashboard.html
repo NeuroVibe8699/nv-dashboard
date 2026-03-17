@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroVibe AI | Enterprise Intelligence</title>
+    <title>NeuroVibe AI | Unified Intelligence</title>
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
         :root { --saffron: #FF9933; --silver: #F5F7F8; --deep-gray: #2C3E50; --white: #FFFFFF; }
-        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--silver); color: #333; overflow-x: hidden; }
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--silver); color: #333; }
 
         .top-header {
             background: var(--deep-gray); color: white; padding: 15px 40px;
@@ -21,34 +21,27 @@
 
         .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
 
-        .intro-card {
-            background: var(--white); padding: 30px; border-radius: 15px;
-            border-left: 10px solid var(--saffron); box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            margin-bottom: 30px;
+        /* Integrated Device Architecture Section (Inspired by Photo 2) */
+        .architecture-box {
+            background: var(--white); padding: 40px; border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.05); margin-bottom: 40px;
+            text-align: center; border-top: 8px solid var(--saffron);
         }
-        .intro-text h1 { margin: 0; font-size: 1.8rem; color: var(--deep-gray); }
-        .intro-text p { color: #666; line-height: 1.6; margin-top: 10px; }
-
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
-        .stat-card { background: var(--white); padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .stat-card .val { font-size: 2.2rem; font-weight: 900; display: block; }
-        .stat-card .label { font-size: 0.75rem; color: #888; font-weight: bold; text-transform: uppercase; }
+        .arch-flow {
+            display: flex; justify-content: space-around; align-items: center;
+            margin-top: 40px; position: relative;
+        }
+        .node { flex: 1; text-align: center; position: relative; }
+        .node i { display: block; font-size: 0.7rem; font-weight: bold; color: var(--saffron); margin-top: 10px; }
+        .arrow { flex: 0.5; height: 2px; background: dashed #ccc; border-top: 2px dashed var(--saffron); margin: 0 10px; }
 
         .asset-table { background: var(--white); padding: 25px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); margin-bottom: 30px; }
         table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th { background: var(--deep-gray); color: white; padding: 12px; text-align: left; font-size: 0.85rem; }
-        td { padding: 12px; border-bottom: 1px solid #eee; font-size: 0.9rem; }
+        th { background: var(--deep-gray); color: white; padding: 12px; text-align: left; }
+        td { padding: 12px; border-bottom: 1px solid #eee; }
         .risk-high { color: #E74C3C; font-weight: 800; }
 
-        .risk-analysis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px; }
-        .analysis-box { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); border-top: 5px solid var(--saffron); }
-        .device-box { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); display: flex; gap: 20px; border-top: 5px solid var(--deep-gray); align-items: center; }
-        
-        .progress-bar { background: #eee; height: 8px; border-radius: 5px; margin: 10px 0 20px; overflow: hidden; }
-        .bar-high { background: #E74C3C; width: 85%; height: 100%; }
-        .bar-med { background: var(--saffron); width: 45%; height: 100%; }
-
-        .spectrum-container { margin-top: 30px; background: #12141D; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .spectrum-container { background: #12141D; padding: 25px; border-radius: 20px; margin-top: 30px; }
     </style>
 </head>
 <body>
@@ -59,75 +52,58 @@
     </header>
 
     <div class="container">
-        <!-- Corrected Intro: No 72-Months -->
-        <section class="intro-card">
-            <div class="intro-text">
-                <h1>Industrial Intelligence Ecosystem</h1>
-                <p>Integrating <strong>NV-PA5 Vibration Telemetry</strong> and <strong>NV-PF4 Neuro-Acoustic Analysis</strong> for real-time 30-day failure prediction.</p>
-                <div style="font-size: 0.75rem; font-weight: bold; color: var(--saffron);">IP68 RATED | CE CERTIFIED</div>
+        <!-- New Architecture Section: Inspired by Photo 2 -->
+        <section class="architecture-box">
+            <h2 style="color: var(--deep-gray); margin: 0;">A New and Better Way</h2>
+            <p style="color: #666; margin-top: 10px;">Our seamless connectivity from edge to cloud ensures real-time industrial intelligence.</p>
+            
+            <div class="arch-flow">
+                <div class="node">
+                    <svg width="60" height="60" viewBox="0 0 100 100"><rect x="20" y="20" width="60" height="60" rx="5" fill="none" stroke="#FF9933" stroke-width="3""")/>></svg>
+                    <i>NV-SENSORS (PA5/PF4)</i>
+                </div>
+                <div class="arrow"></div>
+                <div class="node">
+                    <svg width="60" height="60" viewBox="0 0 100 100"><rect x="30" y="30" width="40" height="40" fill="#2C3E50""")/>><path d="M50 10 L50 30" stroke="#FF9933" stroke-width="2""")/>></svg>
+                    <i>CORE GATEWAY</i>
+                </div>
+                <div class="arrow"></div>
+                <div class="node">
+                    <svg width="60" height="60" viewBox="0 0 100 100"><path d="M20 70 Q50 20 80 70 Z" fill="none" stroke="#FF9933" stroke-width="3""")/>></svg>
+                    <i>NEUROVIBE AI CLOUD</i>
+                </div>
+                <div class="arrow"></div>
+                <div class="node">
+                    <svg width="60" height="60" viewBox="0 0 100 100"><rect x="10" y="20" width="80" height="50" rx="2" fill="none" stroke="#2C3E50" stroke-width="3""")/>></svg>
+                    <i>LIVE DASHBOARD</i>
+                </div>
             </div>
         </section>
 
-        <!-- Stats -->
-        <div class="stats-grid">
-            <div class="stat-card"><span class="label">Fleet Health</span><span class="val" style="color: #27AE60;">96%</span></div>
-            <div class="stat-card"><span class="label">Active Alerts</span><span class="val" style="color: var(--saffron);">02</span></div>
-            <div class="stat-card"><span class="label">ROI Saved</span><span id="roi-counter" class="val">$142,503.64</span></div>
-        </div>
-
-        <!-- Corrected Table: Asset 1, Asset 2 -->
+        <!-- Metrics & Assets -->
         <div class="asset-table">
-            <h3 style="margin:0; color:var(--deep-gray);">Active Asset Risk Profile (Plant Overview)</h3>
+            <h3 style="margin:0; color:var(--deep-gray);">Active Asset Risk Profile</h3>
             <table>
                 <thead>
-                    <tr><th>Asset ID</th><th>Machine Name</th><th>Location</th><th>Risk Level</th><th>Status</th></tr>
+                    <tr><th>Asset ID</th><th>Machine Name</th><th>Risk Level</th><th>Status</th></tr>
                 </thead>
                 <tbody>
-                    <tr><td>A101</td><td>Asset 1</td><td>Tank Farm</td><td class="risk-high">HIGH (3 Alerts)</td><td>🔴 Critical</td></tr>
-                    <tr><td>A102</td><td>Asset 2</td><td>Tank Farm</td><td class="risk-high">HIGH (2 Alerts)</td><td>🔴 Critical</td></tr>
-                    <tr><td>B131</td><td>Asset 3</td><td>Prill Tower</td><td style="color:var(--saffron); font-weight:bold;">MEDIUM</td><td>🟡 Monitor</td></tr>
+                    <tr><td>A101</td><td>Asset 1</td><td class="risk-high">HIGH</td><td>🔴 Critical Alert</td></tr>
+                    <tr><td>A102</td><td>Asset 2</td><td class="risk-high">HIGH</td><td>🔴 Early Fault</td></tr>
+                    <tr><td>B131</td><td>Asset 3</td><td style="color:var(--saffron); font-weight:bold;">MEDIUM</td><td>🟡 Monitoring</td></tr>
                 </tbody>
             </table>
         </div>
 
-        <!-- Corrected Section: No "Photo 1" -->
-        <div class="risk-analysis-grid">
-            <div class="analysis-box">
-                <h3 style="margin-top:0; font-size:1rem; color:var(--deep-gray);">Failure Risk Distribution</h3>
-                <label style="font-size: 0.7rem; font-weight:bold;">BEARING FAULT ANALYSIS</label>
-                <div class="progress-bar"><div class="bar-high"></div></div>
-                <label style="font-size: 0.7rem; font-weight:bold;">MISALIGNMENT DETECTION</label>
-                <div class="progress-bar"><div class="bar-med"></div></div>
-            </div>
-
-            <div class="device-box">
-                <div style="border:1px dashed var(--saffron); padding:10px; border-radius:10px; text-align:center;">
-                    <svg width="60" height="60" viewBox="0 0 100 100">
-                        <rect x="30" y="20" width="40" height="60" rx="4" fill="none" stroke="#FF9933" stroke-width="2.5" />
-                        <circle cx="50" cy="45" r="8" fill="#2C3E50" />
-                    </svg>
-                    <p style="font-size:0.6rem; font-weight:bold; margin:5px 0;">NV-CORE HUB</p>
-                </div>
-                <div>
-                    <h4 style="margin:0; color:var(--saffron); font-size:0.9rem;">Edge Computing Node</h4>
-                    <p style="font-size:0.75rem; color:#666; line-height:1.4;">NV-PA5 captures 12.8k samples/sec for ultra-fast fault analysis at source.</p>
-                </div>
-            </div>
-        </div>
-
+        <!-- Live Spectrum -->
         <div class="spectrum-container">
-            <h4 style="color:var(--saffron); margin-top:0; font-size:0.9rem;">Deep-Scan Spectrum Analysis (Live)</h4>
+            <h4 style="color:var(--saffron); margin-top:0; font-size:0.9rem;">Deep-Scan Spectrum Analysis</h4>
             <canvas id="spectrumWave" style="width: 100%; height: 100px;"></canvas>
         </div>
     </div>
 
     <script>
-        let roi = 142503.64;
-        setInterval(() => {
-            roi += 0.05;
-            document.getElementById('roi-counter').innerText = "$" + roi.toLocaleString(undefined, {minimumFractionDigits: 2});
-        }, 4000);
-
+        // Wave Animation Logic
         const canvas = document.getElementById('spectrumWave');
         const ctx = canvas.getContext('2d');
         function animate() {
