@@ -1,3 +1,44 @@
+<!-- Top Navigation with View Switcher -->
+<nav class="nv-nav">
+    <div class="logo">NEUROVIBE <span>AI</span></div>
+    <div class="menu">
+        <button onclick="toggleView('original')" class="view-btn">NV-Core View</button>
+        <button onclick="toggleView('enterprise')" class="view-btn">NV-Enterprise (New Features)</button>
+    </div>
+    <div class="sys-id">NV-8699-ALPHA</div>
+</nav>
+
+<!-- MODE 1: Your Original Image Design (Safe Zone) -->
+<div id="original-view" class="dashboard-content">
+    <!-- Image wala sara code yahan (KPIs, Waveform, PA3 Node) -->
+    <section class="spectrum-analysis">
+        <h3>DEEP-SCAN SPECTRUM ANALYSIS (LIVE)</h3>
+        <canvas id="waveCanvas"></canvas> 
+    </section>
+</div>
+
+<!-- MODE 2: New Sensegrow Features (Experimental Zone) -->
+<div id="enterprise-view" class="dashboard-content" style="display:none;">
+    <section class="nv-enterprise-card">
+        <h2>NV-P72 Enterprise Insights (Sensegrow Logic)</h2>
+        <div class="feature-grid">
+            <div class="feature-box">
+                <h4>Maintenance Savings</h4>
+                <p>29% Reduction (AI Target)</p>
+            </div>
+            <div class="feature-box">
+                <h4>PoE Connectivity</h4>
+                <p>SS 316 Chemically Resistant Hub</p>
+            </div>
+            <div class="feature-box">
+                <h4>ROI Prediction</h4>
+                <p>Up to 10x Operational Value</p>
+            </div>
+        </div>
+        <!-- Yahan wo 6 parameters: Ultrasound, Flux, etc. -->
+    </section>
+</div>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
