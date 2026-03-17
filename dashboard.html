@@ -1,56 +1,54 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroVibe AI | Industrial Enterprise</title>
+    <title>NeuroVibe AI | Enterprise Dashboard</title>
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
-        :root { --bhagwa: #FF9933; --silver: #F5F7F8; --dark-gray: #2C3E50; --white: #FFFFFF; }
-        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--silver); display: flex; color: #333; }
-        
-        /* Sidebar - Enterprise Look */
-        .sidebar { width: 260px; background: var(--dark-gray); height: 100vh; position: fixed; border-right: 5px solid var(--bhagwa); padding: 30px 20px; color: white; }
-        .sidebar h1 { color: var(--bhagwa); font-size: 1.8rem; margin-bottom: 5px; }
-        .sidebar p { font-size: 0.7rem; opacity: 0.6; margin-bottom: 40px; letter-spacing: 1px; }
+        :root { --bhagwa: #FF9933; --silver: #F5F7F8; --gray-dark: #2C3E50; --white: #FFFFFF; }
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--silver); display: flex; color: #333; overflow-x: hidden; }
+
+        /* Sidebar Styling */
+        .sidebar { width: 260px; background: var(--gray-dark); height: 100vh; position: fixed; border-right: 6px solid var(--bhagwa); color: white; padding: 30px 20px; transition: 0.3s; }
+        .sidebar h2 { color: var(--bhagwa); margin-bottom: 5px; font-size: 1.6rem; }
+        .sidebar p { font-size: 0.7rem; opacity: 0.6; margin-bottom: 40px; text-transform: uppercase; }
         nav ul { list-style: none; padding: 0; }
-        nav ul li { padding: 15px 0; border-bottom: 1px solid #444; font-weight: 500; cursor: pointer; transition: 0.3s; }
+        nav ul li { padding: 15px 0; border-bottom: 1px solid #444; cursor: pointer; transition: 0.3s; font-weight: 500; font-size: 0.9rem; }
         nav ul li:hover { color: var(--bhagwa); padding-left: 10px; }
 
-        /* Main Content Area */
-        .content { margin-left: 300px; padding: 40px; width: 100%; }
+        /* Main Content Styling */
+        .main-content { margin-left: 300px; padding: 40px; width: calc(100% - 340px); }
+        header { background: var(--white); padding: 30px; border-radius: 15px; border-left: 10px solid var(--bhagwa); box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 30px; }
+        header h1 { margin: 0; font-size: 2rem; color: var(--gray-dark); }
+        header p { color: #666; line-height: 1.6; margin-top: 10px; }
 
-        /* Intro Section - From Page 2 & 6 of PDF */
-        .intro-card { background: var(--white); padding: 30px; border-radius: 15px; border-left: 10px solid var(--bhagwa); box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 30px; }
-        .intro-card h2 { margin: 0; font-size: 2rem; color: var(--dark-gray); }
-        .intro-card p { line-height: 1.6; color: #666; font-size: 1.1rem; }
-
-        /* Stats Grid - From Page 1 & 5 */
+        /* Metrics Grid */
         .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px; }
-        .stat-box { background: var(--white); padding: 25px; border-radius: 15px; text-align: center; border-bottom: 5px solid var(--bhagwa); box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
-        .stat-box .val { font-size: 2.2rem; font-weight: 900; display: block; margin-top: 5px; }
-        .stat-box .label { font-size: 0.8rem; color: #888; font-weight: bold; text-transform: uppercase; }
+        .stat-card { background: var(--white); padding: 25px; border-radius: 15px; text-align: center; border-bottom: 5px solid var(--bhagwa); box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        .stat-card .val { font-size: 2.2rem; font-weight: 800; display: block; margin-top: 5px; }
+        .stat-card .label { font-size: 0.75rem; color: #888; font-weight: bold; text-transform: uppercase; }
 
-        /* Table - From Page 1 */
-        .table-section { background: var(--white); padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        /* Asset Risk Table (From PDF Page 1) */
+        .table-section { background: var(--white); padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 30px; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th { background: var(--dark-gray); color: white; padding: 15px; text-align: left; }
+        th { background: var(--gray-dark); color: white; padding: 15px; text-align: left; }
         td { padding: 15px; border-bottom: 1px solid #eee; }
-        .risk-high { color: #E74C3C; font-weight: 900; }
+        .risk-high { color: #E74C3C; font-weight: 800; }
 
-        /* Workflow - From Page 6 */
-        .workflow { display: flex; justify-content: space-between; margin-top: 40px; gap: 10px; }
-        .step { background: #E5E8E8; padding: 12px; border-radius: 5px; font-size: 0.75rem; flex: 1; text-align: center; font-weight: bold; border: 1px solid #ccc; }
+        /* Workflow Steps (From PDF Page 6) */
+        .workflow { display: flex; justify-content: space-between; gap: 10px; margin-top: 20px; }
+        .step { background: #ECF0F1; padding: 15px; border-radius: 8px; flex: 1; text-align: center; font-size: 0.8rem; border: 1px solid #ddd; font-weight: bold; }
         .active-step { background: var(--bhagwa); color: white; border: none; }
     </style>
 </head>
 <body>
 
     <div class="sidebar">
-        <h1>NEUROVIBE AI</h1>
-        <p>BEYOND MAINTENANCE</p>
+        <h2>NEUROVIBE AI</h2>
+        <p>Beyond Maintenance</p>
         <nav>
-            <ul>
+            <ul id="side-nav">
                 <li>Intelligence Overview</li>
                 <li>Asset Risk Profile</li>
                 <li>Predictive ML Logic</li>
@@ -60,50 +58,28 @@
         </nav>
     </div>
 
-    <div class="content">
-        <!-- Introduction: Data from Photos 2 & 6 -->
-        <section class="intro-card">
-            <h2>Industrial Intelligence Ecosystem</h2>
-            <p>
-                NeuroVibe AI integrates <strong>PA5 Vibration Telemetry</strong> and <strong>PF4 Neuro-Acoustic Analysis</strong> to provide 
-                a 30-day failure prediction window. Using autonomous ML models, we monitor Temperature, Ultrasound, 
-                and Vibration to ensure zero unplanned downtime.
-            </p>
-            <div style="font-size: 0.8rem; font-weight: bold; color: var(--bhagwa);">IP68 RATED | CE CERTIFIED | 72-MONTH ENTERPRISE DATA ARCHIVE</div>
-        </section>
+    <div class="main-content">
+        <!-- Intro from Photos -->
+        <header>
+            <h1>Industrial Intelligence Ecosystem</h1>
+            <p>Integrating <strong>PA5 Vibration Telemetry</strong> and <strong>PF4 Neuro-Acoustic Analysis</strong> to provide 30-day failure prediction. Autonomous ML models monitor Temperature, Ultrasound, and Vibration to ensure zero downtime.</p>
+            <div style="font-size: 0.75rem; font-weight: bold; color: var(--bhagwa); margin-top: 10px;">IP68 RATED | CE CERTIFIED | 72-MONTH ARCHIVE</div>
+        </header>
 
-        <!-- Stats: Data from Photos 1 & 5 -->
+        <!-- Live Stats Grid -->
         <div class="stats-grid">
-            <div class="stat-box">
-                <span class="label">Fleet Health</span>
-                <span class="val" style="color: #27AE60;">96%</span>
-            </div>
-            <div class="stat-box">
-                <span class="label">Active Alerts</span>
-                <span class="val" style="color: var(--bhagwa);">02</span>
-            </div>
-            <div class="stat-box">
-                <span class="label">Calculated ROI</span>
-                <span id="roi-counter" class="val">$142,500.00</span>
-            </div>
-            <div class="stat-box">
-                <span class="label">Diagnosis Code</span>
-                <span class="val">1324</span>
-            </div>
+            <div class="stat-card"><span class="label">Fleet Health</span><span class="val" style="color: #27AE60;">96%</span></div>
+            <div class="stat-card"><span class="label">Active Alerts</span><span class="val" style="color: var(--bhagwa);">02</span></div>
+            <div class="stat-card"><span class="label">Calculated ROI</span><span id="roi-counter" class="val">$142,500.04</span></div>
+            <div class="stat-card"><span class="label">Diagnosis Code</span><span class="val">1324</span></div>
         </div>
 
-        <!-- Asset Table: Data from Photo 1 -->
+        <!-- Asset Table from Photo 1 -->
         <div class="table-section">
-            <h3>Active Asset Risk Profile (HOGL Plant)</h3>
+            <h3 style="margin: 0; color: var(--bhagwa);">Active Asset Risk Profile (HOGL Plant)</h3>
             <table>
                 <thead>
-                    <tr>
-                        <th>Asset ID</th>
-                        <th>Machine Name</th>
-                        <th>Location</th>
-                        <th>Risk Level</th>
-                        <th>Status</th>
-                    </tr>
+                    <tr><th>Asset ID</th><th>Machine Name</th><th>Location</th><th>Risk Level</th><th>Status</th></tr>
                 </thead>
                 <tbody>
                     <tr><td>A101</td><td>Ammonia Pump #1</td><td>Tank Farm</td><td class="risk-high">HIGH (3 Alerts)</td><td>🔴 Critical</td></tr>
@@ -113,23 +89,38 @@
             </table>
         </div>
 
-        <!-- Workflow: Data from Photo 6 -->
-        <h3>Autonomous Implementation Workflow</h3>
+        <!-- Workflow from Photo 6 -->
+        <h3 style="color: var(--gray-dark);">Implementation Workflow</h3>
         <div class="workflow">
-            <div class="step">1. Identify Indicators</div>
-            <div class="step">2. Install NV-Sensors</div>
-            <div class="step">3. Collect Telemetry</div>
-            <div class="step">4. AI Baselining</div>
-            <div class="step active-step">5. Trigger Maintenance Event</div>
+            <div class="step">Identify Indicators</div>
+            <div class="step">Install NV-Sensors</div>
+            <div class="step">Collect Telemetry</div>
+            <div class="step">AI Baselining</div>
+            <div class="step active-step">Trigger Maintenance</div>
         </div>
     </div>
 
     <script>
-        // Real-Time ROI Logic
-        let currentROI = 142500.00;
+        // Sidebar Interaction Logic
+        const navItems = document.querySelectorAll('#side-nav li');
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                navItems.forEach(li => { li.style.color = 'white'; li.style.borderLeft = 'none'; });
+                item.style.color = '#FF9933';
+                item.style.borderLeft = '4px solid #FF9933';
+                item.style.paddingLeft = '10px';
+                console.log("Section selected: " + item.innerText);
+            });
+        });
+
+        // Real-Time ROI Counter Logic
+        let roiValue = 142500.04;
         setInterval(() => {
-            currentROI += 0.04;
-            document.getElementById('roi-counter').innerText = "$" + currentROI.toLocaleString(undefined, {minimumFractionDigits: 2});
+            roiValue += 0.06;
+            const roiDisplay = document.getElementById('roi-counter');
+            if(roiDisplay) {
+                roiDisplay.innerText = "$" + roiValue.toLocaleString(undefined, {minimumFractionDigits: 2});
+            }
         }, 4000);
     </script>
 </body>
