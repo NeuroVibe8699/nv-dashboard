@@ -1,48 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroVibe | Secure Portal</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { background: #0F1115; font-family: sans-serif; display: flex; align-items: center; justify-content: center; min-height: screen; margin: 0; }
-        .glass-card { background: #1E1F22; border: 1px solid #373A40; border-radius: 20px; padding: 40px; width: 100%; max-width: 400px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
-        input { width: 100%; background: #000; border: 1px solid #444; color: #FF9933; padding: 15px; border-radius: 12px; margin-bottom: 20px; outline: none; text-align: center; font-size: 18px; letter-spacing: 2px; }
-        .login-btn { width: 100%; background: linear-gradient(135deg, #FF9933 0%, #E67E22 100%); color: white; font-weight: bold; padding: 15px; border-radius: 12px; cursor: pointer; border: none; text-transform: uppercase; letter-spacing: 1px; }
-    </style>
-</head>
-<body class="bg-[#0F1115] h-screen flex items-center justify-center">
-
-    <div class="glass-card">
-        <h1 class="text-3xl font-black text-white mb-2 tracking-tighter">NEURO<span class="text-[#FF9933]">VIBE</span></h1>
-        <p class="text-[10px] text-gray-500 uppercase tracking-[0.4em] mb-10">Industrial OS Portal</p>
-        
-        <input type="text" id="userid" placeholder="ENTER USER ID">
-        <input type="password" id="passkey" placeholder="TERMINAL KEY">
-        
-        <button onclick="login()" class="login-btn">Authenticate System</button>
-        
-        <div class="mt-6">
-            <button onclick="alert('Contact Admin for Password Reset')" class="text-gray-600 text-[10px] uppercase font-bold tracking-widest hover:text-[#FF9933]">
-                Forgot System Key?
-            </button>
-        </div>
-    </div>
-
-    <script>
-        function login() {
-            const u = document.getElementById('userid').value;
-            const p = document.getElementById('passkey').value;
-            
-            if (u === 'admin' && p === 'nvdashboard8699') {
-                window.location.href = 'admin.html';
-            } else if (u === 'client01' && p === 'client8699') {
-                window.location.href = 'dashboard.html';
-            } else {
-                alert("ACCESS DENIED: Invalid Credentials");
-            }
-        }
-    </script>
-</body>
-</html>
+<!-- index.html में "Portal Access" की जगह ये बटन डालें -->
+<div class="flex space-x-4 justify-center mt-10">
+    <button onclick="location.href='dashboard.html'" class="bhagwa-btn px-8 py-4 rounded-2xl text-sm font-black uppercase tracking-widest shadow-2xl">
+        <i class="fas fa-chart-line mr-2"></i> View Live Demo Dashboard
+    </button>
+    <button onclick="document.getElementById('login-modal').classList.remove('hidden')" class="border border-gray-700 px-8 py-4 rounded-2xl text-xs font-bold uppercase tracking-widest hover:bg-gray-800 transition">
+        Admin Login
+    </button>
+</div>
