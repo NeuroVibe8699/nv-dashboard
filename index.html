@@ -1,68 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroVibe | Predictive AI Plant-OS</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com">
-    <style>
-        :root { --nv-saffron: #FF9933; --nv-sapphire: #12141D; }
-        body { background-color: var(--nv-sapphire); color: white; font-family: 'Inter', sans-serif; margin: 0; }
-        .hero-section { background: radial-gradient(circle at top right, #1C1F26, #12141D); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; }
-        .bhagwa-btn { background: linear-gradient(135deg, #FF9933 0%, #E67E22 100%); color: white; font-weight: 800; padding: 18px 40px; border-radius: 18px; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 10px 30px rgba(255, 153, 51, 0.3); }
-        .bhagwa-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(255, 153, 51, 0.4); }
-        .login-input { background: #000; border: 1px solid #373A40; color: #FF9933; padding: 15px; border-radius: 12px; width: 100%; text-align: center; margin-bottom: 15px; outline: none; }
-        #login-modal { background: rgba(0,0,0,0.9); z-index: 100; position: fixed; inset: 0; display: none; align-items: center; justify-content: center; }
-    </style>
-</head>
-<body>
-
-    <!-- 🌐 Main Hero Website -->
-    <div class="hero-section">
-        <h1 class="text-4xl md:text-7xl font-black italic tracking-tighter mb-4 uppercase">NEURO<span class="text-orange-500">VIBE</span></h1>
-        <p class="text-orange-500 font-bold uppercase tracking-[0.4em] text-[10px] mb-10">Advanced Predictive Intelligence</p>
+<body style="background: #F5F7F8; color: #333; margin: 0; font-family: 'Segoe UI', sans-serif;">
+    <div style="height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+        <h1 style="font-size: 3.5rem; letter-spacing: 2px;">NEURO<span style="color: #FF9933;">VIBE AI</span></h1>
+        <p style="font-size: 1.2rem; color: #7F8C8D; max-width: 600px; padding: 0 20px;">
+            NeuroVibe AI: Beyond Maintenance. Powered by PA5 Vibration & PF4 Acoustic Analysis for 30-day failure prediction.
+        </p>
         
-        <h2 class="text-3xl md:text-5xl font-extrabold max-w-4xl mb-12 leading-tight">
-            Industrial Maintenance <br><span class="text-gray-500">Re-Engineered with AI.</span>
-        </h2>
-
-        <!-- Action Buttons -->
-        <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6">
-            <button onclick="location.href='dashboard.html'" class="bhagwa-btn">
-                <i class="fas fa-chart-line mr-2"></i> View Live Demo Dashboard
-            </button>
-            <button onclick="document.getElementById('login-modal').style.display='flex'" class="px-8 py-4 border border-gray-700 rounded-18 text-xs font-bold uppercase tracking-widest hover:bg-gray-800 transition">
-                <i class="fas fa-lock mr-2"></i> Admin Login
-            </button>
-        </div>
-
-        <p class="mt-20 text-gray-600 text-[10px] uppercase font-bold tracking-widest">Powered by NV-Series PA5 + PF4 Sensor Fusion</p>
+        <!-- Direct Saffron Button: No Password -->
+        <a href="dashboard.html" style="margin-top: 30px; background: #FF9933; color: white; padding: 18px 45px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 1.1rem; box-shadow: 0 10px 25px rgba(255,153,51,0.4);">
+            EXPLORE LIVE DASHBOARD →
+        </a>
     </div>
-
-    <!-- 🔐 Admin Login Modal -->
-    <div id="login-modal">
-        <div class="bg-[#1C1F26] p-10 rounded-3xl border border-gray-800 w-full max-w-sm relative">
-            <button onclick="document.getElementById('login-modal').style.display='none'" class="absolute top-5 right-5 text-gray-500 hover:text-white"><i class="fas fa-times"></i></button>
-            <h3 class="text-xl font-black mb-8 text-center uppercase tracking-widest text-white">Master <span class="text-orange-500">Authentication</span></h3>
-            
-            <input type="text" id="uid" placeholder="ADMIN USER ID" class="login-input">
-            <input type="password" id="pass" placeholder="MASTER TERMINAL KEY" class="login-input tracking-widest">
-            
-            <button onclick="auth()" class="w-full bhagwa-btn py-4 rounded-xl text-sm">Verify Identity</button>
-        </div>
-    </div>
-
-    <script>
-        function auth() {
-            const u = document.getElementById('uid').value;
-            const p = document.getElementById('pass').value;
-            if(u === 'admin' && p === 'nvdashboard8699') {
-                window.location.href = 'admin.html';
-            } else {
-                alert("ACCESS DENIED: Master Credentials Required.");
-            }
-        }
-    </script>
 </body>
-</html>
