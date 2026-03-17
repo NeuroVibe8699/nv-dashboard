@@ -1,3 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NV Industrial Intelligence | Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com" rel="stylesheet">
+</head>
+<body>
+
+    <!-- 1. NV Top Taskbar (SenseGrow Style Navigation) -->
+    <nav class="nv-navbar">
+        <div class="nv-logo">NEUROVIBE <span>AI</span></div>
+        <ul class="nv-nav-menu">
+            <li><a href="#">NV-Predictive</a></li>
+            <li><a href="#">Asset Health</a></li>
+            <li><a href="#">NV-PoE Analytics</a></li>
+            <li class="nv-sys-id">SYSTEM: NV-8699-ALPHA</li>
+        </ul>
+        <button class="nv-cta">Request NV-Support</button>
+    </nav>
+
+    <!-- 2. Main Dashboard Content -->
+    <main class="nv-container">
+        <header class="nv-page-header">
+            <h1>Asset Intelligence Overview</h1>
+            <p>Real-time telemetry from <strong>NV-P72 PoE Sensors</strong></p>
+        </header>
+
+        <!-- 3. NV Asset Profile Card (The Core Component) -->
+        <section class="nv-asset-card">
+            <div class="nv-card-top">
+                <div class="nv-model-info">
+                    <h2>NV-P72 PRO</h2>
+                    <span>Industrial PoE Vibration & Ultrasound Monitoring</span>
+                </div>
+                <div class="nv-status-badge">NV-CORE ACTIVE</div>
+            </div>
+
+            <!-- 4. Stats Grid (Vibration, Flux, Ultrasound, ROI) -->
+            <div class="nv-stats-grid">
+                <div class="nv-stat-item">
+                    <label>NV-Vibration (Tri-Axial)</label>
+                    <div class="nv-value" id="nv-vib">1.42 <span>mm/s</span></div>
+                </div>
+                <div class="nv-stat-item">
+                    <label>NV-Acoustic Emission</label>
+                    <div class="nv-value" id="nv-ultra">Optimal</div>
+                </div>
+                <div class="nv-stat-item">
+                    <label>NV-Magnetic Flux</label>
+                    <div class="nv-value" id="nv-flux">Stable</div>
+                </div>
+                <!-- Highlighted ROI Card -->
+                <div class="nv-stat-item nv-highlight">
+                    <label>Total ROI Generated</label>
+                    <div class="nv-value" id="nv-roi">$142,500.00</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 5. NV Bottom Status Taskbar -->
+    <footer class="nv-footer-bar">
+        <div class="nv-live-status">
+            <span class="nv-dot"></span> System Live: NV-A86 Engine Running
+        </div>
+        <div class="nv-metrics">
+            <span>Maintenance Savings: 29%</span>
+            <span>Failure Prevention: 55%</span>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
+
 <!-- Top Navigation with View Switcher -->
 <nav class="nv-nav">
     <div class="logo">NEUROVIBE <span>AI</span></div>
