@@ -3,127 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroVibe AI | Enterprise Intelligence</title>
-    <link href="https://fonts.googleapis.com" rel="stylesheet">
+    <title>NV Industrial Intelligence | Master Portal</title>
     <style>
-        :root { --saffron: #FF9933; --silver: #F5F7F8; --deep-gray: #2C3E50; --white: #FFFFFF; }
-        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--silver); color: #333; overflow-x: hidden; }
+        :root { --saffron: #FF9933; --silver: #F5F7F8; --deep-gray: #1E293B; --white: #FFFFFF; --green: #27AE60; --red: #E74C3C; }
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; background: var(--silver); color: #333; }
+        
+        /* NV Sticky Header */
+        header { background: var(--deep-gray); color: white; padding: 12px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid var(--saffron); position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 1.4rem; font-weight: 800; color: var(--saffron); }
+        .sys-id { background: rgba(255,153,51,0.15); color: var(--saffron); padding: 5px 12px; border-radius: 4px; font-size: 0.75rem; border: 1px solid var(--saffron); }
 
         .container { max-width: 1100px; margin: 20px auto; padding: 0 20px; }
-        .card-white { background: var(--white); padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        .card { background: var(--white); padding: 22px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; }
         
-        /* Table Style */
-        .table-area { background: white; border-radius: 12px; overflow: hidden; margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; text-align: left; }
-        th { background: var(--deep-gray); color: white; padding: 12px; font-size: 0.8rem; }
-        td { padding: 12px; border-bottom: 1px solid #eee; font-size: 0.85rem; }
+        /* KPI Metrics */
+        .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px; }
+        .metric-card { text-align: center; }
+        .metric-label { font-size: 0.65rem; font-weight: 800; color: #999; text-transform: uppercase; letter-spacing: 1px; }
+        .metric-val { font-size: 1.8rem; font-weight: 800; margin: 8px 0; }
 
-        /* Progress Bars */
-        .progress-bar { background: #eee; height: 8px; border-radius: 5px; margin: 10px 0 15px; overflow: hidden; }
-        .bar-high { background: #E74C3C; width: 85%; height: 100%; }
-        .bar-med { background: var(--saffron); width: 45%; height: 100%; }
+        /* Asset Table */
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; background: white; }
+        th { background: #f8fafc; color: #64748b; padding: 12px; font-size: 0.75rem; text-align: left; }
+        td { padding: 14px 12px; border-bottom: 1px solid #f1f5f9; font-size: 0.85rem; }
 
-        /* Deep Spectrum Box (The Limit) */
-        .spectrum-black { background: #12141D; padding: 25px; border-radius: 20px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        
-        /* NEW CONTENT: Directly below Spectrum */
-        .device-tech-card { background: white; padding: 25px; border-radius: 15px; border-left: 8px solid var(--saffron); box-shadow: 0 5px 20px rgba(0,0,0,0.05); margin-bottom: 25px; }
-        .arch-flow-box { background: white; padding: 25px; border-radius: 15px; text-align: center; border-top: 4px solid var(--saffron); box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+        /* NV-Deep Scan Spectrum (The Live Bhagwa Wave) */
+        .spectrum-area { background: #0F172A; padding: 25px; border-radius: 16px; margin-bottom: 30px; }
+        .spectrum-label { color: var(--saffron); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; margin-bottom: 15px; display: block; }
+        canvas { width: 100%; height: 100px; display: block; }
+
+        /* NV-Series Technical Specifications */
+        .tech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .spec-box { background: white; padding: 20px; border-radius: 12px; border-left: 6px solid var(--saffron); display: flex; gap: 15px; }
+        .spec-icon { background: #fff7ed; padding: 12px; border-radius: 10px; font-size: 1.5rem; border: 1px dashed var(--saffron); }
+        .spec-title { font-size: 0.95rem; font-weight: 800; color: var(--deep-gray); margin: 0 0 5px 0; }
+        .spec-desc { font-size: 0.75rem; color: #64748b; line-height: 1.5; margin: 0; }
+
+        /* NV-Ecosystem Connectivity Workflow */
+        .workflow-box { margin-top: 30px; text-align: center; padding: 25px; background: white; border-radius: 12px; border-top: 4px solid var(--saffron); }
+        .flow-steps { display: flex; justify-content: space-around; margin-top: 20px; font-size: 0.65rem; font-weight: 800; color: var(--saffron); }
     </style>
 </head>
 <body>
 
-    <header style="background: var(--deep-gray); color: white; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 5px solid var(--saffron);">
-        <h2 style="margin: 0; color: var(--saffron); font-size: 1.5rem;">NEUROVIBE AI</h2>
-        <nav><ul style="list-style: none; display: flex; gap: 20px; margin: 0; font-size: 0.8rem; font-weight: 600;"><li>Overview</li><li>Asset Risk</li><li>Reports</li></ul></nav>
+    <header>
+        <div class="logo">NEUROVIBE AI</div>
+        <div class="nav-links" style="display:flex; gap:20px; font-size:0.8rem; font-weight:700;"><span>OVERVIEW</span> <span>ASSET RISK</span> <span>REPORTS</span></div>
+        <div class="sys-id">SYSTEM ID: NV-8699-ALPHA</div>
     </header>
 
     <div class="container">
-        <!-- 1. Top Intro (Same as Image) -->
-        <div class="card-white" style="border-left: 8px solid var(--saffron);">
-            <h2 style="margin:0; font-size: 1.3rem;">Industrial Intelligence Ecosystem</h2>
-            <p style="font-size:0.85rem; color:#666;">Real-time 30-day failure prediction using <strong>NV-PA5</strong> and <strong>NV-PF4</strong> nodes.</p>
+        <!-- Dashboard Intro -->
+        <div class="card" style="border-left: 8px solid var(--saffron);">
+            <h2 style="margin: 0; font-size: 1.25rem;">Industrial Intelligence Ecosystem</h2>
+            <p style="font-size: 0.85rem; color: #64748b; margin-top: 5px;">Real-time failure prediction using <strong>NV-PA5</strong> and <strong>NV-PF4</strong> nodes.</p>
         </div>
 
-        <!-- 2. Metrics (Same as Image) -->
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px;">
-            <div class="card-white" style="text-align: center;"><small style="font-weight:bold; color:#999;">FLEET HEALTH</small><h2 style="color:#27AE60; margin:5px 0;">96%</h2></div>
-            <div class="card-white" style="text-align: center;"><small style="font-weight:bold; color:#999;">ACTIVE ALERTS</small><h2 style="color:var(--saffron); margin:5px 0;">02</h2></div>
-            <div class="card-white" style="text-align: center;"><small style="font-weight:bold; color:#999;">ROI SAVED</small><h2 id="roi" style="margin:5px 0;">$142,503.34</h2></div>
+        <!-- Live KPI Grid -->
+        <div class="metrics-grid">
+            <div class="card metric-card">
+                <div class="metric-label">Fleet Health</div>
+                <div class="metric-val" style="color: var(--green);">96%</div>
+            </div>
+            <div class="card metric-card">
+                <div class="metric-label">Active Alerts</div>
+                <div class="metric-val" style="color: var(--saffron);">02</div>
+            </div>
+            <div class="card metric-card">
+                <div class="metric-label">ROI Savings</div>
+                <div class="metric-val" id="roi-val">$142,503.34</div>
+            </div>
         </div>
 
-        <!-- 3. Asset Table (Same as Image) -->
-        <div class="table-area card-white">
-            <h3 style="margin:0 0 10px 0; font-size: 0.9rem; color: #555;">Active Asset Risk Profile</h3>
+        <!-- Risk Profile Table -->
+        <div class="card" style="padding: 0;">
+            <div style="padding: 20px 20px 0 20px;"><h3 style="margin:0; font-size: 0.9rem; color: #475569;">Active Asset Risk Profile</h3></div>
             <table>
-                <thead><tr><th>Asset ID</th><th>Machine Name</th><th>Location</th><th>Risk Level</th><th>Status</th></tr></thead>
+                <thead><tr><th>ASSET ID</th><th>MACHINE NAME</th><th>RISK LEVEL</th><th>STATUS</th></tr></thead>
                 <tbody>
-                    <tr><td>A101</td><td>Asset 1</td><td style="color:#E74C3C; font-weight:bold;">HIGH</td><td>🔴 Critical</td></tr>
-                    <tr><td>A102</td><td>Asset 2</td><td style="color:#E74C3C; font-weight:bold;">HIGH</td><td>🔴 Critical</td></tr>
+                    <tr><td>A101</td><td>Ammonia Pump #1</td><td style="color: var(--red); font-weight:bold;">HIGH</td><td style="color: var(--red);">🔴 Critical Alert</td></tr>
+                    <tr><td>A102</td><td>Ammonia Pump #2</td><td style="color: var(--red); font-weight:bold;">HIGH</td><td style="color: var(--red);">🔴 Critical Alert</td></tr>
                 </tbody>
             </table>
         </div>
 
-        <!-- 4. Risk Analysis Box (Same as Image) -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
-            <div class="card-white" style="border-top: 5px solid var(--saffron);">
-                <h4 style="margin: 0; font-size: 0.8rem;">Failure Risk Distribution</h4>
-                <div style="margin-top: 10px;"><small style="font-size:0.6rem; font-weight:bold;">BEARING FAULT</small><div class="progress-bar"><div class="bar-high"></div></div></div>
-                <div><small style="font-size:0.6rem; font-weight:bold;">MISALIGNMENT</small><div class="progress-bar"><div class="bar-med"></div></div></div>
+        <!-- Deep Scan Waveform -->
+        <div class="spectrum-area">
+            <span class="spectrum-label">NV-Deep Scan Spectrum (Live)</span>
+            <canvas id="waveCanvas"></canvas>
+        </div>
+
+        <!-- NV Technical Specifications (Cleaned) -->
+        <div class="tech-grid">
+            <div class="spec-box">
+                <div class="spec-icon">📟</div>
+                <div>
+                    <h4 class="spec-title">NV-PA5 PoE Node</h4>
+                    <p class="spec-desc">SS 316 Stainless Steel Build. M12 PoE Power. 12.8k samples/sec High-Fidelity capture engine.</p>
+                </div>
             </div>
-            <div class="card-white" style="display: flex; align-items: center; gap: 15px;">
-                <div style="border: 1px dashed var(--saffron); padding: 10px; border-radius: 8px;">📟</div>
-                <div><h4 style="margin: 0; color: var(--saffron); font-size: 0.9rem;">NV-Core Hub</h4><p style="font-size: 0.7rem; color: #666; margin-top: 4px;">Edge Computing Node Analysis.</p></div>
+            <div class="spec-box">
+                <div class="spec-icon">🎙️</div>
+                <div>
+                    <h4 class="spec-title">NV-PF4 Fusion Sensor</h4>
+                    <p class="spec-desc">Vibration, Ultrasound & Magnetic Flux. IP68 Rated. Autonomous Intelligence Scan.</p>
+                </div>
             </div>
         </div>
 
-        <!-- 5. DEEP SPECTRUM: THE LIMIT (SAME AS IMAGE) -->
-        <div class="spectrum-black">
-            <h5 style="margin:0 0 10px 0; font-size:0.75rem; color:var(--saffron); text-transform:uppercase;">Deep-Scan Spectrum Analysis (Live)</h5>
-            <canvas id="wave" style="width:100%; height:80px;"></canvas>
-        </div>
-
-        <!-- NEW CONTENT ADDED BELOW THE SPECTRUM -->
-        <section class="device-tech-card">
-            <h3 style="margin:0; color:var(--deep-gray);">NV-Intelligence: Device Technical Specifications</h3>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
-                <div style="display: flex; gap: 15px;">
-                    <div style="background: #fdf2e9; padding: 10px; border-radius: 8px; border: 1px dashed var(--saffron);">📟</div>
-                    <div>
-                        <h4 style="margin:0; font-size:0.9rem; color:var(--saffron);">NV-PA5 Node</h4>
-                        <p style="font-size:0.75rem; color:#666;">High-fidelity vibration capture at 12.8k samples/sec.</p>
-                    </div>
-                </div>
-                <div style="display: flex; gap: 15px;">
-                    <div style="background: #fdf2e9; padding: 10px; border-radius: 8px; border: 1px dashed var(--saffron);">🎙️</div>
-                    <div>
-                        <h4 style="margin:0; font-size:0.9rem; color:var(--saffron);">NV-PF4 Sensor</h4>
-                        <p style="font-size:0.75rem; color:#666;">Neuro-Acoustic capture for stage-one bearing wear.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <div class="arch-flow-box">
-            <h4 style="margin:0; font-size:0.9rem; color:#888;">Ecosystem Connectivity Workflow</h4>
-            <div style="display: flex; justify-content: space-around; align-items: center; margin-top: 25px; font-size: 0.65rem; font-weight: 800; color: var(--saffron);">
-                <div>NV-SENSORS <br> <span style="color:#ccc;">>>></span></div>
-                <div>CORE GATEWAY <br> <span style="color:#ccc;">>>></span></div>
-                <div>CLOUD AI <br> <span style="color:#ccc;">>>></span></div>
+        <!-- NV Operational Workflow -->
+        <div class="workflow-box">
+            <span style="font-size: 0.75rem; font-weight: 700; color: #94a3b8; text-transform: uppercase;">NV-Predictive Operational Flow</span>
+            <div class="flow-steps">
+                <div>DATA CAPTURE <br><span style="color:#cbd5e1">>>></span></div>
+                <div>AI DIAGNOSTICS <br><span style="color:#cbd5e1">>>></span></div>
+                <div>EDGE ANALYTICS <br><span style="color:#cbd5e1">>>></span></div>
                 <div>LIVE DASHBOARD</div>
             </div>
         </div>
-
     </div>
 
     <script>
-        let r = 142503.34; setInterval(() => { r += 0.05; document.getElementById('roi').innerText = "$" + r.toLocaleString(undefined, {minimumFractionDigits:2}); }, 4000);
-        const c = document.getElementById('wave'), ctx = c.getContext('2d');
-        function draw() {
-            ctx.clearRect(0, 0, c.width, c.height); ctx.beginPath(); ctx.strokeStyle = '#FF9933'; ctx.lineWidth = 2;
-            for (let i = 0; i < c.width; i++) { ctx.lineTo(i, 40 + Math.sin(i * 0.05 + Date.now() * 0.01) * 15 * Math.random()); }
-            ctx.stroke(); requestAnimationFrame(draw);
-        } draw();
+        // 1. ROI Increment
+        let roi = 142503.34;
+        setInterval(() => {
+            roi += 0.04;
+            document.getElementById('roi-val').innerText = "$" + roi.toLocaleString(undefined, {minimumFractionDigits: 2});
+        }, 3500);
+
+        // 2. Saffron Wave
+        const canvas = document.getElementById('waveCanvas');
+        const ctx = canvas.getContext('2d');
+        let offset = 0;
+
+        function drawWave() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.beginPath();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = '#FF9933';
+            for (let x = 0; x < canvas.width; x++) {
+                let y = (canvas.height / 2) + Math.sin(x * 0.05 + offset) * 15 + (Math.random() * 3);
+                ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+            offset += 0.12;
+            requestAnimationFrame(drawWave);
+        }
+        drawWave();
     </script>
 </body>
 </html>
