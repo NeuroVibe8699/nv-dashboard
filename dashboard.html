@@ -19,36 +19,29 @@
         nav ul li { cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: 0.3s; }
         nav ul li:hover { color: var(--saffron); }
 
-        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+        .container { max-width: 1200px; margin: 25px auto; padding: 0 20px; }
 
-        /* 1. Original Intro Section (Updated) */
-        .intro-card {
-            background: var(--white); padding: 30px; border-radius: 15px;
-            border-left: 10px solid var(--saffron); box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            margin-bottom: 30px;
-        }
-        .intro-text h1 { margin: 0; font-size: 1.8rem; color: var(--deep-gray); }
-        .intro-text p { color: #666; line-height: 1.6; margin-top: 10px; }
+        /* Sections Styling */
+        .card-bg { background: var(--white); padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 25px; }
+        
+        /* Stats Grid */
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 25px; }
+        .stat-card { background: var(--white); padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .stat-card .val { font-size: 2rem; font-weight: 900; display: block; }
+        
+        /* Architecture Flow */
+        .arch-flow { display: flex; justify-content: space-around; align-items: center; padding: 20px 0; }
+        .node i { display: block; font-size: 0.65rem; font-weight: 800; color: var(--saffron); margin-top: 8px; text-transform: uppercase; }
+        .arrow { flex: 0.5; border-top: 2px dashed var(--saffron); opacity: 0.4; margin: 0 10px; }
 
-        /* 2. Architecture Section (Photo 2 Look - Below Intro) */
-        .architecture-box {
-            background: var(--white); padding: 30px; border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.05); margin-bottom: 30px;
-            text-align: center; border-top: 4px solid var(--saffron);
-        }
-        .arch-flow { display: flex; justify-content: space-around; align-items: center; margin-top: 25px; }
-        .node i { display: block; font-size: 0.65rem; font-weight: 800; color: var(--saffron); margin-top: 10px; text-transform: uppercase; }
-        .arrow { flex: 0.5; border-top: 2px dashed var(--saffron); margin: 0 10px; opacity: 0.5; }
+        /* Risk Distribution Bars */
+        .progress-bar { background: #eee; height: 8px; border-radius: 5px; margin: 10px 0 20px; overflow: hidden; }
+        .bar-high { background: #E74C3C; width: 85%; height: 100%; }
+        .bar-med { background: var(--saffron); width: 45%; height: 100%; }
 
-        /* 3. Asset Table */
-        .asset-table { background: var(--white); padding: 25px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); margin-bottom: 30px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th { background: var(--deep-gray); color: white; padding: 12px; text-align: left; font-size: 0.85rem; }
-        td { padding: 12px; border-bottom: 1px solid #eee; font-size: 0.9rem; }
-        .risk-high { color: #E74C3C; font-weight: 800; }
-
-        /* 4. Spectrum Analysis */
-        .spectrum-container { background: #12141D; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        /* The Old Deep Spectrum Look (At Bottom) */
+        .spectrum-box { background: #12141D; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        canvas { width: 100%; height: 100px; }
     </style>
 </head>
 <body>
@@ -59,65 +52,74 @@
     </header>
 
     <div class="container">
-        <!-- 1. Original Intro Section at Top -->
-        <section class="intro-card">
-            <div class="intro-text">
-                <h1>Industrial Intelligence Ecosystem</h1>
-                <p>Integrating <strong>NV-PA5 Vibration Telemetry</strong> and <strong>NV-PF4 Neuro-Acoustic Analysis</strong> for real-time 30-day failure prediction.</p>
-                <div style="font-size: 0.75rem; font-weight: bold; color: var(--saffron);">IP68 RATED | CE CERTIFIED</div>
-            </div>
-        </section>
+        <!-- 1. Top Section: Intro & Stats -->
+        <div class="card-bg" style="border-left: 10px solid var(--saffron);">
+            <h1 style="margin: 0; font-size: 1.6rem; color: var(--deep-gray);">Industrial Intelligence Ecosystem</h1>
+            <p style="color: #666; font-size: 0.95rem; margin-top: 10px;">Real-time 30-day failure prediction using <strong>NV-PA5</strong> and <strong>NV-PF4</strong> Telemetry.</p>
+            <div style="font-size: 0.75rem; font-weight: bold; color: var(--saffron); margin-top: 5px;">IP68 RATED | CE CERTIFIED</div>
+        </div>
 
-        <!-- 2. Architecture Section Now BELOW Intro -->
-        <section class="architecture-box">
-            <h3 style="color: var(--deep-gray); margin: 0; font-size: 1.1rem;">A New and Better Way</h3>
-            <p style="color: #888; font-size: 0.85rem; margin-top: 5px;">Seamless connectivity from edge to cloud ensures real-time industrial intelligence.</p>
+        <div class="stats-grid">
+            <div class="stat-card"><span style="font-size:0.7rem; font-weight:bold; color:#888;">FLEET HEALTH</span><span class="val" style="color: #27AE60;">96%</span></div>
+            <div class="stat-card"><span style="font-size:0.7rem; font-weight:bold; color:#888;">ACTIVE ALERTS</span><span class="val" style="color: var(--saffron);">02</span></div>
+            <div class="stat-card"><span style="font-size:0.7rem; font-weight:bold; color:#888;">ROI SAVED</span><span id="roi-val" class="val">$142,503.34</span></div>
+        </div>
+
+        <!-- 2. Architecture Section -->
+        <div class="card-bg" style="text-align: center;">
+            <h3 style="margin:0; font-size: 1rem; color: var(--deep-gray);">A New and Better Way</h3>
             <div class="arch-flow">
-                <div class="node">
-                    <svg width="40" height="40" viewBox="0 0 100 100"><rect x="20" y="20" width="60" height="60" rx="5" fill="none" stroke="#FF9933" stroke-width="4""")/>></svg>
-                    <i>NV-Sensors</i>
-                </div>
+                <div class="node"><svg width="35" height="35" viewBox="0 0 100 100"><rect x="20" y="20" width="60" height="60" rx="5" fill="none" stroke="#FF9933" stroke-width="4""")/>></svg><i>Sensors</i></div>
                 <div class="arrow"></div>
-                <div class="node">
-                    <svg width="40" height="40" viewBox="0 0 100 100"><rect x="30" y="30" width="40" height="40" fill="#2C3E50""")/>><path d="M50 10 L50 30" stroke="#FF9933" stroke-width="3""")/>></svg>
-                    <i>Gateway</i>
-                </div>
+                <div class="node"><svg width="35" height="35" viewBox="0 0 100 100"><rect x="30" y="30" width="40" height="40" fill="#2C3E50""")/>><path d="M50 10 L50 30" stroke="#FF9933" stroke-width="3""")/>></svg><i>Gateway</i></div>
                 <div class="arrow"></div>
-                <div class="node">
-                    <svg width="40" height="40" viewBox="0 0 100 100"><path d="M20 70 Q50 20 80 70 Z" fill="none" stroke="#FF9933" stroke-width="4""")/>></svg>
-                    <i>AI Cloud</i>
-                </div>
+                <div class="node"><svg width="35" height="35" viewBox="0 0 100 100"><path d="M20 70 Q50 20 80 70 Z" fill="none" stroke="#FF9933" stroke-width="4""")/>></svg><i>AI Cloud</i></div>
                 <div class="arrow"></div>
-                <div class="node">
-                    <svg width="40" height="40" viewBox="0 0 100 100"><rect x="10" y="20" width="80" height="50" rx="2" fill="none" stroke="#2C3E50" stroke-width="4""")/>></svg>
-                    <i>Dashboard</i>
-                </div>
+                <div class="node"><svg width="35" height="35" viewBox="0 0 100 100"><rect x="10" y="20" width="80" height="50" rx="2" fill="none" stroke="#2C3E50" stroke-width="4""")/>></svg><i>Dashboard</i></div>
             </div>
-        </section>
+        </div>
 
-        <!-- 3. Asset Risk Table -->
-        <div class="asset-table">
-            <h3 style="margin:0; color:var(--deep-gray); font-size: 1.1rem;">Active Asset Risk Profile</h3>
-            <table>
-                <thead>
-                    <tr><th>Asset ID</th><th>Machine Name</th><th>Risk Level</th><th>Status</th></tr>
+        <!-- 3. Asset Risk Table (Asset 1, Asset 2) -->
+        <div class="card-bg">
+            <h3 style="margin:0 0 15px 0; font-size: 1rem; color: var(--deep-gray);">Active Asset Risk Profile</h3>
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead style="background: var(--deep-gray); color: white; font-size: 0.8rem;">
+                    <tr><th style="padding: 12px; text-align: left;">Asset ID</th><th>Machine Name</th><th>Risk Level</th><th>Status</th></tr>
                 </thead>
-                <tbody>
-                    <tr><td>A101</td><td>Asset 1</td><td class="risk-high">HIGH</td><td>🔴 Critical Alert</td></tr>
-                    <tr><td>A102</td><td>Asset 2</td><td class="risk-high">HIGH</td><td>🔴 Early Fault</td></tr>
-                    <tr><td>B131</td><td>Asset 3</td><td style="color:var(--saffron); font-weight:bold;">MEDIUM</td><td>🟡 Monitoring</td></tr>
+                <tbody style="font-size: 0.9rem;">
+                    <tr><td style="padding: 12px;">A101</td><td>Asset 1</td><td style="color: #E74C3C; font-weight:bold;">HIGH</td><td>🔴 Critical</td></tr>
+                    <tr style="background: #f9f9f9;"><td style="padding: 12px;">A102</td><td>Asset 2</td><td style="color: #E74C3C; font-weight:bold;">HIGH</td><td>🔴 Critical</td></tr>
+                    <tr><td style="padding: 12px;">B131</td><td>Asset 3</td><td style="color:var(--saffron); font-weight:bold;">MEDIUM</td><td>🟡 Monitor</td></tr>
                 </tbody>
             </table>
         </div>
 
-        <!-- 4. Deep-Scan Spectrum at Bottom -->
-        <div class="spectrum-container">
-            <h4 style="color:var(--saffron); margin-top:0; font-size:0.9rem; text-transform: uppercase;">Deep-Scan Spectrum Analysis</h4>
-            <canvas id="spectrumWave" style="width: 100%; height: 100px;"></canvas>
+        <!-- 4. Risk Analysis Box -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px;">
+            <div class="card-bg" style="border-top: 5px solid var(--saffron);">
+                <h4 style="margin: 0; font-size: 0.9rem;">Failure Risk Distribution</h4>
+                <div style="margin-top: 15px;"><label style="font-size:0.65rem; font-weight:bold;">BEARING FAULT</label><div class="progress-bar"><div class="bar-high"></div></div></div>
+                <div><label style="font-size:0.65rem; font-weight:bold;">MISALIGNMENT</label><div class="progress-bar"><div class="bar-med"></div></div></div>
+            </div>
+            <div class="card-bg" style="display: flex; align-items: center; gap: 15px; border-top: 5px solid var(--deep-gray);">
+                <div style="border: 1px dashed var(--saffron); padding: 10px; border-radius: 8px;">
+                    <svg width="40" height="40" viewBox="0 0 100 100"><rect x="30" y="20" width="40" height="60" rx="4" fill="none" stroke="#FF9933" stroke-width="3""")/>></svg>
+                </div>
+                <div><h4 style="margin: 0; color: var(--saffron); font-size: 0.9rem;">NV-Core Node</h4><p style="font-size: 0.75rem; color: #666; margin-top: 5px;">Edge analysis at 12.8k samples/sec.</p></div>
+            </div>
+        </div>
+
+        <!-- 5. FINAL Deep Spectrum at Bottom -->
+        <div class="spectrum-box">
+            <h4 style="color: var(--saffron); margin: 0 0 15px 0; font-size: 0.85rem; text-transform: uppercase;">Deep-Scan Spectrum Analysis (Live)</h4>
+            <canvas id="spectrumWave"></canvas>
         </div>
     </div>
 
     <script>
+        let roi = 142503.34;
+        setInterval(() => { roi += 0.05; document.getElementById('roi-val').innerText = "$" + roi.toLocaleString(undefined, {minimumFractionDigits: 2}); }, 4000);
+
         const canvas = document.getElementById('spectrumWave');
         const ctx = canvas.getContext('2d');
         function animate() {
