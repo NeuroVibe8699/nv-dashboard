@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NV Admin | Dashboard</title>
+    <title>NV Admin | Full Access</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com" rel="stylesheet">
     <style>
@@ -15,9 +15,9 @@
 </head>
 <body class="flex min-h-screen">
 
-    <!-- Sidebar Navigation -->
+    <!-- SIDEBAR -->
     <div class="w-64 glass p-6 hidden md:block">
-        <h1 class="text-2xl font-bold text-sky-400 mb-10 px-3 text-center">NV Admin</h1>
+        <h1 class="text-2xl font-bold text-sky-400 mb-10 text-center">NV Admin</h1>
         <nav class="space-y-4">
             <button onclick="switchTab('dashboard')" id="btn-dashboard" class="w-full flex items-center space-x-3 p-3 rounded-lg active-tab transition">
                 <i class="fas fa-chart-line w-5"></i> <span>Dashboard</span>
@@ -25,95 +25,92 @@
             <button onclick="switchTab('users')" id="btn-users" class="w-full flex items-center space-x-3 p-3 rounded-lg hover:bg-slate-800 transition text-slate-400">
                 <i class="fas fa-users w-5"></i> <span>Users</span>
             </button>
-            <button class="w-full flex items-center space-x-3 p-3 rounded-lg hover:bg-slate-800 transition text-slate-400">
+            <button onclick="switchTab('settings')" id="btn-settings" class="w-full flex items-center space-x-3 p-3 rounded-lg hover:bg-slate-800 transition text-slate-400">
                 <i class="fas fa-cog w-5"></i> <span>Settings</span>
             </button>
         </nav>
     </div>
 
-    <!-- Main Content -->
+    <!-- MAIN CONTENT -->
     <main class="flex-1 p-8">
         <header class="flex justify-between items-center mb-10">
             <h2 id="page-title" class="text-3xl font-bold">Welcome Back, Boss</h2>
-            <div class="flex items-center space-x-4">
-                <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-semibold">● Online</span>
-                <img src="https://ui-avatars.com" class="w-10 h-10 rounded-full border-2 border-sky-500">
-            </div>
+            <div class="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-semibold">● Live</div>
         </header>
 
-        <!-- DASHBOARD VIEW -->
+        <!-- 1. DASHBOARD VIEW -->
         <div id="view-dashboard">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div class="glass p-6 rounded-2xl shadow-lg border-b-2 border-sky-500">
+                <div class="glass p-6 rounded-2xl border-b-2 border-sky-500">
                     <p class="text-slate-400 text-sm">Total Predictions</p>
                     <h3 class="text-4xl font-bold mt-2">12,482</h3>
-                    <p class="text-green-400 text-xs mt-2">↑ 12% from last month</p>
                 </div>
-                <div class="glass p-6 rounded-2xl shadow-lg">
+                <div class="glass p-6 rounded-2xl">
                     <p class="text-slate-400 text-sm">Active Users</p>
                     <h3 class="text-4xl font-bold mt-2">854</h3>
-                    <p class="text-sky-400 text-xs mt-2">Live currently</p>
-                </div>
-                <div class="glass p-6 rounded-2xl shadow-lg">
-                    <p class="text-slate-400 text-sm">Server Status</p>
-                    <h3 class="text-4xl font-bold mt-2 text-green-400">Stable</h3>
-                    <p class="text-slate-400 text-xs mt-2">Latency: 24ms</p>
                 </div>
             </div>
-            <div class="glass rounded-2xl p-10 text-center border-dashed border-2 border-slate-700">
-                <p class="text-slate-500 font-medium">Activity Chart Placeholder</p>
+            <div class="glass p-20 rounded-2xl text-center border-dashed border-2 border-slate-700 text-slate-500">
+                Main Dashboard Analytics Coming Soon...
             </div>
         </div>
 
-        <!-- USERS VIEW (Hidden by default) -->
+        <!-- 2. USERS VIEW -->
         <div id="view-users" class="hidden">
-            <div class="glass rounded-2xl p-6 shadow-xl overflow-x-auto">
+            <div class="glass rounded-2xl p-6">
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="text-xl font-bold">User Management</h3>
-                    <button class="bg-sky-600 hover:bg-sky-500 text-white px-4 py-2 rounded-lg text-sm transition">Add User</button>
+                    <button class="bg-sky-600 px-4 py-2 rounded-lg text-sm">Add New User</button>
                 </div>
                 <table class="w-full text-left">
-                    <thead class="text-slate-400 border-b border-slate-800 text-sm">
-                        <tr>
-                            <th class="pb-4 px-2">USER NAME</th>
-                            <th class="pb-4">EMAIL ADDRESS</th>
-                            <th class="pb-4 text-center">STATUS</th>
-                            <th class="pb-4 text-right">ACTION</th>
-                        </tr>
+                    <thead class="text-slate-400 border-b border-slate-800">
+                        <tr><th class="pb-4">NAME</th><th class="pb-4">EMAIL</th><th class="pb-4">STATUS</th></tr>
                     </thead>
                     <tbody class="text-slate-300">
-                        <tr class="border-b border-slate-800/50 hover:bg-slate-800/30 transition">
-                            <td class="py-4 px-2 font-semibold text-white">Rahul Sharma</td>
-                            <td>rahul.s@example.com</td>
-                            <td class="text-center"><span class="bg-green-500/10 text-green-400 px-2 py-1 rounded-md text-xs">Active</span></td>
-                            <td class="text-right"><button class="text-slate-500 hover:text-white"><i class="fas fa-ellipsis-v"></i></button></td>
-                        </tr>
-                        <tr class="border-b border-slate-800/50 hover:bg-slate-800/30 transition">
-                            <td class="py-4 px-2 font-semibold text-white">Amit Patel</td>
-                            <td>amit.p@example.com</td>
-                            <td class="text-center"><span class="bg-green-500/10 text-green-400 px-2 py-1 rounded-md text-xs">Active</span></td>
-                            <td class="text-right"><button class="text-slate-500 hover:text-white"><i class="fas fa-ellipsis-v"></i></button></td>
-                        </tr>
+                        <tr class="border-b border-slate-800/50"><td class="py-4 font-semibold">Rahul Sharma</td><td>rahul@example.com</td><td><span class="text-green-400 text-xs">Active</span></td></tr>
+                        <tr class="border-b border-slate-800/50"><td class="py-4 font-semibold">Amit Patel</td><td>amit@example.com</td><td><span class="text-green-400 text-xs">Active</span></td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
+
+        <!-- 3. SETTINGS VIEW -->
+        <div id="view-settings" class="hidden">
+            <div class="glass rounded-2xl p-8 max-w-2xl">
+                <h3 class="text-xl font-bold mb-6 text-sky-400">System Settings</h3>
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-sm text-slate-400 mb-2">Admin Email</label>
+                        <input type="text" value="admin@nvpredictive.com" class="w-full bg-slate-900 border border-slate-700 p-3 rounded-lg">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-slate-400 mb-2">Maintenance Mode</label>
+                        <button class="bg-slate-700 px-4 py-2 rounded-lg text-sm">Turn On</button>
+                    </div>
+                    <button class="w-full bg-sky-600 p-3 rounded-lg font-bold">Save Changes</button>
+                </div>
+            </div>
+        </div>
     </main>
 
-    <!-- Navigation Logic -->
+    <!-- TAB SWITCHING LOGIC -->
     <script>
         function switchTab(tab) {
-            // Hide all views
+            // सारे सेक्शन्स को छुपाओ
             document.getElementById('view-dashboard').classList.add('hidden');
             document.getElementById('view-users').classList.add('hidden');
+            document.getElementById('view-settings').classList.add('hidden');
 
-            // Reset button styles
+            // सारे बटनों से एक्टिव स्टाइल हटाओ
             document.getElementById('btn-dashboard').classList.remove('active-tab', 'text-sky-400');
             document.getElementById('btn-users').classList.remove('active-tab', 'text-sky-400');
+            document.getElementById('btn-settings').classList.remove('active-tab', 'text-sky-400');
+            
             document.getElementById('btn-dashboard').classList.add('text-slate-400');
             document.getElementById('btn-users').classList.add('text-slate-400');
+            document.getElementById('btn-settings').classList.add('text-slate-400');
 
-            // Show selected view
+            // जो बटन दबाया है, उसे दिखाओ
             if (tab === 'dashboard') {
                 document.getElementById('view-dashboard').classList.remove('hidden');
                 document.getElementById('btn-dashboard').classList.add('active-tab', 'text-sky-400');
@@ -122,6 +119,10 @@
                 document.getElementById('view-users').classList.remove('hidden');
                 document.getElementById('btn-users').classList.add('active-tab', 'text-sky-400');
                 document.getElementById('page-title').innerText = "User Management";
+            } else if (tab === 'settings') {
+                document.getElementById('view-settings').classList.remove('hidden');
+                document.getElementById('btn-settings').classList.add('active-tab', 'text-sky-400');
+                document.getElementById('page-title').innerText = "Account Settings";
             }
         }
     </script>
