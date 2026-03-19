@@ -3,72 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroVibe | Secure Login</title>
+    <title>NeuroVibe | Predictive Terminal</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0F1115; color: #FFFFFF; }
+        .auth-card { background-color: #1E1F22; border-top: 4px solid #FF9933; border-radius: 1.5rem; }
+        input { transition: all 0.3s ease; }
+        input:focus { border-color: #FF9933 !important; box-shadow: 0 0 10px rgba(255, 153, 51, 0.2); }
+    </style>
 </head>
-<body class="bg-[#0F1115] flex items-center justify-center min-h-screen p-6">
-    <div class="bg-[#1E1F22] p-10 rounded-2xl shadow-2xl w-full max-w-md border-t-4 border-orange-500 text-center">
-        <h1 class="text-3xl font-black text-white italic mb-2">NEURO<span class="text-orange-500">VIBE</span></h1>
-        <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-8">Admin Access Terminal</p>
+<body class="flex items-center justify-center min-h-screen p-4">
+    <div class="auth-card p-10 shadow-2xl w-full max-w-md text-center">
+        
+        <h1 class="text-4xl font-black italic tracking-tighter">NEURO<span class="text-orange-500">VIBE</span></h1>
+        <p class="text-[10px] text-gray-500 uppercase tracking-[0.4em] mt-2 font-bold">Predictive Control Access</p>
 
-        <div class="space-y-4">
-            <input type="email" id="email" placeholder="nvpredictive@gmail.com" class="w-full bg-black border border-gray-700 p-3 rounded-xl text-orange-500 outline-none focus:border-orange-500">
-            <input type="password" id="password" placeholder="••••••••" class="w-full bg-black border border-gray-700 p-3 rounded-xl text-orange-500 outline-none focus:border-orange-500">
+        <div class="mt-12 space-y-5">
+            <!-- Email Input -->
+            <div class="text-left">
+                <label class="text-[10px] font-bold text-gray-600 uppercase ml-1">Access ID</label>
+                <input type="email" id="email" placeholder="nvpredictive@gmail.com" 
+                    class="w-full bg-black border border-gray-800 p-4 rounded-xl text-orange-500 outline-none text-sm mt-1">
+            </div>
             
-            <button onclick="handleLogin()" id="loginBtn" class="w-full bg-orange-600 text-white font-bold py-3 rounded-xl hover:bg-orange-500 transition-all uppercase tracking-widest">
+            <!-- Password Input -->
+            <div class="text-left">
+                <label class="text-[10px] font-bold text-gray-600 uppercase ml-1">Master Key</label>
+                <input type="password" id="password" placeholder="••••••••" 
+                    class="w-full bg-black border border-gray-800 p-4 rounded-xl text-orange-500 outline-none text-sm mt-1">
+            </div>
+            
+            <!-- Action Buttons -->
+            <button onclick="handleLogin()" id="loginBtn" 
+                class="w-full bg-orange-600 hover:bg-orange-500 text-white font-black py-4 rounded-xl shadow-lg transition-all uppercase tracking-widest text-xs mt-4">
                 Authorize Entry
             </button>
-            
-            <p id="errorMsg" class="text-red-500 text-xs font-bold mt-4 h-4 uppercase"></p>
+
+            <button onclick="handleReset()" 
+                class="text-[9px] text-gray-600 hover:text-gray-400 uppercase font-bold tracking-widest transition-all mt-4">
+                Forgot Master Key?
+            </button>
+
+            <!-- Status Indicator -->
+            <p id="statusMsg" class="text-red-500 text-[10px] font-bold mt-6 uppercase tracking-tight h-4"></p>
         </div>
     </div>
 
-    <!-- Firebase Connection -->
+    <!-- Firebase Integration -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com";
-        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com";
+        import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com";
 
-        // ✅ आपकी नई डिजिटल चाबियाँ (neurovibe-df874)
+        // ✅ Confirmed NeuroVibe (eb945) Project Credentials
         const firebaseConfig = {
-            apiKey: "AIzaSyAe3h4ddqIHIeNDmASa95lLTNaC0gCpb-Q",
-            authDomain: "neurovibe-df874.firebaseapp.com",
-            projectId: "neurovibe-df874",
-            appId: "1:659815576381:web:594c4ec09c30115f750b54"
+            apiKey: "AIzaSyCZJ7BAn2YrWsB1MC6TodhcZaahuINQSoc",
+            authDomain: "neurovibe-eb945.firebaseapp.com",
+            projectId: "neurovibe-eb945",
+            appId: "1:833975927910:web:899592fa982a21c39099a7"
         };
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        // ग्लोबल फंक्शन ताकि बटन इसे पहचान सके
+        // Global function for Authorize Entry
         window.handleLogin = async () => {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const btn = document.getElementById('loginBtn');
-            const msg = document.getElementById('errorMsg');
+            const msg = document.getElementById('statusMsg');
 
-            if (!email || !password) {
-                msg.innerText = "Error: Fields cannot be empty";
-                return;
+            if(!email || !password) { 
+                msg.innerText = "Error: Credentials Required"; 
+                return; 
             }
 
-            btn.innerText = "VERIFYING...";
+            btn.innerText = "AUTHENTICATING...";
             msg.innerText = "";
             
             try {
-                const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                console.log("Login Success!");
-                window.location.href = "admin.html"; // सीधे डैशबोर्ड पर भेजें
+                await signInWithEmailAndPassword(auth, email, password);
+                // Redirect on success
+                window.location.href = "admin.html";
             } catch (error) {
-                console.error("Login Error:", error.code);
-                // एरर को आसान भाषा में दिखाएँ
-                if (error.code === 'auth/invalid-credential') {
-                    msg.innerText = "ACCESS DENIED: WRONG PASSWORD";
-                } else if (error.code === 'auth/user-not-found') {
-                    msg.innerText = "ACCESS DENIED: USER NOT FOUND";
-                } else {
-                    msg.innerText = "ERROR: " + error.code.split('/')[1].replace(/-/g, ' ');
-                }
+                // Formatting error codes for cleaner UI
+                let cleanError = error.code.split('/')[1].replace(/-/g, ' ').toUpperCase();
+                msg.innerText = "ACCESS DENIED: " + cleanError;
                 btn.innerText = "AUTHORIZE ENTRY";
+            }
+        };
+
+        // Global function for Password Reset
+        window.handleReset = async () => {
+            const email = document.getElementById('email').value;
+            if(!email) { 
+                alert("Please enter your Access ID first."); 
+                return; 
+            }
+            try {
+                await sendPasswordResetEmail(auth, email);
+                alert("Authorization reset link dispatched to: " + email);
+            } catch (error) {
+                alert("Reset Failed: " + error.message);
             }
         };
     </script>
