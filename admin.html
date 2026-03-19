@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NV Admin | Full Access</title>
+    <title>NV Admin | Full Control</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com" rel="stylesheet">
     <style>
-        body { background: #0f172a; color: white; font-family: 'Inter', sans-serif; }
+        body { background: #0f172a; color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; }
         .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
         .active-tab { border-left: 4px solid #38bdf8; background: rgba(56, 189, 248, 0.1); color: #38bdf8; }
         .hidden { display: none; }
@@ -16,14 +16,14 @@
 <body class="flex min-h-screen">
 
     <!-- SIDEBAR -->
-    <div class="w-64 glass p-6 hidden md:block">
+    <div class="w-64 glass p-6 hidden md:block border-r border-slate-800">
         <h1 class="text-2xl font-bold text-sky-400 mb-10 text-center">NV Admin</h1>
-        <nav class="space-y-4">
+        <nav class="space-y-4 text-sm font-medium">
             <button onclick="switchTab('dashboard')" id="btn-dashboard" class="w-full flex items-center space-x-3 p-3 rounded-lg active-tab transition">
                 <i class="fas fa-chart-line w-5"></i> <span>Dashboard</span>
             </button>
             <button onclick="switchTab('users')" id="btn-users" class="w-full flex items-center space-x-3 p-3 rounded-lg hover:bg-slate-800 transition text-slate-400">
-                <i class="fas fa-users w-5"></i> <span>Users</span>
+                <i class="fas fa-users w-5"></i> <span>User Management</span>
             </button>
             <button onclick="switchTab('settings')" id="btn-settings" class="w-full flex items-center space-x-3 p-3 rounded-lg hover:bg-slate-800 transition text-slate-400">
                 <i class="fas fa-cog w-5"></i> <span>Settings</span>
@@ -35,97 +35,122 @@
     <main class="flex-1 p-8">
         <header class="flex justify-between items-center mb-10">
             <h2 id="page-title" class="text-3xl font-bold">Welcome Back, Boss</h2>
-            <div class="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-semibold">● Live</div>
+            <div class="flex items-center space-x-4">
+                <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-bold">● SYSTEM LIVE</span>
+                <img src="https://ui-avatars.com" class="w-10 h-10 rounded-full border-2 border-sky-500 shadow-lg shadow-sky-500/20">
+            </div>
         </header>
 
         <!-- 1. DASHBOARD VIEW -->
         <div id="view-dashboard">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div class="glass p-6 rounded-2xl border-b-2 border-sky-500">
-                    <p class="text-slate-400 text-sm">Total Predictions</p>
-                    <h3 class="text-4xl font-bold mt-2">12,482</h3>
+                <div class="glass p-6 rounded-2xl border-b-4 border-sky-500 shadow-xl">
+                    <p class="text-slate-400 text-xs uppercase tracking-wider font-bold">Total Predictions</p>
+                    <h3 class="text-4xl font-black mt-2">12,482</h3>
                 </div>
-                <div class="glass p-6 rounded-2xl">
-                    <p class="text-slate-400 text-sm">Active Users</p>
-                    <h3 class="text-4xl font-bold mt-2">854</h3>
+                <div class="glass p-6 rounded-2xl border-b-4 border-emerald-500 shadow-xl">
+                    <p class="text-slate-400 text-xs uppercase tracking-wider font-bold">Active Users</p>
+                    <h3 class="text-4xl font-black mt-2 text-emerald-400">854</h3>
                 </div>
             </div>
-            <div class="glass p-20 rounded-2xl text-center border-dashed border-2 border-slate-700 text-slate-500">
-                Main Dashboard Analytics Coming Soon...
+            <div class="glass p-20 rounded-3xl text-center border-dashed border-2 border-slate-700">
+                <i class="fas fa-chart-area text-5xl text-slate-700 mb-4"></i>
+                <p class="text-slate-500 font-semibold">Analytics coming soon...</p>
             </div>
         </div>
 
         <!-- 2. USERS VIEW -->
         <div id="view-users" class="hidden">
-            <div class="glass rounded-2xl p-6">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-xl font-bold">User Management</h3>
-                    <button class="bg-sky-600 px-4 py-2 rounded-lg text-sm">Add New User</button>
+            <div class="glass rounded-2xl p-6 shadow-2xl">
+                <div class="flex justify-between items-center mb-8">
+                    <h3 class="text-xl font-bold">Manage Users</h3>
+                    <button onclick="openModal()" class="bg-sky-600 hover:bg-sky-500 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition-all transform hover:scale-105 active:scale-95 flex items-center shadow-lg shadow-sky-600/30">
+                        <i class="fas fa-plus mr-2"></i> Add New User
+                    </button>
                 </div>
                 <table class="w-full text-left">
-                    <thead class="text-slate-400 border-b border-slate-800">
-                        <tr><th class="pb-4">NAME</th><th class="pb-4">EMAIL</th><th class="pb-4">STATUS</th></tr>
+                    <thead class="text-slate-400 border-b border-slate-800 text-xs uppercase tracking-widest">
+                        <tr><th class="pb-5">Name</th><th class="pb-5">Email</th><th class="pb-5">Status</th></tr>
                     </thead>
-                    <tbody class="text-slate-300">
-                        <tr class="border-b border-slate-800/50"><td class="py-4 font-semibold">Rahul Sharma</td><td>rahul@example.com</td><td><span class="text-green-400 text-xs">Active</span></td></tr>
-                        <tr class="border-b border-slate-800/50"><td class="py-4 font-semibold">Amit Patel</td><td>amit@example.com</td><td><span class="text-green-400 text-xs">Active</span></td></tr>
+                    <tbody class="text-slate-300 text-sm">
+                        <tr class="border-b border-slate-800/50 hover:bg-slate-800/30 transition cursor-pointer"><td class="py-5 font-bold text-white">Rahul Sharma</td><td>rahul@example.com</td><td><span class="bg-emerald-500/10 text-emerald-400 px-3 py-1 rounded-lg text-[10px] font-black uppercase">Active</span></td></tr>
+                        <tr class="border-b border-slate-800/50 hover:bg-slate-800/30 transition cursor-pointer"><td class="py-5 font-bold text-white">Amit Patel</td><td>amit@example.com</td><td><span class="bg-emerald-500/10 text-emerald-400 px-3 py-1 rounded-lg text-[10px] font-black uppercase">Active</span></td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
 
         <!-- 3. SETTINGS VIEW -->
-        <div id="view-settings" class="hidden">
-            <div class="glass rounded-2xl p-8 max-w-2xl">
-                <h3 class="text-xl font-bold mb-6 text-sky-400">System Settings</h3>
+        <div id="view-settings" class="hidden animate-fade-in">
+            <div class="glass rounded-2xl p-8 max-w-xl shadow-2xl">
+                <h3 class="text-xl font-bold mb-8 text-sky-400 border-b border-slate-800 pb-4">Account Settings</h3>
                 <div class="space-y-6">
                     <div>
-                        <label class="block text-sm text-slate-400 mb-2">Admin Email</label>
-                        <input type="text" value="admin@nvpredictive.com" class="w-full bg-slate-900 border border-slate-700 p-3 rounded-lg">
+                        <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Admin Email</label>
+                        <input type="text" value="admin@nvpredictive.com" class="w-full bg-slate-900 border border-slate-800 p-4 rounded-xl text-white outline-none focus:border-sky-500 transition">
                     </div>
                     <div>
-                        <label class="block text-sm text-slate-400 mb-2">Maintenance Mode</label>
-                        <button class="bg-slate-700 px-4 py-2 rounded-lg text-sm">Turn On</button>
+                        <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Password Protection</label>
+                        <button class="bg-slate-800 hover:bg-slate-700 px-6 py-2.5 rounded-xl text-xs font-bold transition">Change Admin Password</button>
                     </div>
-                    <button class="w-full bg-sky-600 p-3 rounded-lg font-bold">Save Changes</button>
+                    <button class="w-full bg-sky-600 hover:bg-sky-500 p-4 rounded-xl font-black text-sm transition-all shadow-lg shadow-sky-600/20">SAVE ALL CHANGES</button>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- TAB SWITCHING LOGIC -->
+    <!-- ADD USER MODAL (POPUP) -->
+    <div id="userModal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md flex items-center justify-center z-50 p-4">
+        <div class="glass p-8 rounded-3xl w-full max-w-md shadow-2xl border border-sky-500/30 transform transition-all scale-100">
+            <h3 class="text-2xl font-black mb-6 text-sky-400">Add New User</h3>
+            <div class="space-y-5">
+                <div>
+                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Full Name</label>
+                    <input type="text" id="userName" placeholder="John Doe" class="w-full bg-slate-900 border border-slate-800 p-4 rounded-xl mt-2 outline-none focus:border-sky-500 text-white">
+                </div>
+                <div>
+                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Email Address</label>
+                    <input type="email" id="userEmail" placeholder="john@example.com" class="w-full bg-slate-900 border border-slate-800 p-4 rounded-xl mt-2 outline-none focus:border-sky-500 text-white">
+                </div>
+                <div class="flex space-x-4 mt-8">
+                    <button onclick="closeModal()" class="flex-1 bg-slate-800 hover:bg-slate-700 p-4 rounded-2xl font-bold transition">Cancel</button>
+                    <button onclick="saveUser()" class="flex-1 bg-sky-600 hover:bg-sky-500 p-4 rounded-2xl font-black shadow-lg shadow-sky-600/30 transition">Save User</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
     <script>
         function switchTab(tab) {
-            // सारे सेक्शन्स को छुपाओ
-            document.getElementById('view-dashboard').classList.add('hidden');
-            document.getElementById('view-users').classList.add('hidden');
-            document.getElementById('view-settings').classList.add('hidden');
+            ['dashboard', 'users', 'settings'].forEach(id => {
+                document.getElementById('view-' + id).classList.add('hidden');
+                document.getElementById('btn-' + id).classList.remove('active-tab', 'text-sky-400');
+                document.getElementById('btn-' + id).classList.add('text-slate-400');
+            });
 
-            // सारे बटनों से एक्टिव स्टाइल हटाओ
-            document.getElementById('btn-dashboard').classList.remove('active-tab', 'text-sky-400');
-            document.getElementById('btn-users').classList.remove('active-tab', 'text-sky-400');
-            document.getElementById('btn-settings').classList.remove('active-tab', 'text-sky-400');
+            document.getElementById('view-' + tab).classList.remove('hidden');
+            document.getElementById('btn-' + tab).classList.add('active-tab', 'text-sky-400');
             
-            document.getElementById('btn-dashboard').classList.add('text-slate-400');
-            document.getElementById('btn-users').classList.add('text-slate-400');
-            document.getElementById('btn-settings').classList.add('text-slate-400');
+            const titles = { 'dashboard': 'Welcome Back, Boss', 'users': 'User Management', 'settings': 'Account Settings' };
+            document.getElementById('page-title').innerText = titles[tab];
+        }
 
-            // जो बटन दबाया है, उसे दिखाओ
-            if (tab === 'dashboard') {
-                document.getElementById('view-dashboard').classList.remove('hidden');
-                document.getElementById('btn-dashboard').classList.add('active-tab', 'text-sky-400');
-                document.getElementById('page-title').innerText = "Welcome Back, Boss";
-            } else if (tab === 'users') {
-                document.getElementById('view-users').classList.remove('hidden');
-                document.getElementById('btn-users').classList.add('active-tab', 'text-sky-400');
-                document.getElementById('page-title').innerText = "User Management";
-            } else if (tab === 'settings') {
-                document.getElementById('view-settings').classList.remove('hidden');
-                document.getElementById('btn-settings').classList.add('active-tab', 'text-sky-400');
-                document.getElementById('page-title').innerText = "Account Settings";
+        function openModal() { document.getElementById('userModal').classList.remove('hidden'); }
+        function closeModal() { document.getElementById('userModal').classList.add('hidden'); }
+
+        function saveUser() {
+            const name = document.getElementById('userName').value;
+            const email = document.getElementById('userEmail').value;
+            if(name && email) {
+                alert("Successfully Added: " + name);
+                closeModal();
+                document.getElementById('userName').value = '';
+                document.getElementById('userEmail').value = '';
+            } else {
+                alert("Please fill all fields!");
             }
         }
     </script>
-
 </body>
 </html>
