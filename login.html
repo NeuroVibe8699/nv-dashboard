@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroVibe | Secure Access</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #0F1115; font-family: 'Inter', sans-serif; }
+        .bhagwa-border { border-top: 5px solid #FF9933; }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-6">
+    <div class="bg-[#1E1F22] p-10 rounded-2xl shadow-2xl w-full max-w-md bhagwa-border">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-black text-white italic">NEURO<span class="text-orange-500">VIBE</span></h1>
+            <p class="text-[10px] text-gray-500 uppercase tracking-widest mt-2 font-bold">Predictive Control Center</p>
+        </div>
+
+        <div class="space-y-5">
+            <div>
+                <label class="text-[10px] font-bold text-gray-500 uppercase">Admin ID</label>
+                <input type="email" id="email" placeholder="nvpredictive@gmail.com" class="w-full bg-black border border-gray-700 p-3 rounded-xl text-orange-500 outline-none focus:border-orange-500 transition-all">
+            </div>
+            <div>
+                <label class="text-[10px] font-bold text-gray-500 uppercase">Master Password</label>
+                <input type="password" id="password" placeholder="••••••••" class="w-full bg-black border border-gray-700 p-3 rounded-xl text-orange-500 outline-none focus:border-orange-500 transition-all">
+            </div>
+            <button onclick="handleLogin()" id="loginBtn" class="w-full bg-gradient-to-r from-orange-500 to-orange-700 text-white font-black py-4 rounded-xl shadow-lg hover:scale-105 transition-all uppercase tracking-widest">
+                Authorize Entry
+            </button>
+            <p id="errorMsg" class="text-red-500 text-[10px] text-center font-bold mt-4 tracking-tighter uppercase"></p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAe3h4ddqIHIeNDmASa95lLTNaC0gCpb-Q",
+            authDomain: "neurovibe-df874.firebaseapp.com",
+            projectId: "neurovibe-df874",
+            appId: "1:659815576381:web:594c4ec09c30115f750b54"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        window.handleLogin = async () => {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const btn = document.getElementById('loginBtn');
+            const msg = document.getElementById('errorMsg');
+
+            btn.innerText = "VERIFYING...";
+            msg.innerText = "";
+            
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                window.location.href = "admin.html";
+            } catch (error) {
+                msg.innerText = "ACCESS DENIED: " + error.code.split('/')[1].replace(/-/g, ' ');
+                btn.innerText = "AUTHORIZE ENTRY";
+            }
+        };
+    </script>
+</body>
+</html>
