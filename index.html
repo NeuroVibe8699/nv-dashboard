@@ -1,97 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NV Predictive | Secure Login</title>
+    <meta charset="UTF-8"><title>NV Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com" rel="stylesheet">
-    <style>
-        body { background: #0b0f1a; color: white; font-family: 'Inter', sans-serif; }
-        .login-glass { background: rgba(23, 32, 53, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.05); }
-        .input-style { background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1); transition: 0.3s; }
-        .input-style:focus { border-color: #38bdf8; box-shadow: 0 0 15px rgba(56, 189, 248, 0.2); outline: none; }
-        .glow-button { background: linear-gradient(135deg, #0ea5e9, #2563eb); transition: 0.4s; }
-        .glow-button:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(37, 99, 235, 0.4); }
-    </style>
+    <style>body { background: #0b0f1a; color: white; }</style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
-
-    <!-- Background Elements -->
-    <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-sky-600/10 rounded-full blur-[120px]"></div>
-    <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-600/10 rounded-full blur-[120px]"></div>
-
-    <div class="w-full max-w-md login-glass p-10 rounded-[2.5rem] shadow-2xl relative z-10">
-        <!-- Logo/Title -->
-        <div class="text-center mb-10">
-            <div class="w-16 h-16 bg-sky-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-sky-500/30">
-                <i class="fas fa-shield-alt text-3xl text-sky-400"></i>
-            </div>
-            <h1 class="text-3xl font-black tracking-tighter uppercase">NV Predictive</h1>
-            <p class="text-slate-400 text-xs mt-2 uppercase tracking-widest font-bold">Secure Access Portal</p>
-        </div>
-
-        <!-- Login Form (As per PDF Page 2) -->
+<body class="min-h-screen flex items-center justify-center p-6">
+    <div class="bg-slate-900 p-10 rounded-[2rem] w-full max-w-md border border-white/10">
+        <h2 class="text-2xl font-black mb-8 text-center text-sky-400">LOGIN</h2>
         <div class="space-y-6">
-            <div>
-                <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 ml-1">Email Address</label>
-                <div class="relative">
-                    <i class="fas fa-envelope absolute left-4 top-4 text-slate-500 text-sm"></i>
-                    <input type="email" id="email" placeholder="name@company.com" class="w-full input-style p-4 pl-12 rounded-2xl text-sm">
-                </div>
+            <input type="email" id="email" placeholder="Email ID" class="w-full bg-black/40 border border-white/10 p-4 rounded-xl outline-none focus:border-sky-500">
+            <input type="password" id="pass" placeholder="Password" class="w-full bg-black/40 border border-white/10 p-4 rounded-xl outline-none focus:border-sky-500">
+            <div class="flex justify-between text-xs">
+                <button onclick="handleLogin()" class="bg-sky-600 px-8 py-3 rounded-xl font-bold uppercase">Login</button>
+                <button onclick="handleForgot()" class="text-slate-400 hover:text-sky-400 mt-2">Forgot password?</button>
             </div>
-
-            <div>
-                <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 ml-1">Password</label>
-                <div class="relative">
-                    <i class="fas fa-lock absolute left-4 top-4 text-slate-500 text-sm"></i>
-                    <input type="password" id="password" placeholder="••••••••" class="w-full input-style p-4 pl-12 rounded-2xl text-sm">
-                </div>
-            </div>
-
-            <div class="flex items-center justify-between px-1">
-                <label class="flex items-center text-xs text-slate-400 cursor-pointer hover:text-slate-200 transition">
-                    <input type="checkbox" class="mr-2 accent-sky-500"> Remember me
-                </label>
-                <button onclick="handleForgot()" class="text-xs font-bold text-sky-400 hover:text-sky-300 transition">Forgot Password?</button>
-            </div>
-
-            <button onclick="handleLogin()" class="w-full glow-button p-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-lg">
-                Log In <i class="fas fa-arrow-right ml-2"></i>
-            </button>
         </div>
-
-        <!-- Footer -->
-        <p class="text-center text-[10px] text-slate-600 mt-10 font-bold uppercase tracking-widest">
-            Predict.nvpredictive.com | Internal Access Only
-        </p>
     </div>
-
-    <!-- Login Logic -->
     <script>
         function handleLogin() {
             const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-
-            if (!email || !password) {
-                alert("Boss, please enter both Email and Password!");
-                return;
-            }
-
-            // Logic: Admin access check
-            if (email === 'admin@nv.com') {
-                window.location.href = 'admin.html'; // Redirect to Admin Page
-            } else {
-                window.location.href = 'user.html'; // Redirect to User Page
-            }
+            if (email === 'admin@nv.com') window.location.href = 'admin.html';
+            else window.location.href = 'user.html';
         }
-
         function handleForgot() {
-            // As per PDF: Need Email ID and OTP to write new password
-            const email = prompt("Enter your Email ID for OTP:");
-            if (email) {
-                alert("OTP has been sent to: " + email + "\nPlease check and write new password.");
-            }
+            const id = prompt("Need Email ID for OTP:");
+            if(id) alert("OTP sent to " + id + ". Write new password.");
         }
     </script>
 </body>
