@@ -1,11 +1,50 @@
-function handleLogin() {
-    const email = document.getElementById('email').value.trim();
-    
-    if (email === "admin@nv.com") {
-        window.location.href = "admin.html"; // Admin Dashboard पर ले जाएगा
-    } else if (email !== "") {
-        window.location.href = "user.html";  // User Dashboard पर ले जाएगा
-    } else {
-        alert("Please enter Email ID, Boss!");
-    }
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NV Predictive | Secure Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com" rel="stylesheet">
+    <style>
+        body { background: #0b0f1a; color: white; font-family: 'Inter', sans-serif; }
+        .glass { background: rgba(23, 32, 53, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.05); }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-6">
+    <div class="glass p-10 rounded-[2.5rem] w-full max-w-md shadow-2xl">
+        <div class="text-center mb-10">
+            <h1 class="text-2xl font-black text-sky-400 tracking-widest uppercase">NV PREDICTIVE</h1>
+            <p class="text-[10px] text-slate-500 mt-2 uppercase">Secure Access Portal</p>
+        </div>
+        <div class="space-y-6">
+            <input type="email" id="email" placeholder="Email ID" class="w-full bg-black border border-white/10 p-4 rounded-xl outline-none focus:border-sky-500 text-white">
+            <input type="password" id="pass" placeholder="Password" class="w-full bg-black border border-white/10 p-4 rounded-xl outline-none focus:border-sky-500 text-white">
+            
+            <button onclick="handleLogin()" class="w-full bg-sky-600 p-4 rounded-xl font-black text-sm uppercase tracking-widest hover:bg-sky-500 transition shadow-lg">
+                SIGN IN / LOGIN
+            </button>
+
+            <div class="text-center mt-4">
+                <button onclick="alert('OTP sent to Email!')" class="text-xs text-slate-500 hover:text-sky-400">Forgot Password?</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function handleLogin() {
+            const email = document.getElementById('email').value.trim();
+            const pass = document.getElementById('pass').value.trim();
+
+            if (email === 'admin@nv.com') {
+                window.location.href = "admin.html";
+            } else if (email !== '') {
+                // Matching the exact filename 'User.html' from your GitHub screenshot
+                window.location.href = "User.html"; 
+            } else {
+                alert("Please enter credentials!");
+            }
+        }
+    </script>
+</body>
+</html>
