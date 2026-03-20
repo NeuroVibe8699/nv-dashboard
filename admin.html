@@ -2,65 +2,77 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin | Management</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NV Admin | Operations</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com" rel="stylesheet">
-    <style>.hidden { display: none; } .active { color: #38bdf8; border-left: 4px solid #38bdf8; background: rgba(56,189,248,0.1); }</style>
+    <style>
+        body { background: #0b0f1a; color: #e2e8f0; font-family: 'Inter', sans-serif; }
+        .glass { background: rgba(23, 32, 53, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.05); }
+        .active-tab { background: rgba(56, 189, 248, 0.1); color: #38bdf8; border-left: 4px solid #38bdf8; }
+        .hidden { display: none; }
+    </style>
 </head>
-<body class="flex bg-[#0b0f1a] text-slate-300 min-h-screen">
-    <aside class="w-64 border-r border-white/10 p-6 space-y-4">
-        <h1 class="text-sky-400 font-black mb-10 text-lg">NV ADMIN</h1>
-        <nav class="space-y-2">
-            <button onclick="tab('device')" id="b-device" class="active w-full text-left p-3 rounded-lg"><i class="fas fa-microchip mr-2"></i> Devices</button>
-            <button onclick="tab('invent')" id="b-invent" class="w-full text-left p-3 rounded-lg"><i class="fas fa-boxes mr-2"></i> Inventory</button>
-            <button onclick="tab('user')" id="b-user" class="w-full text-left p-3 rounded-lg"><i class="fas fa-user-plus mr-2"></i> Create User</button>
-            <button onclick="tab('ota')" id="b-ota" class="w-full text-left p-3 rounded-lg"><i class="fas fa-sync mr-2"></i> OTA Service</button>
-        </nav>
+<body class="flex min-h-screen">
+    <!-- Sidebar -->
+    <aside class="w-64 glass border-r border-white/5 p-6 space-y-4">
+        <h1 class="text-xl font-black text-sky-400 tracking-tighter uppercase mb-10">NV ADMIN</h1>
+        <button onclick="tab('device')" id="b-device" class="active-tab w-full text-left p-3 rounded-lg flex items-center gap-3"><i class="fas fa-microchip"></i> Devices</button>
+        <button onclick="tab('invent')" id="b-invent" class="w-full text-left p-3 rounded-lg flex items-center gap-3 hover:bg-white/5"><i class="fas fa-boxes"></i> Inventory</button>
+        <button onclick="tab('ota')" id="b-ota" class="w-full text-left p-3 rounded-lg flex items-center gap-3 hover:bg-white/5"><i class="fas fa-sync"></i> OTA Service</button>
     </aside>
-    <main class="flex-1 p-10">
+
+    <main class="flex-1 p-10 overflow-y-auto">
+        <!-- Section: Devices -->
         <div id="s-device">
-            <h2 class="text-xl font-bold mb-6 uppercase">Gateway Devices List</h2>
-            <table class="w-full text-sm">
-                <thead class="border-b border-white/5 text-slate-500 uppercase">
-                    <tr><th class="pb-4">MAC ID</th><th class="pb-4">Site Name</th><th class="pb-4">Area</th><th class="pb-4 text-right">Action</th></tr>
-                </thead>
-                <tbody>
-                    <tr class="border-b border-white/5 hover:bg-white/5"><td class="py-4 text-sky-400 font-mono">MV1001-A4</td><td>Ammonia Pump</td><td>Production</td><td class="text-right"><button class="text-red-400 text-xs">DELETE</button></td></tr>
-                </tbody>
-            </table>
-        </div>
-        <div id="s-invent" class="hidden grid grid-cols-2 gap-6">
-            <div class="p-6 bg-white/5 rounded-2xl border border-white/10">
-                <h3 class="text-sky-400 font-bold mb-4">GATEWAY INVENTORY</h3>
-                <button onclick="alert('Importing...')" class="w-full bg-slate-800 p-3 rounded mb-2 text-sm">Import Inventor Gateway</button>
-                <button onclick="alert('Exporting...')" class="w-full bg-slate-800 p-3 rounded text-sm">Export Inventor Gateway</button>
-            </div>
-            <div class="p-6 bg-white/5 rounded-2xl border border-white/10">
-                <h3 class="text-emerald-400 font-bold mb-4">NODE INVENTORY</h3>
-                <button onclick="alert('Importing...')" class="w-full bg-slate-800 p-3 rounded mb-2 text-sm">Import Inventor Node</button>
-                <button onclick="alert('Exporting...')" class="w-full bg-slate-800 p-3 rounded text-sm">Export Inventor Node</button>
+            <h2 class="text-2xl font-bold mb-6">Gateway & Nodes List</h2>
+            <div class="glass rounded-2xl overflow-hidden shadow-2xl">
+                <table class="w-full text-left">
+                    <thead class="bg-white/5 text-[10px] uppercase tracking-widest text-slate-400">
+                        <tr><th class="p-5">MAC ID</th><th>Site Name</th><th>Mapping Area</th><th>Action</th></tr>
+                    </thead>
+                    <tbody class="text-sm">
+                        <tr class="border-b border-white/5 hover:bg-white/5"><td class="p-5 text-sky-400 font-mono">MV1001-A4</td><td>Ammonia Pump</td><td>Production</td><td><button class="text-red-400 text-xs hover:underline">Delete</button></td></tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-        <div id="s-user" class="hidden max-w-sm mx-auto p-10 bg-white/5 rounded-3xl border border-white/10">
-            <h3 class="font-bold mb-6 text-center">User Sign Up</h3>
-            <div class="space-y-4">
-                <input type="email" placeholder="Email ID" class="w-full bg-black p-3 rounded-lg outline-none"><input type="password" placeholder="Password" class="w-full bg-black p-3 rounded-lg outline-none"><button class="w-full bg-sky-600 p-3 rounded-lg font-bold">CREATE</button>
+
+        <!-- Section: Inventory (PDF Logic) -->
+        <div id="s-invent" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="glass p-8 rounded-2xl border-t-4 border-sky-500 shadow-xl">
+                <h3 class="text-sky-400 font-bold mb-4 uppercase text-xs">Gateway Inventory</h3>
+                <div class="flex gap-2">
+                    <button class="flex-1 bg-sky-600 p-3 rounded-xl text-xs font-bold shadow-lg shadow-sky-600/20">Import Gateway</button>
+                    <button class="flex-1 bg-slate-800 p-3 rounded-xl text-xs font-bold border border-white/5">Export CSV</button>
+                </div>
+            </div>
+            <div class="glass p-8 rounded-2xl border-t-4 border-emerald-500 shadow-xl">
+                <h3 class="text-emerald-400 font-bold mb-4 uppercase text-xs">Node Inventory</h3>
+                <button class="w-full bg-emerald-600 p-3 rounded-xl text-xs font-bold shadow-lg shadow-emerald-600/20">Upload Node Data</button>
             </div>
         </div>
+
+        <!-- Section: OTA -->
         <div id="s-ota" class="hidden space-y-6">
-            <div class="p-8 bg-white/5 rounded-2xl border-l-4 border-red-500 flex gap-4">
-                <button class="bg-emerald-600 px-6 py-2 rounded font-bold">START</button><button class="bg-red-600 px-6 py-2 rounded font-bold">STOP</button>
-            </div>
-            <div class="p-8 bg-white/5 rounded-2xl border-l-4 border-sky-500">
-                <h3 class="font-bold mb-4">Firmware Update</h3>
-                <button onclick="alert('Checking OTA...')" class="bg-sky-600 px-6 py-2 rounded font-bold">Check Firmware by OTA</button>
+            <div class="glass p-8 rounded-2xl border-l-4 border-red-500">
+                <h3 class="font-bold mb-6">System Service Control</h3>
+                <div class="flex gap-4">
+                    <button class="bg-emerald-500/20 text-emerald-400 px-6 py-2 rounded-lg font-bold text-xs uppercase">Start</button>
+                    <button class="bg-red-500/20 text-red-400 px-6 py-2 rounded-lg font-bold text-xs uppercase">Stop</button>
+                </div>
             </div>
         </div>
     </main>
+
     <script>
         function tab(t) {
-            ['device','invent','user','ota'].forEach(i => { document.getElementById('s-'+i).classList.add('hidden'); document.getElementById('b-'+i).classList.remove('active'); });
-            document.getElementById('s-'+t).classList.remove('hidden'); document.getElementById('b-'+t).classList.add('active');
+            ['device','invent','ota'].forEach(i => {
+                document.getElementById('s-'+i).classList.add('hidden');
+                document.getElementById('b-'+i).classList.remove('active-tab');
+            });
+            document.getElementById('s-'+t).classList.remove('hidden');
+            document.getElementById('b-'+t).classList.add('active-tab');
         }
     </script>
 </body>
