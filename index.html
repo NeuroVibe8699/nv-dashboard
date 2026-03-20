@@ -3,70 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NV Login | predict.nvpredictive.com</title>
+    <title>NV Predictive | Industrial Intelligence</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com" rel="stylesheet">
-    <style>
-        body { background: #080b14; color: white; font-family: sans-serif; }
-        .glass { background: #111827; border: 1px solid #1f2937; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
-        .input-box { background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
-        .input-box:focus { border-color: #38bdf8; outline: none; box-shadow: 0 0 10px rgba(56, 189, 248, 0.1); }
-    </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-6 relative">
-    
-    <!-- Decor Background -->
-    <div class="absolute top-0 left-0 w-64 h-64 bg-sky-600/10 rounded-full blur-[100px]"></div>
+<body class="bg-[#0b0f1a] text-white font-sans">
 
-    <div class="glass p-10 rounded-[2.5rem] w-full max-w-md border border-white/10 relative z-10">
-        <div class="text-center mb-10">
-            <h1 class="text-3xl font-black text-sky-400 tracking-tighter uppercase">NV PREDICTIVE</h1>
-            <p class="text-[10px] text-slate-500 mt-2 uppercase tracking-widest font-bold">Secure Access Portal</p>
+    <!-- Navbar -->
+    <nav class="flex justify-between items-center p-6 border-b border-white/10">
+        <h1 class="text-xl font-black tracking-tighter text-sky-400">NV PREDICTIVE</h1>
+        <div class="hidden md:flex gap-8 text-sm font-bold uppercase tracking-widest">
+            <a href="#" class="hover:text-sky-400 transition">Solutions</a>
+            <a href="#" class="hover:text-sky-400 transition">Technology</a>
+            <a href="https://predict.nvpredictive.com" class="bg-sky-600 px-4 py-2 rounded-lg hover:bg-sky-500 transition">Portal Access</a>
         </div>
+    </nav>
 
-        <div class="space-y-6">
-            <div>
-                <label class="text-[10px] font-black text-slate-500 uppercase ml-1 block mb-2 tracking-widest">Email ID</label>
-                <input type="email" id="email" placeholder="example@nv.com" class="w-full input-box p-4 rounded-2xl text-sm">
-            </div>
-
-            <div>
-                <label class="text-[10px] font-black text-slate-500 uppercase ml-1 block mb-2 tracking-widest">Password</label>
-                <input type="password" id="pass" placeholder="••••••••" class="w-full input-box p-4 rounded-2xl text-sm">
-            </div>
-
-            <button onclick="handleLogin()" class="w-full bg-sky-600 p-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-sky-500 transition-all shadow-lg shadow-sky-600/20 active:scale-95">
-                Sign In / Verify <i class="fas fa-arrow-right ml-2 text-[10px]"></i>
-            </button>
-
-            <div class="text-center mt-6">
-                <button onclick="handleForgot()" class="text-[11px] font-bold text-slate-500 hover:text-sky-400 uppercase tracking-widest transition">Forgot Key?</button>
-            </div>
+    <!-- Hero Section -->
+    <main class="flex flex-col items-center justify-center text-center min-h-[80vh] px-6">
+        <div class="bg-sky-500/10 text-sky-400 px-4 py-1 rounded-full text-[10px] font-bold tracking-widest mb-6 border border-sky-500/20 uppercase">
+            Next-Gen Predictive Maintenance
         </div>
-    </div>
+        <h2 class="text-4xl md:text-7xl font-black mb-6 leading-tight">
+            Intelligence that <br> <span class="text-sky-400 text-shadow-glow">Predicts Failure.</span>
+        </h2>
+        <p class="text-slate-400 max-w-2xl text-sm md:text-base mb-10 leading-relaxed">
+            Leading the way in industrial IoT and predictive analytics. Our systems monitor vibration, temperature, and RPM to ensure zero downtime for your critical assets.
+        </p>
+        <div class="flex gap-4">
+            <button class="bg-white text-black px-8 py-4 rounded-2xl font-bold hover:bg-sky-400 transition">Get Started</button>
+            <a href="https://predict.nvpredictive.com" class="border border-white/20 px-8 py-4 rounded-2xl font-bold hover:bg-white/5 transition">Admin Portal</a>
+        </div>
+    </main>
 
-    <script>
-        function handleLogin() {
-            const email = document.getElementById('email').value.trim();
-            const pass = document.getElementById('pass').value.trim();
+    <!-- Footer -->
+    <footer class="p-10 border-t border-white/10 text-center">
+        <p class="text-[10px] text-slate-500 font-bold uppercase tracking-[0.3em]">
+            © 2026 NV Predictive Solutions | All Rights Reserved
+        </p>
+    </footer>
 
-            if (!email || !pass) {
-                alert("Boss, please enter both Email and Password!");
-                return;
-            }
-
-            // PDF LOGIC REDIRECT
-            if (email === 'admin@nv.com') {
-                window.location.href = "admin.html"; // Admin Dashboard
-            } else {
-                window.location.href = "user.html";  // User Dashboard (Graphs)
-            }
-        }
-
-        function handleForgot() {
-            const id = prompt("Write your Email ID for OTP:");
-            if(id) alert("OTP sent to " + id + ". Use it to reset your password.");
-        }
-    </script>
 </body>
 </html>
