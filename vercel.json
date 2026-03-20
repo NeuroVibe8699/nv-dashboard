@@ -8,12 +8,12 @@
     {
       "source": "/",
       "has": [{ "type": "host", "value": "nvpredictive.com" }],
-      "destination": "/home.html"
+      "destination": "/index.html"
     },
     {
       "source": "/",
       "has": [{ "type": "host", "value": "www.nvpredictive.com" }],
-      "destination": "/home.html"
+      "destination": "/index.html"
     }
   ]
 }
