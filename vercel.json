@@ -5,20 +5,20 @@
       "has": [
         {
           "type": "host",
-          "value": "predict.nvpredictive.com"
+          "value": "nvpredictive.com"
         }
       ],
-      "destination": "/login.html"
+      "destination": "/index.html"
     },
     {
       "source": "/",
       "has": [
         {
           "type": "host",
-          "value": "nvpredictive.com"
+          "value": "predict.nvpredictive.com"
         }
       ],
-      "destination": "/index.html"
+      "destination": "/login.html"
     }
   ]
 }
