@@ -3,153 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NV Admin | Full Control</title>
+    <title>NV Admin | Live Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com" rel="stylesheet">
     <style>
-        body { background: #0f172a; color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; }
-        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
-        .active-tab { border-left: 4px solid #38bdf8; background: rgba(56, 189, 248, 0.1); color: #38bdf8; }
+        body { background: #0b0f1a; color: #e2e8f0; font-family: 'Inter', sans-serif; }
+        .glass { background: rgba(23, 32, 53, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.05); }
+        .nav-btn { display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px; border-radius: 12px; transition: 0.3s; color: #94a3b8; }
+        .nav-btn:hover, .nav-btn.active { background: rgba(56, 189, 248, 0.1); color: #38bdf8; border-left: 4px solid #38bdf8; }
         .hidden { display: none; }
     </style>
 </head>
 <body class="flex min-h-screen">
 
-    <!-- SIDEBAR -->
-    <div class="w-64 glass p-6 hidden md:block border-r border-slate-800">
-        <h1 class="text-2xl font-bold text-sky-400 mb-10 text-center">NV Admin</h1>
-        <nav class="space-y-4 text-sm font-medium">
-            <button onclick="switchTab('dashboard')" id="btn-dashboard" class="w-full flex items-center space-x-3 p-3 rounded-lg active-tab transition">
-                <i class="fas fa-chart-line w-5"></i> <span>Dashboard</span>
-            </button>
-            <button onclick="switchTab('users')" id="btn-users" class="w-full flex items-center space-x-3 p-3 rounded-lg hover:bg-slate-800 transition text-slate-400">
-                <i class="fas fa-users w-5"></i> <span>User Management</span>
-            </button>
-            <button onclick="switchTab('settings')" id="btn-settings" class="w-full flex items-center space-x-3 p-3 rounded-lg hover:bg-slate-800 transition text-slate-400">
-                <i class="fas fa-cog w-5"></i> <span>Settings</span>
-            </button>
+    <!-- SIDEBAR (Menu Section as per PDF) -->
+    <aside class="w-64 glass border-r border-white/5 p-6 space-y-8">
+        <h1 class="text-xl font-black text-sky-400 tracking-tighter uppercase">NV Predictive</h1>
+        <nav class="space-y-2">
+            <button onclick="showTab('devices')" id="tab-devices" class="nav-btn active"><i class="fas fa-microchip"></i> Devices (Nodes)</button>
+            <button onclick="showTab('inventory')" id="tab-inventory" class="nav-btn"><i class="fas fa-boxes"></i> Inventory</button>
+            <button onclick="showTab('users')" id="tab-users" class="nav-btn"><i class="fas fa-user-shield"></i> User Management</button>
+            <button onclick="showTab('ota')" id="tab-ota" class="nav-btn"><i class="fas fa-cloud-upload-alt"></i> OTA & Services</button>
         </nav>
-    </div>
+    </aside>
 
-    <!-- MAIN CONTENT -->
-    <main class="flex-1 p-8">
+    <!-- MAIN PANEL -->
+    <main class="flex-1 p-10 overflow-y-auto">
         <header class="flex justify-between items-center mb-10">
-            <h2 id="page-title" class="text-3xl font-bold">Welcome Back, Boss</h2>
-            <div class="flex items-center space-x-4">
-                <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-bold">● SYSTEM LIVE</span>
-                <img src="https://ui-avatars.com" class="w-10 h-10 rounded-full border-2 border-sky-500 shadow-lg shadow-sky-500/20">
+            <h2 id="main-title" class="text-3xl font-bold">Gateway & Nodes List</h2>
+            <div class="flex gap-4">
+                <span class="bg-sky-500/10 text-sky-400 px-4 py-2 rounded-full text-xs font-bold border border-sky-500/20">LIVE: Predict.nvpredictive.com</span>
             </div>
         </header>
 
-        <!-- 1. DASHBOARD VIEW -->
-        <div id="view-dashboard">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div class="glass p-6 rounded-2xl border-b-4 border-sky-500 shadow-xl">
-                    <p class="text-slate-400 text-xs uppercase tracking-wider font-bold">Total Predictions</p>
-                    <h3 class="text-4xl font-black mt-2">12,482</h3>
-                </div>
-                <div class="glass p-6 rounded-2xl border-b-4 border-emerald-500 shadow-xl">
-                    <p class="text-slate-400 text-xs uppercase tracking-wider font-bold">Active Users</p>
-                    <h3 class="text-4xl font-black mt-2 text-emerald-400">854</h3>
-                </div>
-            </div>
-            <div class="glass p-20 rounded-3xl text-center border-dashed border-2 border-slate-700">
-                <i class="fas fa-chart-area text-5xl text-slate-700 mb-4"></i>
-                <p class="text-slate-500 font-semibold">Analytics coming soon...</p>
-            </div>
-        </div>
-
-        <!-- 2. USERS VIEW -->
-        <div id="view-users" class="hidden">
-            <div class="glass rounded-2xl p-6 shadow-2xl">
-                <div class="flex justify-between items-center mb-8">
-                    <h3 class="text-xl font-bold">Manage Users</h3>
-                    <button onclick="openModal()" class="bg-sky-600 hover:bg-sky-500 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition-all transform hover:scale-105 active:scale-95 flex items-center shadow-lg shadow-sky-600/30">
-                        <i class="fas fa-plus mr-2"></i> Add New User
-                    </button>
-                </div>
+        <!-- 1. DEVICES SECTION (MAC ID, Site Name, Mapping Area) -->
+        <section id="sec-devices">
+            <div class="glass rounded-2xl overflow-hidden shadow-2xl">
                 <table class="w-full text-left">
-                    <thead class="text-slate-400 border-b border-slate-800 text-xs uppercase tracking-widest">
-                        <tr><th class="pb-5">Name</th><th class="pb-5">Email</th><th class="pb-5">Status</th></tr>
+                    <thead class="bg-white/5 text-[10px] uppercase tracking-widest text-slate-400">
+                        <tr><th class="p-5">MAC ID</th><th>Site Name</th><th>Mapping Area</th><th>Action</th></tr>
                     </thead>
-                    <tbody class="text-slate-300 text-sm">
-                        <tr class="border-b border-slate-800/50 hover:bg-slate-800/30 transition cursor-pointer"><td class="py-5 font-bold text-white">Rahul Sharma</td><td>rahul@example.com</td><td><span class="bg-emerald-500/10 text-emerald-400 px-3 py-1 rounded-lg text-[10px] font-black uppercase">Active</span></td></tr>
-                        <tr class="border-b border-slate-800/50 hover:bg-slate-800/30 transition cursor-pointer"><td class="py-5 font-bold text-white">Amit Patel</td><td>amit@example.com</td><td><span class="bg-emerald-500/10 text-emerald-400 px-3 py-1 rounded-lg text-[10px] font-black uppercase">Active</span></td></tr>
+                    <tbody class="text-sm">
+                        <tr class="border-b border-white/5 hover:bg-white/5 transition">
+                            <td class="p-5 font-mono text-sky-400">MV1001-A4:2B</td>
+                            <td>Ammonia Pump</td>
+                            <td>Production Area</td>
+                            <td>
+                                <button class="text-xs bg-slate-800 px-3 py-1 rounded hover:text-red-400">Delete</button>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
-        </div>
+        </section>
 
-        <!-- 3. SETTINGS VIEW -->
-        <div id="view-settings" class="hidden animate-fade-in">
-            <div class="glass rounded-2xl p-8 max-w-xl shadow-2xl">
-                <h3 class="text-xl font-bold mb-8 text-sky-400 border-b border-slate-800 pb-4">Account Settings</h3>
-                <div class="space-y-6">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Admin Email</label>
-                        <input type="text" value="admin@nvpredictive.com" class="w-full bg-slate-900 border border-slate-800 p-4 rounded-xl text-white outline-none focus:border-sky-500 transition">
+        <!-- 2. INVENTORY SECTION (Import/Export as per PDF) -->
+        <section id="sec-inventory" class="hidden space-y-6">
+            <div class="grid grid-cols-2 gap-6">
+                <div class="glass p-8 rounded-2xl border-t-4 border-sky-500">
+                    <h3 class="font-bold mb-4 uppercase text-xs text-sky-400">Gateway Inventory</h3>
+                    <div class="flex gap-3">
+                        <button class="flex-1 bg-sky-600 p-3 rounded-xl text-sm font-bold">Import Excel</button>
+                        <button class="flex-1 bg-slate-800 p-3 rounded-xl text-sm font-bold">Export CSV</button>
                     </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Password Protection</label>
-                        <button class="bg-slate-800 hover:bg-slate-700 px-6 py-2.5 rounded-xl text-xs font-bold transition">Change Admin Password</button>
+                </div>
+                <div class="glass p-8 rounded-2xl border-t-4 border-emerald-500">
+                    <h3 class="font-bold mb-4 uppercase text-xs text-emerald-400">Node Inventory</h3>
+                    <div class="flex gap-3">
+                        <button class="flex-1 bg-emerald-600 p-3 rounded-xl text-sm font-bold">Upload Node Data</button>
                     </div>
-                    <button class="w-full bg-sky-600 hover:bg-sky-500 p-4 rounded-xl font-black text-sm transition-all shadow-lg shadow-sky-600/20">SAVE ALL CHANGES</button>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <!-- 3. USER MANAGEMENT (Sign Up Form as per PDF) -->
+        <section id="sec-users" class="hidden max-w-md mx-auto">
+            <div class="glass p-8 rounded-3xl shadow-2xl">
+                <h3 class="text-xl font-bold mb-6 text-center">Create User / Client</h3>
+                <div class="space-y-4">
+                    <input type="email" placeholder="Email ID" class="w-full bg-black/40 border border-white/10 p-4 rounded-xl outline-none focus:border-sky-500">
+                    <input type="password" placeholder="Write Password" class="w-full bg-black/40 border border-white/10 p-4 rounded-xl outline-none focus:border-sky-500">
+                    <input type="password" placeholder="Confirm Password" class="w-full bg-black/40 border border-white/10 p-4 rounded-xl outline-none focus:border-sky-500">
+                    <button class="w-full bg-sky-600 p-4 rounded-xl font-black tracking-widest hover:bg-sky-500 transition shadow-lg shadow-sky-600/30">SIGN UP / CREATE</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. OTA & SERVICES (Start, Stop, Firmware update) -->
+        <section id="sec-ota" class="hidden">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glass p-8 rounded-2xl">
+                    <h3 class="font-bold mb-6 flex items-center gap-2"><i class="fas fa-tools"></i> Service Control</h3>
+                    <div class="flex gap-4">
+                        <button class="bg-emerald-500/20 text-emerald-400 px-6 py-2 rounded-lg font-bold">START</button>
+                        <button class="bg-yellow-500/20 text-yellow-400 px-6 py-2 rounded-lg font-bold">PAUSE</button>
+                        <button class="bg-red-500/20 text-red-400 px-6 py-2 rounded-lg font-bold">STOP</button>
+                    </div>
+                </div>
+                <div class="glass p-8 rounded-2xl border-l-4 border-sky-500">
+                    <h3 class="font-bold mb-4 uppercase text-xs">Firmware OTA (Update)</h3>
+                    <p class="text-xs text-slate-400 mb-4">Select Node/Gateway to push latest firmware metadata.</p>
+                    <button class="w-full bg-slate-800 p-3 rounded-lg text-xs font-bold border border-white/5">Check for Updates</button>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <!-- ADD USER MODAL (POPUP) -->
-    <div id="userModal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md flex items-center justify-center z-50 p-4">
-        <div class="glass p-8 rounded-3xl w-full max-w-md shadow-2xl border border-sky-500/30 transform transition-all scale-100">
-            <h3 class="text-2xl font-black mb-6 text-sky-400">Add New User</h3>
-            <div class="space-y-5">
-                <div>
-                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Full Name</label>
-                    <input type="text" id="userName" placeholder="John Doe" class="w-full bg-slate-900 border border-slate-800 p-4 rounded-xl mt-2 outline-none focus:border-sky-500 text-white">
-                </div>
-                <div>
-                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Email Address</label>
-                    <input type="email" id="userEmail" placeholder="john@example.com" class="w-full bg-slate-900 border border-slate-800 p-4 rounded-xl mt-2 outline-none focus:border-sky-500 text-white">
-                </div>
-                <div class="flex space-x-4 mt-8">
-                    <button onclick="closeModal()" class="flex-1 bg-slate-800 hover:bg-slate-700 p-4 rounded-2xl font-bold transition">Cancel</button>
-                    <button onclick="saveUser()" class="flex-1 bg-sky-600 hover:bg-sky-500 p-4 rounded-2xl font-black shadow-lg shadow-sky-600/30 transition">Save User</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- JAVASCRIPT LOGIC -->
     <script>
-        function switchTab(tab) {
-            ['dashboard', 'users', 'settings'].forEach(id => {
-                document.getElementById('view-' + id).classList.add('hidden');
-                document.getElementById('btn-' + id).classList.remove('active-tab', 'text-sky-400');
-                document.getElementById('btn-' + id).classList.add('text-slate-400');
-            });
-
-            document.getElementById('view-' + tab).classList.remove('hidden');
-            document.getElementById('btn-' + tab).classList.add('active-tab', 'text-sky-400');
+        function showTab(tab) {
+            // Hide all
+            document.getElementById('sec-devices').classList.add('hidden');
+            document.getElementById('sec-inventory').classList.add('hidden');
+            document.getElementById('sec-users').classList.add('hidden');
+            document.getElementById('sec-ota').classList.add('hidden');
             
-            const titles = { 'dashboard': 'Welcome Back, Boss', 'users': 'User Management', 'settings': 'Account Settings' };
-            document.getElementById('page-title').innerText = titles[tab];
-        }
+            // Remove active styles
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
 
-        function openModal() { document.getElementById('userModal').classList.remove('hidden'); }
-        function closeModal() { document.getElementById('userModal').classList.add('hidden'); }
+            // Show selected
+            document.getElementById('sec-' + tab).classList.remove('hidden');
+            document.getElementById('tab-' + tab).classList.add('active');
 
-        function saveUser() {
-            const name = document.getElementById('userName').value;
-            const email = document.getElementById('userEmail').value;
-            if(name && email) {
-                alert("Successfully Added: " + name);
-                closeModal();
-                document.getElementById('userName').value = '';
-                document.getElementById('userEmail').value = '';
-            } else {
-                alert("Please fill all fields!");
-            }
+            const titles = { 'devices': 'Gateway & Nodes List', 'inventory': 'Device Inventory Management', 'users': 'Create New Access', 'ota': 'OTA & System Services' };
+            document.getElementById('main-title').innerText = titles[tab];
         }
     </script>
 </body>
