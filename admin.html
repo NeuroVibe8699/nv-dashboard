@@ -2,136 +2,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NV Admin | Full Working Portal</title>
+    <title>Admin | Management</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Icons के लिए FontAwesome लिंक ठीक किया गया है -->
     <link href="https://cdnjs.cloudflare.com" rel="stylesheet">
-    <style>
-        .hidden { display: none; } 
-        .active { color: #38bdf8; border-left: 4px solid #38bdf8; background: rgba(56,189,248,0.1); }
-        body { background: #0b0f1a; scrollbar-width: none; }
-    </style>
+    <style>.hidden { display: none; } .active { color: #38bdf8; border-left: 4px solid #38bdf8; background: rgba(56,189,248,0.1); }</style>
 </head>
-<body class="flex flex-col md:flex-row bg-[#0b0f1a] text-slate-300 min-h-screen">
-
-    <!-- Sidebar Menu (Responsive) -->
-    <aside class="w-full md:w-64 border-b md:border-r border-white/10 p-6 space-y-4">
-        <h1 class="text-sky-400 font-black mb-6 md:mb-10 text-center md:text-left text-xl tracking-tighter">NV ADMIN</h1>
-        <nav class="flex md:flex-col overflow-x-auto md:overflow-visible gap-2">
-            <button onclick="tab('device')" id="b-device" class="active flex-shrink-0 text-left p-3 rounded-lg text-sm transition-all w-full"><i class="fas fa-microchip mr-2"></i> Devices</button>
-            <button onclick="tab('invent')" id="b-invent" class="flex-shrink-0 text-left p-3 rounded-lg text-sm transition-all w-full"><i class="fas fa-boxes mr-2"></i> Inventory</button>
-            <button onclick="tab('user')" id="b-user" class="flex-shrink-0 text-left p-3 rounded-lg text-sm transition-all w-full"><i class="fas fa-user-plus mr-2"></i> Create User</button>
-            <button onclick="tab('ota')" id="b-ota" class="flex-shrink-0 text-left p-3 rounded-lg text-sm transition-all w-full"><i class="fas fa-sync mr-2"></i> OTA Update</button>
+<body class="flex bg-[#0b0f1a] text-slate-300 min-h-screen">
+    <aside class="w-64 border-r border-white/10 p-6 space-y-4">
+        <h1 class="text-sky-400 font-black mb-10 text-lg">NV ADMIN</h1>
+        <nav class="space-y-2">
+            <button onclick="tab('device')" id="b-device" class="active w-full text-left p-3 rounded-lg"><i class="fas fa-microchip mr-2"></i> Devices</button>
+            <button onclick="tab('invent')" id="b-invent" class="w-full text-left p-3 rounded-lg"><i class="fas fa-boxes mr-2"></i> Inventory</button>
+            <button onclick="tab('user')" id="b-user" class="w-full text-left p-3 rounded-lg"><i class="fas fa-user-plus mr-2"></i> Create User</button>
+            <button onclick="tab('ota')" id="b-ota" class="w-full text-left p-3 rounded-lg"><i class="fas fa-sync mr-2"></i> OTA Service</button>
         </nav>
     </aside>
-
-    <main class="flex-1 p-4 md:p-10 overflow-x-hidden">
-        
-        <!-- 1. DEVICE TABLE -->
+    <main class="flex-1 p-10">
         <div id="s-device">
-            <h2 class="text-lg font-bold mb-6 uppercase tracking-widest text-sky-400">Gateway Devices List</h2>
-            <div class="overflow-x-auto bg-white/5 rounded-2xl p-4">
-                <table class="w-full text-left text-xs md:text-sm">
-                    <thead class="text-slate-500 border-b border-white/5">
-                        <tr><th class="pb-4">MAC ID</th><th class="pb-4">Site Name</th><th class="pb-4">Map Area</th><th class="pb-4 text-right">Action</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr class="border-b border-white/5 hover:bg-white/5 transition">
-                            <td class="py-4 font-mono text-sky-400">MV1001-A4</td><td>Ammonia Pump</td><td>Production</td>
-                            <td class="text-right space-x-2">
-                                <button onclick="alert('Moving Device...')" class="hover:text-sky-400">MOVE</button>
-                                <button onclick="confirm('Delete Device?')" class="hover:text-red-400">DELETE</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <h2 class="text-xl font-bold mb-6 uppercase">Gateway Devices List</h2>
+            <table class="w-full text-sm">
+                <thead class="border-b border-white/5 text-slate-500 uppercase">
+                    <tr><th class="pb-4">MAC ID</th><th class="pb-4">Site Name</th><th class="pb-4">Area</th><th class="pb-4 text-right">Action</th></tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b border-white/5 hover:bg-white/5"><td class="py-4 text-sky-400 font-mono">MV1001-A4</td><td>Ammonia Pump</td><td>Production</td><td class="text-right"><button class="text-red-400 text-xs">DELETE</button></td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="s-invent" class="hidden grid grid-cols-2 gap-6">
+            <div class="p-6 bg-white/5 rounded-2xl border border-white/10">
+                <h3 class="text-sky-400 font-bold mb-4">GATEWAY INVENTORY</h3>
+                <button onclick="alert('Importing...')" class="w-full bg-slate-800 p-3 rounded mb-2 text-sm">Import Inventor Gateway</button>
+                <button onclick="alert('Exporting...')" class="w-full bg-slate-800 p-3 rounded text-sm">Export Inventor Gateway</button>
+            </div>
+            <div class="p-6 bg-white/5 rounded-2xl border border-white/10">
+                <h3 class="text-emerald-400 font-bold mb-4">NODE INVENTORY</h3>
+                <button onclick="alert('Importing...')" class="w-full bg-slate-800 p-3 rounded mb-2 text-sm">Import Inventor Node</button>
+                <button onclick="alert('Exporting...')" class="w-full bg-slate-800 p-3 rounded text-sm">Export Inventor Node</button>
             </div>
         </div>
-
-        <!-- 2. INVENTORY (Buttons fixed to work) -->
-        <div id="s-invent" class="hidden space-y-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Gateway Card -->
-                <div class="p-6 bg-white/5 rounded-2xl border border-white/10">
-                    <h3 class="text-sky-400 font-bold mb-6 uppercase text-xs">Gateway Inventory</h3>
-                    <div class="space-y-3">
-                        <label class="block w-full text-center bg-sky-600/20 text-sky-400 p-3 rounded-lg border border-sky-500/30 cursor-pointer hover:bg-sky-600/30">
-                            Import Inventor Gateway
-                            <input type="file" class="hidden" onchange="handleFile('Gateway Import')">
-                        </label>
-                        <button onclick="handleFile('Gateway Export')" class="w-full bg-slate-800 p-3 rounded-lg hover:bg-slate-700">Export Inventor Gateway</button>
-                    </div>
-                    <p class="text-[10px] text-slate-500 mt-4 leading-tight">Manual: Excel file format (STNO, MODEL, IMEI, RadioMACID)</p>
-                </div>
-                <!-- Node Card -->
-                <div class="p-6 bg-white/5 rounded-2xl border border-white/10">
-                    <h3 class="text-emerald-400 font-bold mb-6 uppercase text-xs">Node Inventory</h3>
-                    <div class="space-y-3">
-                        <label class="block w-full text-center bg-emerald-600/20 text-emerald-400 p-3 rounded-lg border border-emerald-500/30 cursor-pointer hover:bg-emerald-600/30">
-                            Import Inventor Node
-                            <input type="file" class="hidden" onchange="handleFile('Node Import')">
-                        </label>
-                        <button onclick="handleFile('Node Export')" class="w-full bg-slate-800 p-3 rounded-lg hover:bg-slate-700">Export Inventor Node</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 3. CREATE USER (Sign Up Logic) -->
-        <div id="s-user" class="hidden max-w-sm mx-auto p-8 bg-white/5 rounded-3xl border border-white/10 shadow-2xl">
-            <h3 class="font-black mb-8 text-center text-sky-400 uppercase tracking-tighter">Sign Up New User</h3>
+        <div id="s-user" class="hidden max-w-sm mx-auto p-10 bg-white/5 rounded-3xl border border-white/10">
+            <h3 class="font-bold mb-6 text-center">User Sign Up</h3>
             <div class="space-y-4">
-                <input type="email" id="u-email" placeholder="Email ID" class="w-full bg-black/40 border border-white/10 p-4 rounded-xl outline-none focus:border-sky-500">
-                <input type="password" id="u-pass" placeholder="Password" class="w-full bg-black/40 border border-white/10 p-4 rounded-xl outline-none focus:border-sky-500">
-                <input type="password" id="u-confirm" placeholder="Confirm Password" class="w-full bg-black/40 border border-white/10 p-4 rounded-xl outline-none focus:border-sky-500">
-                <button onclick="handleSignUp()" class="w-full bg-sky-600 p-4 rounded-xl font-black shadow-lg shadow-sky-600/20 hover:bg-sky-500 transition">SIGN UP</button>
+                <input type="email" placeholder="Email ID" class="w-full bg-black p-3 rounded-lg outline-none"><input type="password" placeholder="Password" class="w-full bg-black p-3 rounded-lg outline-none"><button class="w-full bg-sky-600 p-3 rounded-lg font-bold">CREATE</button>
             </div>
         </div>
-
-        <!-- 4. OTA & SERVICE (Working Buttons) -->
         <div id="s-ota" class="hidden space-y-6">
-            <div class="p-8 bg-white/5 rounded-2xl border-l-4 border-red-500 flex flex-wrap gap-4 items-center justify-between">
-                <div>
-                    <h3 class="font-bold uppercase text-xs text-red-400 mb-1">Service Control</h3>
-                    <p class="text-[10px] text-slate-500">Start/Stop Backend Services</p>
-                </div>
-                <div class="flex gap-2">
-                    <button onclick="alert('Service Started')" class="bg-emerald-600 px-5 py-2 rounded-lg font-bold text-xs">START</button>
-                    <button onclick="alert('Service Stopped')" class="bg-red-600 px-5 py-2 rounded-lg font-bold text-xs">STOP</button>
-                </div>
+            <div class="p-8 bg-white/5 rounded-2xl border-l-4 border-red-500 flex gap-4">
+                <button class="bg-emerald-600 px-6 py-2 rounded font-bold">START</button><button class="bg-red-600 px-6 py-2 rounded font-bold">STOP</button>
             </div>
             <div class="p-8 bg-white/5 rounded-2xl border-l-4 border-sky-500">
-                <h3 class="font-bold mb-4 uppercase text-xs">Firmware Update (MCU/Radio)</h3>
-                <button onclick="alert('Checking for OTA Updates...')" class="bg-sky-600 px-6 py-3 rounded-xl font-bold text-sm w-full md:w-auto">Check Firmware by OTA</button>
+                <h3 class="font-bold mb-4">Firmware Update</h3>
+                <button onclick="alert('Checking OTA...')" class="bg-sky-600 px-6 py-2 rounded font-bold">Check Firmware by OTA</button>
             </div>
         </div>
     </main>
-
     <script>
-        // Tab switching logic
         function tab(t) {
-            ['device','invent','user','ota'].forEach(i => {
-                document.getElementById('s-'+i).classList.add('hidden');
-                document.getElementById('b-'+i).classList.remove('active');
-            });
-            document.getElementById('s-'+t).classList.remove('hidden');
-            document.getElementById('b-'+t).classList.add('active');
-        }
-
-        // Logic for Inventory Buttons
-        function handleFile(action) {
-            alert("Action Triggered: " + action + "\nOpening Secure Pipeline...");
-        }
-
-        // Logic for User Sign Up
-        function handleSignUp() {
-            const email = document.getElementById('u-email').value;
-            if(email) {
-                alert("Success! Access created for: " + email);
-            } else {
-                alert("Please fill all fields, Boss!");
-            }
+            ['device','invent','user','ota'].forEach(i => { document.getElementById('s-'+i).classList.add('hidden'); document.getElementById('b-'+i).classList.remove('active'); });
+            document.getElementById('s-'+t).classList.remove('hidden'); document.getElementById('b-'+t).classList.add('active');
         }
     </script>
 </body>
