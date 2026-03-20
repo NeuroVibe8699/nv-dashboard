@@ -1,16 +1,14 @@
 {
-  "redirects": [
+  "rewrites": [
     {
       "source": "/",
       "has": [{ "type": "host", "value": "predict.nvpredictive.com" }],
-      "destination": "/admin.html",
-      "permanent": false
+      "destination": "/index.html"
     },
     {
       "source": "/",
       "has": [{ "type": "host", "value": "nvpredictive.com" }],
-      "destination": "/index.html",
-      "permanent": false
+      "destination": "/index.html"
     }
   ]
 }
