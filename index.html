@@ -3,47 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NV Login | Secure Access</title>
+    <title>NV Login | predict.nvpredictive.com</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com" rel="stylesheet">
     <style>
         body { background: #080b14; color: white; font-family: sans-serif; }
-        .glass-card { background: #111827; border: 1px solid #1f2937; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5); }
-        .login-btn { background: #0ea5e9; transition: 0.3s; }
-        .login-btn:hover { background: #0284c7; transform: scale(1.02); }
+        .glass { background: #111827; border: 1px solid #1f2937; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+        .input-box { background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
+        .input-box:focus { border-color: #38bdf8; outline: none; box-shadow: 0 0 10px rgba(56, 189, 248, 0.1); }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-6">
+<body class="min-h-screen flex items-center justify-center p-6 relative">
+    
+    <!-- Decor Background -->
+    <div class="absolute top-0 left-0 w-64 h-64 bg-sky-600/10 rounded-full blur-[100px]"></div>
 
-    <div class="glass-card p-10 rounded-[2rem] w-full max-w-md border border-white/10">
+    <div class="glass p-10 rounded-[2.5rem] w-full max-w-md border border-white/10 relative z-10">
         <div class="text-center mb-10">
-            <h1 class="text-2xl font-black text-sky-400 tracking-widest uppercase">NV PREDICTIVE</h1>
-            <p class="text-[10px] text-slate-500 mt-2 uppercase">Secure Access Portal</p>
+            <h1 class="text-3xl font-black text-sky-400 tracking-tighter uppercase">NV PREDICTIVE</h1>
+            <p class="text-[10px] text-slate-500 mt-2 uppercase tracking-widest font-bold">Secure Access Portal</p>
         </div>
 
         <div class="space-y-6">
-            <!-- Email Input -->
             <div>
-                <label class="text-[10px] font-bold text-slate-500 uppercase ml-1 block mb-2">Email ID</label>
-                <input type="email" id="email" placeholder="example@nv.com" 
-                class="w-full bg-black border border-white/10 p-4 rounded-xl outline-none focus:border-sky-500 text-white">
+                <label class="text-[10px] font-black text-slate-500 uppercase ml-1 block mb-2 tracking-widest">Email ID</label>
+                <input type="email" id="email" placeholder="example@nv.com" class="w-full input-box p-4 rounded-2xl text-sm">
             </div>
 
-            <!-- Password Input -->
             <div>
-                <label class="text-[10px] font-bold text-slate-500 uppercase ml-1 block mb-2">Password</label>
-                <input type="password" id="pass" placeholder="••••••••" 
-                class="w-full bg-black border border-white/10 p-4 rounded-xl outline-none focus:border-sky-500 text-white">
+                <label class="text-[10px] font-black text-slate-500 uppercase ml-1 block mb-2 tracking-widest">Password</label>
+                <input type="password" id="pass" placeholder="••••••••" class="w-full input-box p-4 rounded-2xl text-sm">
             </div>
 
-            <!-- LOGIN BUTTON (साफ़ दिखने वाला) -->
-            <button onclick="handleLogin()" 
-            class="login-btn w-full p-4 rounded-xl font-black text-sm uppercase tracking-widest text-white shadow-lg mt-4">
-                SIGN IN / LOGIN
+            <button onclick="handleLogin()" class="w-full bg-sky-600 p-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-sky-500 transition-all shadow-lg shadow-sky-600/20 active:scale-95">
+                Sign In / Verify <i class="fas fa-arrow-right ml-2 text-[10px]"></i>
             </button>
 
-            <!-- Forgot Password -->
-            <div class="text-center mt-4">
-                <button onclick="handleForgot()" class="text-xs text-slate-500 hover:text-sky-400">Forgot Password?</button>
+            <div class="text-center mt-6">
+                <button onclick="handleForgot()" class="text-[11px] font-bold text-slate-500 hover:text-sky-400 uppercase tracking-widest transition">Forgot Key?</button>
             </div>
         </div>
     </div>
@@ -51,18 +48,24 @@
     <script>
         function handleLogin() {
             const email = document.getElementById('email').value.trim();
+            const pass = document.getElementById('pass').value.trim();
+
+            if (!email || !pass) {
+                alert("Boss, please enter both Email and Password!");
+                return;
+            }
+
+            // PDF LOGIC REDIRECT
             if (email === 'admin@nv.com') {
-                window.location.href = 'admin.html'; // एडमिन पैनल पर ले जाएगा
-            } else if (email !== '') {
-                window.location.href = 'user.html'; // यूज़र डैशबोर्ड पर ले जाएगा
+                window.location.href = "admin.html"; // Admin Dashboard
             } else {
-                alert("Please enter your Email, Boss!");
+                window.location.href = "user.html";  // User Dashboard (Graphs)
             }
         }
 
         function handleForgot() {
-            const id = prompt("Enter Email for OTP:");
-            if(id) alert("OTP sent to " + id);
+            const id = prompt("Write your Email ID for OTP:");
+            if(id) alert("OTP sent to " + id + ". Use it to reset your password.");
         }
     </script>
 </body>
