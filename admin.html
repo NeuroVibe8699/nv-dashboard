@@ -1,131 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NV Admin | Live Portal</title>
+    <meta charset="UTF-8"><title>Admin Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com" rel="stylesheet">
-    <style>
-        body { background: #0b0f1a; color: #e2e8f0; font-family: 'Inter', sans-serif; }
-        .glass { background: rgba(23, 32, 53, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.05); }
-        .nav-btn { display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px; border-radius: 12px; transition: 0.3s; color: #94a3b8; }
-        .nav-btn:hover, .nav-btn.active { background: rgba(56, 189, 248, 0.1); color: #38bdf8; border-left: 4px solid #38bdf8; }
-        .hidden { display: none; }
-    </style>
+    <style>.hidden { display: none; } .active { color: #38bdf8; border-left: 4px solid #38bdf8; background: rgba(56,189,248,0.1); }</style>
 </head>
-<body class="flex min-h-screen">
-
-    <!-- SIDEBAR (Menu Section as per PDF) -->
-    <aside class="w-64 glass border-r border-white/5 p-6 space-y-8">
-        <h1 class="text-xl font-black text-sky-400 tracking-tighter uppercase">NV Predictive</h1>
-        <nav class="space-y-2">
-            <button onclick="showTab('devices')" id="tab-devices" class="nav-btn active"><i class="fas fa-microchip"></i> Devices (Nodes)</button>
-            <button onclick="showTab('inventory')" id="tab-inventory" class="nav-btn"><i class="fas fa-boxes"></i> Inventory</button>
-            <button onclick="showTab('users')" id="tab-users" class="nav-btn"><i class="fas fa-user-shield"></i> User Management</button>
-            <button onclick="showTab('ota')" id="tab-ota" class="nav-btn"><i class="fas fa-cloud-upload-alt"></i> OTA & Services</button>
-        </nav>
+<body class="flex bg-[#0b0f1a] text-slate-300 min-h-screen">
+    <!-- Sidebar Menu as per PDF -->
+    <aside class="w-64 border-r border-white/10 p-6 space-y-4">
+        <h1 class="text-sky-400 font-black mb-10">NV ADMIN</h1>
+        <button onclick="tab('device')" id="b-device" class="active w-full text-left p-3 rounded-lg"><i class="fas fa-microchip mr-2"></i> Device (Nodes)</button>
+        <button onclick="tab('invent')" id="b-invent" class="w-full text-left p-3 rounded-lg"><i class="fas fa-boxes mr-2"></i> Inventory</button>
+        <button onclick="tab('user')" id="b-user" class="w-full text-left p-3 rounded-lg"><i class="fas fa-user-plus mr-2"></i> Create User</button>
+        <button onclick="tab('ota')" id="b-ota" class="w-full text-left p-3 rounded-lg"><i class="fas fa-sync mr-2"></i> OTA & Service</button>
     </aside>
 
-    <!-- MAIN PANEL -->
-    <main class="flex-1 p-10 overflow-y-auto">
-        <header class="flex justify-between items-center mb-10">
-            <h2 id="main-title" class="text-3xl font-bold">Gateway & Nodes List</h2>
-            <div class="flex gap-4">
-                <span class="bg-sky-500/10 text-sky-400 px-4 py-2 rounded-full text-xs font-bold border border-sky-500/20">LIVE: Predict.nvpredictive.com</span>
-            </div>
-        </header>
+    <main class="flex-1 p-10">
+        <!-- 1. DEVICE TABLE (MACID, Site Name, Mapping Area) -->
+        <div id="s-device" class="glass">
+            <h2 class="text-xl font-bold mb-6 uppercase tracking-widest">Gateway Devices List</h2>
+            <table class="w-full text-sm">
+                <thead class="text-slate-500 border-b border-white/5">
+                    <tr><th class="pb-4">MAC ID</th><th class="pb-4">Site Name</th><th class="pb-4">Map Area</th><th class="pb-4 text-right">Menu Option</th></tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b border-white/5">
+                        <td class="py-4 font-mono text-sky-400">MV1001-A4</td><td>Ammonia Pump</td><td>Production</td>
+                        <td class="text-right space-x-2 text-[10px]">
+                            <button class="hover:text-sky-400">MOVE</button> <button class="hover:text-red-400">DELETE</button> <button class="hover:text-emerald-400">CONFIRM</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-        <!-- 1. DEVICES SECTION (MAC ID, Site Name, Mapping Area) -->
-        <section id="sec-devices">
-            <div class="glass rounded-2xl overflow-hidden shadow-2xl">
-                <table class="w-full text-left">
-                    <thead class="bg-white/5 text-[10px] uppercase tracking-widest text-slate-400">
-                        <tr><th class="p-5">MAC ID</th><th>Site Name</th><th>Mapping Area</th><th>Action</th></tr>
-                    </thead>
-                    <tbody class="text-sm">
-                        <tr class="border-b border-white/5 hover:bg-white/5 transition">
-                            <td class="p-5 font-mono text-sky-400">MV1001-A4:2B</td>
-                            <td>Ammonia Pump</td>
-                            <td>Production Area</td>
-                            <td>
-                                <button class="text-xs bg-slate-800 px-3 py-1 rounded hover:text-red-400">Delete</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- 2. INVENTORY SECTION (Import/Export as per PDF) -->
-        <section id="sec-inventory" class="hidden space-y-6">
+        <!-- 2. INVENTORY (Import/Export Logic - Page 1) -->
+        <div id="s-invent" class="hidden space-y-8">
             <div class="grid grid-cols-2 gap-6">
-                <div class="glass p-8 rounded-2xl border-t-4 border-sky-500">
-                    <h3 class="font-bold mb-4 uppercase text-xs text-sky-400">Gateway Inventory</h3>
-                    <div class="flex gap-3">
-                        <button class="flex-1 bg-sky-600 p-3 rounded-xl text-sm font-bold">Import Excel</button>
-                        <button class="flex-1 bg-slate-800 p-3 rounded-xl text-sm font-bold">Export CSV</button>
-                    </div>
+                <div class="p-6 bg-white/5 rounded-2xl border border-white/10">
+                    <h3 class="text-sky-400 font-bold mb-4 uppercase">Gateway Inventory</h3>
+                    <button class="w-full bg-slate-800 p-3 rounded mb-2">Import Inventor Gateway</button>
+                    <button class="w-full bg-slate-800 p-3 rounded">Export Inventor Gateway</button>
+                    <p class="text-[10px] text-slate-500 mt-4">Manual: Excel file format for Gateway (STNO, MODEL, IMEI, RadioMACID)</p>
                 </div>
-                <div class="glass p-8 rounded-2xl border-t-4 border-emerald-500">
-                    <h3 class="font-bold mb-4 uppercase text-xs text-emerald-400">Node Inventory</h3>
-                    <div class="flex gap-3">
-                        <button class="flex-1 bg-emerald-600 p-3 rounded-xl text-sm font-bold">Upload Node Data</button>
-                    </div>
+                <div class="p-6 bg-white/5 rounded-2xl border border-white/10">
+                    <h3 class="text-emerald-400 font-bold mb-4 uppercase">Node Inventory</h3>
+                    <button class="w-full bg-slate-800 p-3 rounded mb-2">Import Inventor Node</button>
+                    <button class="w-full bg-slate-800 p-3 rounded">Export Inventor Node</button>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- 3. USER MANAGEMENT (Sign Up Form as per PDF) -->
-        <section id="sec-users" class="hidden max-w-md mx-auto">
-            <div class="glass p-8 rounded-3xl shadow-2xl">
-                <h3 class="text-xl font-bold mb-6 text-center">Create User / Client</h3>
-                <div class="space-y-4">
-                    <input type="email" placeholder="Email ID" class="w-full bg-black/40 border border-white/10 p-4 rounded-xl outline-none focus:border-sky-500">
-                    <input type="password" placeholder="Write Password" class="w-full bg-black/40 border border-white/10 p-4 rounded-xl outline-none focus:border-sky-500">
-                    <input type="password" placeholder="Confirm Password" class="w-full bg-black/40 border border-white/10 p-4 rounded-xl outline-none focus:border-sky-500">
-                    <button class="w-full bg-sky-600 p-4 rounded-xl font-black tracking-widest hover:bg-sky-500 transition shadow-lg shadow-sky-600/30">SIGN UP / CREATE</button>
-                </div>
+        <!-- 3. CREATE USER (Email, Pass, Confirm Pass - Page 1) -->
+        <div id="s-user" class="hidden max-w-sm mx-auto p-10 bg-white/5 rounded-3xl border border-white/10">
+            <h3 class="font-bold mb-6 text-center">User Sign Up</h3>
+            <div class="space-y-4">
+                <input type="email" placeholder="Need Email ID" class="w-full bg-black p-3 rounded-lg outline-none">
+                <input type="password" placeholder="Write Password" class="w-full bg-black p-3 rounded-lg outline-none">
+                <input type="password" placeholder="Confirm Password" class="w-full bg-black p-3 rounded-lg outline-none">
+                <button class="w-full bg-sky-600 p-3 rounded-lg font-bold">SIGN UP</button>
             </div>
-        </section>
+        </div>
 
-        <!-- 4. OTA & SERVICES (Start, Stop, Firmware update) -->
-        <section id="sec-ota" class="hidden">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="glass p-8 rounded-2xl">
-                    <h3 class="font-bold mb-6 flex items-center gap-2"><i class="fas fa-tools"></i> Service Control</h3>
-                    <div class="flex gap-4">
-                        <button class="bg-emerald-500/20 text-emerald-400 px-6 py-2 rounded-lg font-bold">START</button>
-                        <button class="bg-yellow-500/20 text-yellow-400 px-6 py-2 rounded-lg font-bold">PAUSE</button>
-                        <button class="bg-red-500/20 text-red-400 px-6 py-2 rounded-lg font-bold">STOP</button>
-                    </div>
-                </div>
-                <div class="glass p-8 rounded-2xl border-l-4 border-sky-500">
-                    <h3 class="font-bold mb-4 uppercase text-xs">Firmware OTA (Update)</h3>
-                    <p class="text-xs text-slate-400 mb-4">Select Node/Gateway to push latest firmware metadata.</p>
-                    <button class="w-full bg-slate-800 p-3 rounded-lg text-xs font-bold border border-white/5">Check for Updates</button>
+        <!-- 4. OTA & SERVICE CONTROL (Page 2 & 3) -->
+        <div id="s-ota" class="hidden space-y-6">
+            <div class="p-8 bg-white/5 rounded-2xl border-l-4 border-red-500">
+                <h3 class="font-bold mb-6">Service Management</h3>
+                <div class="flex gap-4">
+                    <button class="bg-emerald-600 px-6 py-2 rounded font-bold">START</button>
+                    <button class="bg-yellow-600 px-6 py-2 rounded font-bold">PAUSE</button>
+                    <button class="bg-red-600 px-6 py-2 rounded font-bold">STOP</button>
                 </div>
             </div>
-        </section>
+            <div class="p-8 bg-white/5 rounded-2xl border-l-4 border-sky-500">
+                <h3 class="font-bold mb-4">Firmware OTA Update (Page 3)</h3>
+                <p class="text-xs text-slate-400 mb-4">Update firmware for MCU & Radio BLE (BootLoader, Metadata, Firmware)</p>
+                <button class="bg-sky-600 px-6 py-2 rounded font-bold">Check Firmware by OTA</button>
+            </div>
+        </div>
     </main>
 
     <script>
-        function showTab(tab) {
-            // Hide all
-            document.getElementById('sec-devices').classList.add('hidden');
-            document.getElementById('sec-inventory').classList.add('hidden');
-            document.getElementById('sec-users').classList.add('hidden');
-            document.getElementById('sec-ota').classList.add('hidden');
-            
-            // Remove active styles
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-
-            // Show selected
-            document.getElementById('sec-' + tab).classList.remove('hidden');
-            document.getElementById('tab-' + tab).classList.add('active');
-
-            const titles = { 'devices': 'Gateway & Nodes List', 'inventory': 'Device Inventory Management', 'users': 'Create New Access', 'ota': 'OTA & System Services' };
-            document.getElementById('main-title').innerText = titles[tab];
+        function tab(t) {
+            ['device','invent','user','ota'].forEach(i => {
+                document.getElementById('s-'+i).classList.add('hidden');
+                document.getElementById('b-'+i).classList.remove('active');
+            });
+            document.getElementById('s-'+t).classList.remove('hidden');
+            document.getElementById('b-'+t).classList.add('active');
         }
     </script>
 </body>
