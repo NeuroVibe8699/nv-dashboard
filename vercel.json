@@ -3,11 +3,16 @@
     {
       "source": "/",
       "has": [{ "type": "host", "value": "predict.nvpredictive.com" }],
-      "destination": "/login.html"
+      "destination": "/admin.html"
     },
     {
       "source": "/",
       "has": [{ "type": "host", "value": "nvpredictive.com" }],
+      "destination": "/index.html"
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "www.nvpredictive.com" }],
       "destination": "/index.html"
     }
   ]
