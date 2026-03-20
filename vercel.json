@@ -8,7 +8,7 @@
           "value": "predict.nvpredictive.com"
         }
       ],
-      "destination": "/index.html"
+      "destination": "/login.html"
     },
     {
       "source": "/",
@@ -18,7 +18,7 @@
           "value": "nvpredictive.com"
         }
       ],
-      "destination": "/home.html"
+      "destination": "/index.html"
     }
   ]
 }
