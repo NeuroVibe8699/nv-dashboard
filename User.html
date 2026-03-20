@@ -4,48 +4,35 @@
     <meta charset="UTF-8"><title>User Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net"></script>
-    <style>body { background: #0b0f1a; color: white; }</style>
 </head>
-<body class="p-10">
-    <header class="flex justify-between items-center mb-10 border-b border-white/10 pb-6">
-        <div>
-            <h1 class="text-2xl font-black text-sky-400">USER DASHBOARD</h1>
-            <p class="text-[10px] text-slate-500">Company Name: NV Predictive | Site: Ammonia Pump</p>
-        </div>
+<body class="bg-[#0b0f1a] text-white p-10">
+    <header class="flex justify-between items-center mb-10 pb-6 border-b border-white/10">
+        <div><h1 class="text-2xl font-black text-sky-400 uppercase">User Dashboard</h1><p class="text-[10px] text-slate-500">Site: Ammonia Pump | Node: 10012</p></div>
         <div class="flex gap-4">
-            <select class="bg-slate-800 p-2 rounded text-xs"><option>Select Site Name</option></select>
-            <select class="bg-slate-800 p-2 rounded text-xs"><option>Select Node ID (10012)</option></select>
+            <select class="bg-slate-800 p-2 rounded text-[10px] uppercase"><option>Select Site</option></select>
+            <select class="bg-slate-800 p-2 rounded text-[10px] uppercase"><option>Node 10012</option></select>
         </div>
     </header>
-
-    <!-- Data Points Card (Acceleration, Velocity, Flux, etc. - Page 2) -->
-    <div class="grid grid-cols-6 gap-4 mb-10">
-        <div class="bg-white/5 p-4 rounded-xl border-l-4 border-sky-500"><p class="text-[10px] text-slate-400">ACCELERATION</p><h4 class="text-lg font-bold">0.8g</h4></div>
-        <div class="bg-white/5 p-4 rounded-xl border-l-4 border-emerald-500"><p class="text-[10px] text-slate-400">VELOCITY</p><h4 class="text-lg font-bold">4.2mm/s</h4></div>
-        <div class="bg-white/5 p-4 rounded-xl border-l-4 border-yellow-500"><p class="text-[10px] text-slate-400">FLUX</p><h4 class="text-lg font-bold">120mW</h4></div>
-        <div class="bg-white/5 p-4 rounded-xl border-l-4 border-purple-500"><p class="text-[10px] text-slate-400">ULTRASOUND</p><h4 class="text-lg font-bold">30dB</h4></div>
-        <div class="bg-white/5 p-4 rounded-xl border-l-4 border-red-500"><p class="text-[10px] text-slate-400">TEMP</p><h4 class="text-lg font-bold">45°C</h4></div>
-        <div class="bg-white/5 p-4 rounded-xl border-l-4 border-cyan-500"><p class="text-[10px] text-slate-400">RPM</p><h4 class="text-lg font-bold">1450</h4></div>
+    <div class="grid grid-cols-2 md:grid-cols-6 gap-4 mb-10 text-center">
+        <div class="bg-white/5 p-4 rounded-xl border-l-4 border-sky-500"><p class="text-[8px] text-slate-500 uppercase">Acceleration</p><h4 class="font-bold">0.8g</h4></div>
+        <div class="bg-white/5 p-4 rounded-xl border-l-4 border-emerald-500"><p class="text-[8px] text-slate-500 uppercase">Velocity</p><h4 class="font-bold">4.2mm/s</h4></div>
+        <div class="bg-white/5 p-4 rounded-xl border-l-4 border-yellow-500"><p class="text-[8px] text-slate-500 uppercase">Flux</p><h4 class="font-bold">120mW</h4></div>
+        <div class="bg-white/5 p-4 rounded-xl border-l-4 border-purple-500"><p class="text-[8px] text-slate-500 uppercase">Ultrasound</p><h4 class="font-bold">30dB</h4></div>
+        <div class="bg-white/5 p-4 rounded-xl border-l-4 border-red-500"><p class="text-[8px] text-slate-500 uppercase">Temp</p><h4 class="font-bold">45°C</h4></div>
+        <div class="bg-white/5 p-4 rounded-xl border-l-4 border-cyan-500"><p class="text-[8px] text-slate-500 uppercase">RPM</p><h4 class="font-bold">1450</h4></div>
     </div>
-
-    <!-- Live Graph Always Show Section -->
-    <div class="grid grid-cols-3 gap-10">
-        <div class="col-span-2 bg-white/5 p-8 rounded-3xl">
-            <h3 class="font-bold mb-6 uppercase text-sm">Graph (Always Show)</h3>
-            <canvas id="myChart" height="120"></canvas>
-        </div>
-        <div class="bg-white/5 p-8 rounded-3xl border-t-4 border-red-500">
-            <h3 class="font-bold mb-6 uppercase text-sm text-red-400 underline">Alert Show</h3>
-            <div class="p-3 bg-red-500/10 rounded-lg text-[10px] text-slate-400">Node detected High Velocity at Site: Production Area.</div>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2 bg-white/5 p-8 rounded-3xl border border-white/5"><h3 class="text-sm font-bold uppercase mb-6">Graph (Always Show)</h3><canvas id="liveChart" height="120"></canvas></div>
+        <div class="bg-white/5 p-8 rounded-3xl border-t-4 border-red-500 shadow-2xl shadow-red-500/10">
+            <h3 class="text-sm font-bold uppercase mb-6 text-red-400">Alert Show</h3>
+            <p class="text-[10px] text-slate-400 bg-red-500/10 p-3 rounded-lg border border-red-500/20">High Velocity Alert: Check Node 10012 immediately.</p>
         </div>
     </div>
-
     <script>
-        const ctx = document.getElementById('myChart');
-        new Chart(ctx, {
+        new Chart(document.getElementById('liveChart'), {
             type: 'line',
-            data: { labels: ['1pm','2pm','3pm','4pm','5pm'], datasets: [{ label: 'Live Data', data: [12, 19, 13, 15, 12], borderColor: '#0ea5e9', tension: 0.4 }] },
-            options: { scales: { y: { beginAtZero: true } } }
+            data: { labels: ['1pm','2pm','3pm','4pm','5pm','6pm'], datasets: [{ label: 'Live Data', data: [12, 19, 3, 5, 2, 3], borderColor: '#0ea5e9', tension: 0.4, fill: true, backgroundColor: 'rgba(14, 165, 233, 0.05)' }] },
+            options: { plugins: { legend: { display: false } }, scales: { y: { grid: { color: 'rgba(255,255,255,0.05)' } }, x: { grid: { display: false } } } }
         });
     </script>
 </body>
