@@ -1,119 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NV Predictive | User Dashboard</title>
+    <meta charset="UTF-8"><title>User Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net"></script>
-    <link href="https://cdnjs.cloudflare.com" rel="stylesheet">
-    <style>
-        body { background: #0f172a; color: white; font-family: 'Inter', sans-serif; }
-        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
-        .stat-card { border-left: 4px solid #0ea5e9; transition: 0.3s; }
-        .stat-card:hover { transform: translateY(-5px); background: rgba(56, 189, 248, 0.1); }
-    </style>
+    <style>body { background: #0b0f1a; color: white; }</style>
 </head>
-<body class="p-6 md:p-10">
-
-    <!-- Header Section -->
-    <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
+<body class="p-10">
+    <header class="flex justify-between items-center mb-10 border-b border-white/10 pb-6">
         <div>
-            <h1 class="text-3xl font-black tracking-tight text-sky-400">User Dashboard</h1>
-            <p class="text-slate-400 text-sm mt-1">Predict.nvpredictive.com | Monitoring Site Data</p>
+            <h1 class="text-2xl font-black text-sky-400">USER DASHBOARD</h1>
+            <p class="text-[10px] text-slate-500">Company Name: NV Predictive | Site: Ammonia Pump</p>
         </div>
         <div class="flex gap-4">
-            <select class="glass p-3 rounded-xl text-sm outline-none border-none">
-                <option>Select Site (e.g. Ammonia Pump)</option>
-                <option>Production Area</option>
-            </select>
-            <select class="glass p-3 rounded-xl text-sm outline-none border-none text-sky-400">
-                <option>Select Node ID</option>
-                <option>Node #10012</option>
-            </select>
+            <select class="bg-slate-800 p-2 rounded text-xs"><option>Select Site Name</option></select>
+            <select class="bg-slate-800 p-2 rounded text-xs"><option>Select Node ID (10012)</option></select>
         </div>
     </header>
 
-    <!-- Data Points Grid (As per PDF: Acceleration, Velocity, etc.) -->
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-10">
-        <div class="glass p-4 rounded-2xl stat-card text-center">
-            <p class="text-[10px] uppercase font-bold text-slate-500">Acceleration</p>
-            <h4 class="text-xl font-bold mt-1">0.85 <span class="text-[10px] font-normal text-slate-400">g</span></h4>
-        </div>
-        <div class="glass p-4 rounded-2xl stat-card text-center" style="border-color: #10b981;">
-            <p class="text-[10px] uppercase font-bold text-slate-500">Velocity</p>
-            <h4 class="text-xl font-bold mt-1">4.2 <span class="text-[10px] font-normal text-slate-400">mm/s</span></h4>
-        </div>
-        <div class="glass p-4 rounded-2xl stat-card text-center" style="border-color: #f59e0b;">
-            <p class="text-[10px] uppercase font-bold text-slate-500">Flux</p>
-            <h4 class="text-xl font-bold mt-1">124 <span class="text-[10px] font-normal text-slate-400">mW</span></h4>
-        </div>
-        <div class="glass p-4 rounded-2xl stat-card text-center" style="border-color: #8b5cf6;">
-            <p class="text-[10px] uppercase font-bold text-slate-500">Ultrasound</p>
-            <h4 class="text-xl font-bold mt-1">32 <span class="text-[10px] font-normal text-slate-400">dB</span></h4>
-        </div>
-        <div class="glass p-4 rounded-2xl stat-card text-center" style="border-color: #ef4444;">
-            <p class="text-[10px] uppercase font-bold text-slate-500">Temp</p>
-            <h4 class="text-xl font-bold mt-1">45.2 <span class="text-[10px] font-normal text-slate-400">°C</span></h4>
-        </div>
-        <div class="glass p-4 rounded-2xl stat-card text-center" style="border-color: #06b6d4;">
-            <p class="text-[10px] uppercase font-bold text-slate-500">RPM</p>
-            <h4 class="text-xl font-bold mt-1">1450</h4>
-        </div>
+    <!-- Data Points Card (Acceleration, Velocity, Flux, etc. - Page 2) -->
+    <div class="grid grid-cols-6 gap-4 mb-10">
+        <div class="bg-white/5 p-4 rounded-xl border-l-4 border-sky-500"><p class="text-[10px] text-slate-400">ACCELERATION</p><h4 class="text-lg font-bold">0.8g</h4></div>
+        <div class="bg-white/5 p-4 rounded-xl border-l-4 border-emerald-500"><p class="text-[10px] text-slate-400">VELOCITY</p><h4 class="text-lg font-bold">4.2mm/s</h4></div>
+        <div class="bg-white/5 p-4 rounded-xl border-l-4 border-yellow-500"><p class="text-[10px] text-slate-400">FLUX</p><h4 class="text-lg font-bold">120mW</h4></div>
+        <div class="bg-white/5 p-4 rounded-xl border-l-4 border-purple-500"><p class="text-[10px] text-slate-400">ULTRASOUND</p><h4 class="text-lg font-bold">30dB</h4></div>
+        <div class="bg-white/5 p-4 rounded-xl border-l-4 border-red-500"><p class="text-[10px] text-slate-400">TEMP</p><h4 class="text-lg font-bold">45°C</h4></div>
+        <div class="bg-white/5 p-4 rounded-xl border-l-4 border-cyan-500"><p class="text-[10px] text-slate-400">RPM</p><h4 class="text-lg font-bold">1450</h4></div>
     </div>
 
-    <!-- Main Graph Area (Graph Always Show as per PDF) -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div class="lg:col-span-2 glass p-8 rounded-3xl shadow-2xl">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="font-bold text-lg"><i class="fas fa-chart-line mr-2 text-sky-400"></i> Live Graph Data</h3>
-                <button class="text-xs text-slate-400 hover:text-white underline">Clear Data</button>
-            </div>
-            <canvas id="liveChart" height="150"></canvas>
+    <!-- Live Graph Always Show Section -->
+    <div class="grid grid-cols-3 gap-10">
+        <div class="col-span-2 bg-white/5 p-8 rounded-3xl">
+            <h3 class="font-bold mb-6 uppercase text-sm">Graph (Always Show)</h3>
+            <canvas id="myChart" height="120"></canvas>
         </div>
-
-        <!-- Alert Section (As per PDF: Alert Show) -->
-        <div class="glass p-8 rounded-3xl border-t-4 border-red-500/50">
-            <h3 class="font-bold text-lg mb-6"><i class="fas fa-bell mr-2 text-red-400"></i> Alerts & Status</h3>
-            <div class="space-y-4">
-                <div class="bg-red-500/10 p-4 rounded-xl border border-red-500/20">
-                    <p class="text-xs font-bold text-red-400">HIGH VIBRATION ALERT</p>
-                    <p class="text-[10px] text-slate-400 mt-1">Node #10012 detected abnormal RPM at 14:30.</p>
-                </div>
-                <div class="bg-green-500/10 p-4 rounded-xl border border-green-500/20">
-                    <p class="text-xs font-bold text-green-400">SYSTEM HEALTH: OK</p>
-                    <p class="text-[10px] text-slate-400 mt-1">All parameters are within normal range.</p>
-                </div>
-            </div>
+        <div class="bg-white/5 p-8 rounded-3xl border-t-4 border-red-500">
+            <h3 class="font-bold mb-6 uppercase text-sm text-red-400 underline">Alert Show</h3>
+            <div class="p-3 bg-red-500/10 rounded-lg text-[10px] text-slate-400">Node detected High Velocity at Site: Production Area.</div>
         </div>
     </div>
 
     <script>
-        // Graph Logic (As per PDF requirement "Graph Always Show")
-        const ctx = document.getElementById('liveChart').getContext('2d');
+        const ctx = document.getElementById('myChart');
         new Chart(ctx, {
             type: 'line',
-            data: {
-                labels: ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00'],
-                datasets: [{
-                    label: 'RPM Performance',
-                    data: [1200, 1350, 1100, 1450, 1400, 1450],
-                    borderColor: '#38bdf8',
-                    backgroundColor: 'rgba(56, 189, 248, 0.1)',
-                    fill: true,
-                    tension: 0.4,
-                    pointRadius: 5,
-                    pointBackgroundColor: '#38bdf8'
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { display: false } },
-                scales: {
-                    y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
-                    x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
-                }
-            }
+            data: { labels: ['1pm','2pm','3pm','4pm','5pm'], datasets: [{ label: 'Live Data', data: [12, 19, 13, 15, 12], borderColor: '#0ea5e9', tension: 0.4 }] },
+            options: { scales: { y: { beginAtZero: true } } }
         });
     </script>
 </body>
