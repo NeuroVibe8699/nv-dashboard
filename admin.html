@@ -3,183 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NV Predictive | 3D Intelligence</title>
+    <title>Neurovibe AI | Industrial Intelligence</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net"></script>
     <link href="https://cdnjs.cloudflare.com" rel="stylesheet">
     <style>
-        :root { --saffron: #FF9933; --silver: #f1f5f9; --deep: #0f172a; }
+        :root { --saffron: #FF9933; --teal: #2DD4BF; --deep: #0f172a; --silver: #f1f5f9; }
+        body { background: #ffffff; color: var(--deep); font-family: 'Inter', sans-serif; overflow-x: hidden; }
         
-        /* 3D Background & Watermark Logic */
-        body { 
-            background: #ffffff; 
-            background-image: 
-                radial-gradient(circle at 2px 2px, rgba(255, 153, 51, 0.05) 1px, transparent 0);
-            background-size: 40px 40px; /* This acts as a Grid Watermark */
-            color: var(--deep);
-            font-family: 'Inter', sans-serif;
-        }
-
-        /* 3D Glass Card Effect */
+        /* 3D Glassmorphism */
         .glass-3d {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 
-                20px 20px 60px #d1d9e6,
-                -20px -20px 60px #ffffff; /* Neumorphism 3D Effect */
-            border-radius: 30px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 15px 15px 40px #d1d9e6, -15px -15px 40px #ffffff;
+            border-radius: 2rem;
         }
 
-        .glass-3d:hover {
-            transform: translateY(-5px) scale(1.01);
-            box-shadow: 0 30px 60px rgba(255, 153, 51, 0.15);
-        }
+        /* Hero Logo Area */
+        .logo-box { background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 1.5rem; }
 
-        /* Saffron Neon Glow */
-        .neon-saffron {
-            box-shadow: 0 0 20px rgba(255, 153, 51, 0.4);
-        }
+        /* PDF Logic: 6 Params Saffron Headers */
+        .param-card { border-top: 5px solid var(--saffron); }
 
-        /* Moving 3D Watermark Background Text */
-        .bg-watermark {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(-30deg);
-            font-size: 15vw;
-            font-weight: 900;
-            color: rgba(255, 153, 51, 0.03);
-            z-index: -1;
-            white-space: nowrap;
-            pointer-events: none;
-            user-select: none;
-        }
+        /* Navigation Logic */
+        .tab-content { display: none; }
+        .tab-active { display: block; animation: fadeIn 0.4s ease; }
+        .nav-btn.active { background: var(--saffron); color: white !important; box-shadow: 0 10px 20px rgba(255, 153, 51, 0.3); }
 
-        /* Navigation Fix */
-        .nav-btn-3d {
-            background: #ffffff;
-            box-shadow: 5px 5px 10px #d1d9e6, -5px -5px 10px #ffffff;
-            transition: 0.2s;
-        }
-
-        .nav-active {
-            background: var(--saffron) !important;
-            color: white !important;
-            box-shadow: inset 4px 4px 8px rgba(0,0,0,0.2);
-        }
+        /* Background Watermark */
+        .watermark { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-25deg); font-size: 12vw; font-weight: 900; color: rgba(255, 153, 51, 0.04); z-index: -1; pointer-events: none; white-space: nowrap; }
     </style>
 </head>
-<body class="flex min-h-screen">
+<body class="flex min-h-screen p-4 md:p-8">
 
-    <!-- Background 3D Watermark -->
-    <div class="bg-watermark text-uppercase">NV PREDICTIVE</div>
+    <div class="watermark uppercase tracking-tighter font-black">Neurovibe AI</div>
 
     <!-- Sidebar -->
-    <aside class="w-80 p-8 flex flex-col fixed h-full z-50">
-        <div class="glass-3d p-8 flex flex-col h-full">
-            <div class="mb-12 text-center">
-                <div class="w-16 h-16 bg-[#FF9933] rounded-2xl mx-auto mb-4 flex items-center justify-center neon-saffron">
-                    <i class="fas fa-microchip text-white text-3xl"></i>
-                </div>
-                <h1 class="text-xl font-black italic tracking-tighter">NV <span class="text-[#FF9933]">AI</span></h1>
+    <aside class="w-80 hidden lg:flex flex-col space-y-6 pr-8">
+        <div class="logo-box p-8 text-center shadow-2xl">
+            <!-- Neurovibe AI Logo Concept -->
+            <div class="w-16 h-16 border-4 border-white rounded-xl mx-auto mb-4 flex items-center justify-center rotate-45">
+                <i class="fas fa-brain text-teal-400 -rotate-45 text-2xl"></i>
             </div>
-            
-            <nav class="space-y-4 flex-1">
-                <button onclick="showTab('dash', this)" class="nav-btn-3d w-full flex items-center p-4 rounded-2xl text-xs font-black nav-active">
-                    <i class="fas fa-project-diagram mr-4 text-lg"></i> ECOSYSTEM
-                </button>
-                <button onclick="showTab('devices', this)" class="nav-btn-3d w-full flex items-center p-4 rounded-2xl text-xs font-black text-slate-500">
-                    <i class="fas fa-bolt mr-4 text-lg"></i> ASSET RISK
-                </button>
-                <button onclick="showTab('inventory', this)" class="nav-btn-3d w-full flex items-center p-4 rounded-2xl text-xs font-black text-slate-500">
-                    <i class="fas fa-layer-group mr-4 text-lg"></i> SPECTRUM
-                </button>
-            </nav>
+            <h1 class="text-xl font-black text-white tracking-tighter">NEUROVIBE <span class="text-teal-400">AI</span></h1>
+            <p class="text-[9px] text-slate-500 font-bold uppercase tracking-widest mt-1">Tech Pvt Ltd</p>
+        </div>
 
-            <button class="mt-auto nav-btn-3d p-4 rounded-2xl text-red-500 font-bold text-xs flex items-center justify-center">
-                <i class="fas fa-power-off mr-3"></i> SYSTEM EXIT
+        <nav class="space-y-3" id="mainNav">
+            <button onclick="setTab('dash', this)" class="nav-btn active w-full flex items-center p-4 rounded-2xl font-black text-xs text-slate-500 hover:bg-slate-50 transition">
+                <i class="fas fa-layer-group mr-4 text-lg"></i> ECOSYSTEM (PDF P2)
             </button>
+            <button onclick="setTab('devices', this)" class="nav-btn w-full flex items-center p-4 rounded-2xl font-black text-xs text-slate-500 hover:bg-slate-50 transition">
+                <i class="fas fa-microchip mr-4 text-lg"></i> CONFIG (PDF P1)
+            </button>
+            <button onclick="setTab('ota', this)" class="nav-btn w-full flex items-center p-4 rounded-2xl font-black text-xs text-slate-500 hover:bg-slate-50 transition">
+                <i class="fas fa-cloud-arrow-up mr-4 text-lg"></i> SYSTEM (PDF P3)
+            </button>
+        </nav>
+        
+        <div class="mt-auto glass-3d p-6 border-l-4 border-l-teal-500">
+            <p class="text-[10px] font-bold text-slate-400">STATUS</p>
+            <p class="text-sm font-black">All Gateways Active</p>
         </div>
     </aside>
 
-    <!-- Main Content -->
-    <main class="ml-80 flex-1 p-10">
+    <!-- Main Section -->
+    <main class="flex-1 overflow-y-auto">
         
-        <!-- DASHBOARD (Ecosystem) -->
-        <section id="dash" class="space-y-10">
-            
-            <!-- Header Card (As per your Image) -->
-            <div class="glass-3d p-10 relative overflow-hidden">
-                <div class="absolute top-0 right-0 p-4 bg-orange-500/10 rounded-bl-3xl">
-                    <span class="text-[10px] font-black text-orange-600">CERTIFIED ISO-2026</span>
+        <!-- DASHBOARD (PDF Page 2 Logic) -->
+        <section id="dash" class="tab-content tab-active space-y-8">
+            <header class="flex justify-between items-center">
+                <div>
+                    <h2 class="text-4xl font-black text-slate-800">Operational Intelligence</h2>
+                    <p class="text-slate-400 font-bold text-sm italic">Neurovibe AI Real-time Telemetry</p>
                 </div>
-                <h2 class="text-4xl font-black text-slate-800 mb-2">Industrial Intelligence Ecosystem</h2>
-                <p class="text-slate-500 text-sm max-w-2xl">Integrating <span class="text-orange-500 font-bold">NV-PA5</span> Vibration Telemetry for real-time 30-day failure prediction.</p>
+                <div class="glass-3d px-6 py-2 flex items-center border-l-4 border-teal-500">
+                    <span class="text-[10px] font-black mr-4 text-slate-400">PARTNER:</span>
+                    <span class="font-black text-sm">JD CLIENT CORP</span>
+                </div>
+            </header>
+
+            <!-- PDF Data Points (Flux, RPM, etc.) -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                <div class="glass-3d p-6 text-center param-card"><p class="text-[10px] font-black text-slate-400 mb-1">ACCEL</p><p class="text-2xl font-black">1.2g</p></div>
+                <div class="glass-3d p-6 text-center param-card"><p class="text-[10px] font-black text-slate-400 mb-1 text-teal-500">VELOCITY</p><p class="text-2xl font-black">4.5mm/s</p></div>
+                <div class="glass-3d p-6 text-center param-card"><p class="text-[10px] font-black text-slate-400 mb-1">FLUX</p><p class="text-2xl font-black">125μT</p></div>
+                <div class="glass-3d p-6 text-center param-card"><p class="text-[10px] font-black text-slate-400 mb-1">ULTRASOUND</p><p class="text-2xl font-black">22kHz</p></div>
+                <div class="glass-3d p-6 text-center param-card"><p class="text-[10px] font-black text-slate-400 mb-1">TEMP</p><p class="text-2xl font-black">42°C</p></div>
+                <div class="glass-3d p-6 text-center param-card"><p class="text-[10px] font-black text-slate-400 mb-1">RPM</p><p class="text-2xl font-black">1450</p></div>
             </div>
 
-            <!-- 3D Stat Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="glass-3d p-8 border-t-8 border-green-500">
-                    <p class="text-xs font-bold text-slate-400 mb-2 uppercase">Fleet Health</p>
-                    <div class="flex items-end justify-between">
-                        <h3 class="text-5xl font-black text-green-500">96%</h3>
-                        <span class="text-[10px] bg-green-100 text-green-600 px-2 py-1 rounded-full font-bold">OPTIMIZED</span>
+            <div class="glass-3d p-8">
+                <canvas id="mainChart" height="120"></canvas>
+            </div>
+        </section>
+
+        <!-- DEVICES (PDF Page 1 & Inventory) -->
+        <section id="devices" class="tab-content space-y-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="glass-3d p-8">
+                    <h3 class="text-xl font-black text-orange-500 mb-6 uppercase tracking-tighter">Inventory Sync (Excel)</h3>
+                    <div class="border-4 border-dashed border-slate-100 p-12 text-center rounded-3xl">
+                        <i class="fas fa-file-excel text-5xl text-slate-200 mb-4"></i>
+                        <p class="text-xs font-bold text-slate-400">ST.NO | MODEL | IMEI | RADIO MAC | IP</p>
+                        <button class="mt-6 bg-slate-800 text-white px-8 py-3 rounded-xl font-black hover:bg-black transition">IMPORT GATEWAY</button>
                     </div>
                 </div>
-                <div class="glass-3d p-8 border-t-8 border-orange-500">
-                    <p class="text-xs font-bold text-slate-400 mb-2 uppercase">Active Alerts</p>
-                    <h3 class="text-5xl font-black text-orange-500">02</h3>
-                </div>
-                <div class="glass-3d p-8 border-t-8 border-slate-800">
-                    <p class="text-xs font-bold text-slate-400 mb-2 uppercase">ROI Saved</p>
-                    <h3 class="text-4xl font-black italic">$142,503</h3>
+                <div class="glass-3d p-8">
+                    <h3 class="text-xl font-black text-teal-500 mb-6 uppercase tracking-tighter">Manual Provisioning</h3>
+                    <input type="text" placeholder="Enter Token: PSK-NV-XXXX" class="w-full bg-slate-50 border-2 border-slate-100 p-4 rounded-2xl mb-4 font-bold outline-none focus:border-orange-500">
+                    <button class="w-full bg-orange-500 text-white font-black py-4 rounded-2xl shadow-xl shadow-orange-200">ACTIVATE DEVICE</button>
                 </div>
             </div>
-
-            <!-- Asset Table (3D Style) -->
-            <div class="glass-3d overflow-hidden">
-                <div class="p-6 border-b border-slate-100 bg-slate-50/50">
-                    <h4 class="font-black text-xs uppercase tracking-widest text-slate-400">Active Asset Risk Profile</h4>
-                </div>
-                <table class="w-full text-left">
-                    <thead class="text-[10px] font-black text-slate-400 uppercase">
-                        <tr class="border-b border-slate-100">
-                            <th class="p-6">Asset ID</th>
-                            <th class="p-6">Machine Name</th>
-                            <th class="p-6">Risk Level</th>
-                            <th class="p-6">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-sm font-bold">
-                        <tr class="hover:bg-slate-50/50 transition">
-                            <td class="p-6">A101</td>
-                            <td class="p-6">Ammonia Pump #1</td>
-                            <td class="p-6 text-red-500">HIGH (3 Alerts)</td>
-                            <td class="p-6"><span class="flex items-center"><span class="w-2 h-2 bg-red-500 rounded-full animate-pulse mr-2"></span> Critical</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Dynamic Wave (3D Dark Analysis) -->
-            <div class="bg-slate-900 rounded-[2.5rem] p-10 shadow-2xl relative overflow-hidden">
-                <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com')] opacity-20"></div>
-                <h3 class="text-orange-400 font-black text-xs uppercase mb-6 relative">Deep-Scan Spectrum Analysis (Live)</h3>
-                <div class="h-32 flex items-center justify-center space-x-1 relative">
-                    <!-- Fake 3D Wave Bars -->
-                    <div class="w-1 bg-orange-500 h-10 animate-bounce"></div>
-                    <div class="w-1 bg-orange-500 h-20 animate-pulse"></div>
-                    <div class="w-1 bg-orange-400 h-16 animate-bounce" style="animation-delay: 0.2s"></div>
-                    <div class="w-1 bg-orange-600 h-24 animate-pulse"></div>
-                    <div class="w-1 bg-orange-500 h-12 animate-bounce"></div>
-                </div>
-            </div>
-
         </section>
 
     </main>
 
+    <script>
+        function setTab(id, btn) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('tab-active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.add('tab-active');
+            btn.classList.add('active');
+        }
+
+        const ctx = document.getElementById('mainChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['10am', '11am', '12pm', '1pm', '2pm', '3pm'],
+                datasets: [{
+                    label: 'Vibration Analysis',
+                    data: [1.2, 1.6, 1.4, 1.9, 1.7, 1.5],
+                    borderColor: '#FF9933',
+                    borderWidth: 6,
+                    tension: 0.4,
+                    fill: true,
+                    backgroundColor: 'rgba(255, 153, 51, 0.05)',
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                plugins: { legend: { display: false } },
+                scales: { y: { border: { display: false } }, x: { grid: { display: false } } }
+            }
+        });
+    </script>
 </body>
 </html>
