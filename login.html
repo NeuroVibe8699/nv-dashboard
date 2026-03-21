@@ -2,23 +2,45 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>NeuroVibe | Portal Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroVibe | Secure Access</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background: #0f172a; font-family: 'Inter', sans-serif; }
+        .glass-box { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+    </style>
 </head>
-<body class="bg-slate-950 flex items-center justify-center min-h-screen text-white">
-    <div class="bg-slate-900/50 p-12 rounded-[3rem] border border-slate-800 w-[400px] text-center shadow-2xl backdrop-blur-xl">
-        <h2 class="text-2xl font-black mb-8 tracking-tighter uppercase italic">Secure Access</h2>
+<body class="flex items-center justify-center min-h-screen p-6">
+
+    <div class="glass-box p-10 rounded-[2.5rem] w-full max-w-md text-center">
+        <!-- Logo Added -->
+        <img src="https://i.ibb.co" alt="" class="w-20 h-20 mx-auto mb-6 object-contain">
+        
+        <h2 class="text-xl font-black text-white mb-8 tracking-tighter uppercase italic">Secure Access</h2>
+        
         <div class="space-y-4">
-            <input type="email" id="email" placeholder="Corporate ID" class="w-full bg-slate-950 border border-slate-700 p-4 rounded-2xl outline-none focus:border-orange-500 transition font-bold">
-            <input type="password" id="pass" placeholder="Secret Key" class="w-full bg-slate-950 border border-slate-700 p-4 rounded-2xl outline-none focus:border-orange-500 transition font-bold">
-            <button onclick="handle()" class="w-full bg-[#FF9933] py-4 rounded-2xl font-black shadow-xl shadow-orange-500/20 hover:bg-orange-600 transition uppercase tracking-widest text-xs">Authorize</button>
+            <input type="email" id="email" placeholder="admin@neurovibe.com" class="w-full bg-slate-900 border border-slate-700 p-4 rounded-2xl text-white outline-none focus:border-orange-500 transition font-bold">
+            <input type="password" id="pass" placeholder="••••••••" class="w-full bg-slate-950 border border-slate-700 p-4 rounded-2xl text-white outline-none focus:border-orange-500 transition font-bold">
+            
+            <!-- 🚩 Corrected Button with onclick -->
+            <button onclick="handleLogin()" class="w-full bg-[#FF9933] text-white py-4 rounded-2xl font-black shadow-xl shadow-orange-500/20 hover:bg-orange-600 transition uppercase tracking-widest text-[11px]">
+                Authorize
+            </button>
         </div>
+        <p id="msg" class="text-red-400 text-[10px] mt-4 font-bold uppercase hidden">Invalid Access Key</p>
     </div>
+
     <script>
-        function handle() {
+        function handleLogin() {
             const e = document.getElementById('email').value;
             const p = document.getElementById('pass').value;
-            if(e === "admin@neurovibe.com" && p === "admin123") window.location.href = "/admin.html";
+            
+            // Logic Check
+            if(e === "admin@neurovibe.com" && p === "admin123") {
+                window.location.href = "admin.html"; // Make sure admin.html exists in GitHub
+            } else {
+                document.getElementById('msg').classList.remove('hidden');
+            }
         }
     </script>
 </body>
