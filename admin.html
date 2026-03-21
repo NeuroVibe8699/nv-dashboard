@@ -3,67 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | NeuroVibe Admin</title>
+    <title>Neurovibe AI | Advanced Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net"></script>
     <link href="https://cdnjs.cloudflare.com" rel="stylesheet">
     <style>
-        :root { --saffron: #FF9933; --silver: #f1f5f9; --navy: #0f172a; }
-        body { background: #ffffff; color: var(--navy); font-family: 'Inter', sans-serif; }
-        .glass-3d { background: white; border: 1.5px solid #e2e8f0; border-radius: 2.5rem; box-shadow: 20px 20px 50px #d1d9e6, -10px -10px 40px #ffffff; }
-        .tab-content { display: none; }
-        .active-tab { display: block; animation: fadeIn 0.4s ease; }
-        .nav-active { background: var(--saffron) !important; color: white !important; box-shadow: 0 10px 20px rgba(255, 153, 51, 0.3); }
+        :root { --saffron: #FF9933; --navy: #0f172a; --teal: #2DD4BF; }
+        body { background: #ffffff; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
+        
+        /* 3D Premium Cards */
+        .glass-card {
+            background: white;
+            border-radius: 2rem;
+            border: 1.5px solid #f1f5f9;
+            box-shadow: 10px 10px 30px #d1d9e6, -10px -10px 30px #ffffff;
+            transition: 0.3s;
+        }
+
+        /* Chart Dark Container */
+        .chart-box {
+            background: #0f172a;
+            border-radius: 2.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Responsive Grid for Mobile */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        @media (min-width: 768px) {
+            .stats-grid { grid-template-columns: repeat(6, 1fr); }
+        }
+
+        .neon-border { border-top: 5px solid var(--saffron); }
     </style>
 </head>
-<body class="flex min-h-screen p-4 md:p-8">
+<body class="p-4 md:p-10">
 
-    <!-- Sidebar with Fixed Logo -->
-    <aside class="w-80 hidden lg:flex flex-col p-8 glass-3d mr-8 fixed h-[90vh]">
-        <div class="text-center mb-10">
-            <img src="https://i.ibb.co" class="w-20 h-20 mx-auto mb-4 object-contain">
-            <h1 class="text-xl font-black italic tracking-tighter uppercase leading-none">NeuroVibe <span class="text-teal-500">AI</span></h1>
-            <p class="text-[9px] text-slate-400 font-bold uppercase tracking-[3px] mt-2">Technologies Pvt Ltd</p>
+    <!-- Header & Logo -->
+    <header class="flex flex-col items-center mb-10">
+        <img src="https://i.ibb.co" alt="Neurovibe AI Logo" class="w-20 h-20 object-contain mb-2">
+        <h1 class="text-xl font-black italic tracking-tighter uppercase">Neurovibe <span class="text-teal-500">AI</span></h1>
+        <p class="text-[9px] font-bold text-slate-400 uppercase tracking-[4px]">Operational Dashboard</p>
+    </header>
+
+    <main class="max-w-7xl mx-auto space-y-8">
+        
+        <!-- Section Title -->
+        <div class="flex justify-between items-center px-2">
+            <h2 class="text-lg font-black italic text-slate-800 uppercase tracking-tight">Live Asset Monitor</h2>
+            <span class="text-[9px] font-black text-green-500 animate-pulse uppercase"><i class="fas fa-circle mr-1"></i> Live</span>
         </div>
-        <nav class="space-y-3 flex-1">
-            <button onclick="tab('dash', this)" class="w-full text-left p-4 rounded-2xl font-black text-[10px] nav-active">DASHBOARD (P2)</button>
-            <button onclick="tab('config', this)" class="w-full text-left p-4 rounded-2xl font-black text-[10px] text-slate-400">CONFIG (P1)</button>
-        </nav>
-        <button class="p-4 text-red-500 font-bold text-[10px] uppercase tracking-widest"><i class="fas fa-power-off mr-2"></i> Exit</button>
-    </aside>
 
-    <main class="ml-88 w-full pl-80">
-        <section id="dash" class="tab-content active-tab space-y-8">
-            <h2 class="text-4xl font-black italic tracking-tighter">Operational Dashboard</h2>
-            <!-- PDF 6 Params -->
-            <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
-                <div class="glass-3d p-6 text-center border-t-4 border-t-[#FF9933]"><p class="text-[10px] font-black text-slate-400">FLUX</p><p class="text-xl font-black">125μT</p></div>
-                <div class="glass-3d p-6 text-center border-t-4 border-t-teal-500"><p class="text-[10px] font-black text-slate-400">RPM</p><p class="text-xl font-black">1450</p></div>
-                <div class="glass-3d p-6 text-center border-t-4 border-t-slate-300"><p class="text-[10px] font-black text-slate-400">TEMP</p><p class="text-xl font-black">42°C</p></div>
+        <!-- All 6 Parameters (PDF Logic) -->
+        <div class="stats-grid">
+            <div class="glass-card p-5 text-center neon-border">
+                <p class="text-[9px] font-black text-slate-400 uppercase mb-1">Flux</p>
+                <p class="text-lg font-black text-slate-900">125μT</p>
             </div>
-            <!-- Working Graph -->
-            <div class="glass-3d p-8 bg-slate-900 shadow-2xl">
-                <h3 class="text-[#FF9933] font-black text-[10px] uppercase tracking-[3px] mb-4">Deep-Scan Spectrum Analysis (Live)</h3>
-                <canvas id="liveChart" height="120"></canvas>
+            <div class="glass-card p-5 text-center border-t-5 border-t-teal-400" style="border-top-width: 5px; border-top-color: #2DD4BF;">
+                <p class="text-[9px] font-black text-slate-400 uppercase mb-1">RPM</p>
+                <p class="text-lg font-black text-slate-900">1450</p>
             </div>
-        </section>
+            <div class="glass-card p-5 text-center border-t-5 border-t-slate-300" style="border-top-width: 5px; border-top-color: #cbd5e1;">
+                <p class="text-[9px] font-black text-slate-400 uppercase mb-1">Temp</p>
+                <p class="text-lg font-black text-slate-900">42°C</p>
+            </div>
+            <div class="glass-card p-5 text-center border-t-5 border-t-slate-300" style="border-top-width: 5px; border-top-color: #cbd5e1;">
+                <p class="text-[9px] font-black text-slate-400 uppercase mb-1">Velocity</p>
+                <p class="text-lg font-black text-slate-900">4.5mm/s</p>
+            </div>
+            <div class="glass-card p-5 text-center border-t-5 border-t-slate-300" style="border-top-width: 5px; border-top-color: #cbd5e1;">
+                <p class="text-[9px] font-black text-slate-400 uppercase mb-1">Accel</p>
+                <p class="text-lg font-black text-slate-900">1.2g</p>
+            </div>
+            <div class="glass-card p-5 text-center border-t-5 border-t-slate-300" style="border-top-width: 5px; border-top-color: #cbd5e1;">
+                <p class="text-[9px] font-black text-slate-400 uppercase mb-1">Ultra</p>
+                <p class="text-lg font-black text-slate-900">22kHz</p>
+            </div>
+        </div>
+
+        <!-- Graph Section (Working Fix) -->
+        <div class="chart-box p-6 md:p-10">
+            <h3 class="text-[#FF9933] font-black text-[10px] uppercase tracking-[3px] mb-6 italic">Deep-Scan Spectrum Analysis (Live)</h3>
+            <div class="h-64 w-full">
+                <canvas id="liveChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Bottom Asset Table -->
+        <div class="glass-card overflow-hidden">
+            <div class="bg-slate-50 p-4 border-b border-slate-100 flex justify-between items-center">
+                <h4 class="text-[10px] font-black uppercase text-slate-400 italic">Active Asset Risk Profile</h4>
+            </div>
+            <table class="w-full text-left text-[11px] font-bold">
+                <tr class="bg-white border-b border-slate-50">
+                    <td class="p-4">Ammonia Pump #1</td>
+                    <td class="p-4 text-red-500 uppercase">Critical (85%)</td>
+                    <td class="p-4 text-slate-400">2m ago</td>
+                </tr>
+            </table>
+        </div>
     </main>
 
     <script>
-        function tab(id, btn) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active-tab'));
-            document.querySelectorAll('button').forEach(b => b.classList.remove('nav-active'));
-            document.getElementById(id).classList.add('active-tab'); btn.classList.add('nav-active');
-        }
-        const ctx = document.getElementById('liveChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['1pm','2pm','3pm','4pm','5pm','6pm'],
-                datasets: [{ label: 'Spectrum', data: [1.2, 1.8, 1.4, 2.3, 1.9, 1.6], borderColor: '#FF9933', borderWidth: 5, tension: 0.4, fill: true, backgroundColor: 'rgba(255, 153, 51, 0.05)', pointRadius: 0 }]
-            },
-            options: { plugins: { legend: { display: false } }, scales: { y: { border: { display: false } }, x: { grid: { display: false } } } }
-        });
+        // Ensure chart renders after DOM is ready
+        window.onload = function() {
+            const ctx = document.getElementById('liveChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['1pm','2pm','3pm','4pm','5pm','6pm'],
+                    datasets: [{
+                        label: 'Vibration',
+                        data: [1.2, 1.8, 1.4, 2.3, 1.9, 1.6],
+                        borderColor: '#FF9933',
+                        borderWidth: 4,
+                        tension: 0.4,
+                        fill: true,
+                        backgroundColor: 'rgba(255, 153, 51, 0.05)',
+                        pointRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { 
+                        y: { display: true, grid: { color: '#1e293b' }, ticks: { color: '#475569' } },
+                        x: { display: true, grid: { display: false }, ticks: { color: '#475569' } }
+                    }
+                }
+            });
+        };
     </script>
 </body>
 </html>
