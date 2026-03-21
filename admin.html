@@ -3,159 +3,183 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NV Admin | Enterprise Dashboard</title>
+    <title>NV Predictive | 3D Intelligence</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net"></script>
     <link href="https://cdnjs.cloudflare.com" rel="stylesheet">
     <style>
-        :root { --saffron: #FF9933; --silver: #E5E7EB; --deep-blue: #1E293B; }
-        body { background: #F3F4F6; color: var(--deep-blue); font-family: 'Inter', sans-serif; }
-        .sidebar { background: white; border-right: 1px solid var(--silver); box-shadow: 4px 0 15px rgba(0,0,0,0.05); }
-        .card { background: white; border: 1px solid var(--silver); border-radius: 1.5rem; transition: 0.3s; }
-        .card:hover { border-color: var(--saffron); box-shadow: 0 10px 25px rgba(255, 153, 51, 0.1); }
-        .tab-content { display: none; }
-        .active-tab { display: block; animation: fadeIn 0.4s; }
-        .nav-active { background: var(--saffron); color: white !important; box-shadow: 0 4px 12px rgba(255, 153, 51, 0.3); }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        :root { --saffron: #FF9933; --silver: #f1f5f9; --deep: #0f172a; }
+        
+        /* 3D Background & Watermark Logic */
+        body { 
+            background: #ffffff; 
+            background-image: 
+                radial-gradient(circle at 2px 2px, rgba(255, 153, 51, 0.05) 1px, transparent 0);
+            background-size: 40px 40px; /* This acts as a Grid Watermark */
+            color: var(--deep);
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* 3D Glass Card Effect */
+        .glass-3d {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 
+                20px 20px 60px #d1d9e6,
+                -20px -20px 60px #ffffff; /* Neumorphism 3D Effect */
+            border-radius: 30px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .glass-3d:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 30px 60px rgba(255, 153, 51, 0.15);
+        }
+
+        /* Saffron Neon Glow */
+        .neon-saffron {
+            box-shadow: 0 0 20px rgba(255, 153, 51, 0.4);
+        }
+
+        /* Moving 3D Watermark Background Text */
+        .bg-watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-30deg);
+            font-size: 15vw;
+            font-weight: 900;
+            color: rgba(255, 153, 51, 0.03);
+            z-index: -1;
+            white-space: nowrap;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        /* Navigation Fix */
+        .nav-btn-3d {
+            background: #ffffff;
+            box-shadow: 5px 5px 10px #d1d9e6, -5px -5px 10px #ffffff;
+            transition: 0.2s;
+        }
+
+        .nav-active {
+            background: var(--saffron) !important;
+            color: white !important;
+            box-shadow: inset 4px 4px 8px rgba(0,0,0,0.2);
+        }
     </style>
 </head>
 <body class="flex min-h-screen">
 
-    <!-- Sidebar -->
-    <aside class="w-72 sidebar fixed h-full p-8 flex flex-col z-50">
-        <div class="mb-12 text-center">
-            <h1 class="text-2xl font-black tracking-tighter" style="color: var(--deep-blue);">NV <span style="color: var(--saffron);">PREDICTIVE</span></h1>
-            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Admin Portal</p>
-        </div>
-        
-        <nav class="flex-1 space-y-3" id="mainNav">
-            <button onclick="showTab('dash', this)" class="nav-btn w-full flex items-center p-4 rounded-2xl font-bold text-sm text-slate-500 hover:bg-slate-50 transition nav-active">
-                <i class="fas fa-chart-pie mr-4"></i> DASHBOARD
-            </button>
-            <button onclick="showTab('devices', this)" class="nav-btn w-full flex items-center p-4 rounded-2xl font-bold text-sm text-slate-500 hover:bg-slate-50 transition">
-                <i class="fas fa-microchip mr-4"></i> DEVICES (P1)
-            </button>
-            <button onclick="showTab('inventory', this)" class="nav-btn w-full flex items-center p-4 rounded-2xl font-bold text-sm text-slate-500 hover:bg-slate-50 transition">
-                <i class="fas fa-boxes-stacked mr-4"></i> INVENTORY (P3)
-            </button>
-        </nav>
+    <!-- Background 3D Watermark -->
+    <div class="bg-watermark text-uppercase">NV PREDICTIVE</div>
 
-        <a href="/login.html" class="p-4 text-red-500 font-bold text-sm flex items-center hover:bg-red-50 rounded-2xl transition mt-auto">
-            <i class="fas fa-power-off mr-4"></i> LOGOUT
-        </a>
+    <!-- Sidebar -->
+    <aside class="w-80 p-8 flex flex-col fixed h-full z-50">
+        <div class="glass-3d p-8 flex flex-col h-full">
+            <div class="mb-12 text-center">
+                <div class="w-16 h-16 bg-[#FF9933] rounded-2xl mx-auto mb-4 flex items-center justify-center neon-saffron">
+                    <i class="fas fa-microchip text-white text-3xl"></i>
+                </div>
+                <h1 class="text-xl font-black italic tracking-tighter">NV <span class="text-[#FF9933]">AI</span></h1>
+            </div>
+            
+            <nav class="space-y-4 flex-1">
+                <button onclick="showTab('dash', this)" class="nav-btn-3d w-full flex items-center p-4 rounded-2xl text-xs font-black nav-active">
+                    <i class="fas fa-project-diagram mr-4 text-lg"></i> ECOSYSTEM
+                </button>
+                <button onclick="showTab('devices', this)" class="nav-btn-3d w-full flex items-center p-4 rounded-2xl text-xs font-black text-slate-500">
+                    <i class="fas fa-bolt mr-4 text-lg"></i> ASSET RISK
+                </button>
+                <button onclick="showTab('inventory', this)" class="nav-btn-3d w-full flex items-center p-4 rounded-2xl text-xs font-black text-slate-500">
+                    <i class="fas fa-layer-group mr-4 text-lg"></i> SPECTRUM
+                </button>
+            </nav>
+
+            <button class="mt-auto nav-btn-3d p-4 rounded-2xl text-red-500 font-bold text-xs flex items-center justify-center">
+                <i class="fas fa-power-off mr-3"></i> SYSTEM EXIT
+            </button>
+        </div>
     </aside>
 
     <!-- Main Content -->
-    <main class="ml-72 flex-1 p-10">
+    <main class="ml-80 flex-1 p-10">
         
-        <!-- DASHBOARD TAB -->
-        <section id="dash" class="tab-content active-tab space-y-8">
-            <div class="flex justify-between items-center">
-                <h2 class="text-3xl font-extrabold text-slate-800">Live Analytics</h2>
-                <div class="flex items-center space-x-3">
-                    <span class="text-xs font-bold text-slate-400">SELECT SITE:</span>
-                    <select class="bg-white border border-slate-200 p-2 rounded-xl text-sm font-bold shadow-sm outline-none focus:border-saffron">
-                        <option>Ammonia Pump Site</option>
-                        <option>Production Unit 4</option>
-                    </select>
+        <!-- DASHBOARD (Ecosystem) -->
+        <section id="dash" class="space-y-10">
+            
+            <!-- Header Card (As per your Image) -->
+            <div class="glass-3d p-10 relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-4 bg-orange-500/10 rounded-bl-3xl">
+                    <span class="text-[10px] font-black text-orange-600">CERTIFIED ISO-2026</span>
                 </div>
+                <h2 class="text-4xl font-black text-slate-800 mb-2">Industrial Intelligence Ecosystem</h2>
+                <p class="text-slate-500 text-sm max-w-2xl">Integrating <span class="text-orange-500 font-bold">NV-PA5</span> Vibration Telemetry for real-time 30-day failure prediction.</p>
             </div>
 
-            <!-- Stats (Saffron Accents) -->
-            <div class="grid grid-cols-2 md:grid-cols-6 gap-5">
-                <div class="card p-6 text-center border-t-4 border-t-[#FF9933]">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase">Flux</p>
-                    <p class="text-2xl font-black">125 <span class="text-xs">μT</span></p>
-                </div>
-                <div class="card p-6 text-center border-t-4 border-t-slate-400">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase">RPM</p>
-                    <p class="text-2xl font-black">1450</p>
-                </div>
-                <!-- ... other cards ... -->
-            </div>
-
-            <!-- Graph Area -->
-            <div class="card p-8 bg-white shadow-sm">
-                <h3 class="font-bold mb-6 flex items-center"><i class="fas fa-wave-square mr-2 text-[#FF9933]"></i> Vibration Real-time (g)</h3>
-                <canvas id="liveChart" height="100"></canvas>
-            </div>
-        </section>
-
-        <!-- DEVICES TAB (P1 Logic) -->
-        <section id="devices" class="tab-content space-y-8">
-            <h2 class="text-3xl font-extrabold text-slate-800">Device Configuration</h2>
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div class="card p-8">
-                    <h3 class="font-bold mb-6 text-[#FF9933]">Create New User</h3>
-                    <div class="space-y-4">
-                        <input type="email" placeholder="Partner Email" class="w-full bg-slate-50 border border-slate-200 p-4 rounded-2xl outline-none focus:border-saffron">
-                        <input type="password" placeholder="Password" class="w-full bg-slate-50 border border-slate-200 p-4 rounded-2xl outline-none focus:border-saffron">
-                        <button class="w-full py-4 rounded-2xl font-black text-white shadow-lg" style="background: var(--saffron);">SIGN UP USER</button>
+            <!-- 3D Stat Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="glass-3d p-8 border-t-8 border-green-500">
+                    <p class="text-xs font-bold text-slate-400 mb-2 uppercase">Fleet Health</p>
+                    <div class="flex items-end justify-between">
+                        <h3 class="text-5xl font-black text-green-500">96%</h3>
+                        <span class="text-[10px] bg-green-100 text-green-600 px-2 py-1 rounded-full font-bold">OPTIMIZED</span>
                     </div>
                 </div>
-                <div class="lg:col-span-2 card p-8 overflow-hidden">
-                    <table class="w-full text-left">
-                        <thead class="bg-slate-50 text-slate-400 text-[10px] font-black uppercase">
-                            <tr><th class="p-4">MAC ID</th><th class="p-4">Site Name</th><th class="p-4">Status</th></tr>
-                        </thead>
-                        <tbody class="text-sm font-bold text-slate-600">
-                            <tr class="border-b border-slate-100"><td class="p-4 font-mono">AC:23:11:90:54</td><td class="p-4">Ammonia Site</td><td class="p-4 text-green-500">Online</td></tr>
-                        </tbody>
-                    </table>
+                <div class="glass-3d p-8 border-t-8 border-orange-500">
+                    <p class="text-xs font-bold text-slate-400 mb-2 uppercase">Active Alerts</p>
+                    <h3 class="text-5xl font-black text-orange-500">02</h3>
+                </div>
+                <div class="glass-3d p-8 border-t-8 border-slate-800">
+                    <p class="text-xs font-bold text-slate-400 mb-2 uppercase">ROI Saved</p>
+                    <h3 class="text-4xl font-black italic">$142,503</h3>
                 </div>
             </div>
-        </section>
 
-        <!-- INVENTORY TAB (P3 Logic) -->
-        <section id="inventory" class="tab-content space-y-8">
-            <h2 class="text-3xl font-extrabold text-slate-800">Inventory & Provisioning</h2>
-            <div class="card p-10 text-center border-2 border-dashed border-slate-200">
-                <i class="fas fa-file-excel text-5xl text-slate-300 mb-6"></i>
-                <h4 class="font-bold text-xl mb-2">Import Inventory Excel</h4>
-                <p class="text-slate-400 text-sm mb-8">ST.NO | MODEL | IMEI | RADIO MAC | IP</p>
-                <div class="flex justify-center space-x-4">
-                    <button class="px-8 py-3 bg-slate-800 text-white rounded-xl font-bold hover:bg-black transition">CHOOSE FILE</button>
-                    <button class="px-8 py-3 border border-slate-200 rounded-xl font-bold hover:bg-slate-50 transition">DOWNLOAD TEMPLATE</button>
+            <!-- Asset Table (3D Style) -->
+            <div class="glass-3d overflow-hidden">
+                <div class="p-6 border-b border-slate-100 bg-slate-50/50">
+                    <h4 class="font-black text-xs uppercase tracking-widest text-slate-400">Active Asset Risk Profile</h4>
+                </div>
+                <table class="w-full text-left">
+                    <thead class="text-[10px] font-black text-slate-400 uppercase">
+                        <tr class="border-b border-slate-100">
+                            <th class="p-6">Asset ID</th>
+                            <th class="p-6">Machine Name</th>
+                            <th class="p-6">Risk Level</th>
+                            <th class="p-6">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm font-bold">
+                        <tr class="hover:bg-slate-50/50 transition">
+                            <td class="p-6">A101</td>
+                            <td class="p-6">Ammonia Pump #1</td>
+                            <td class="p-6 text-red-500">HIGH (3 Alerts)</td>
+                            <td class="p-6"><span class="flex items-center"><span class="w-2 h-2 bg-red-500 rounded-full animate-pulse mr-2"></span> Critical</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Dynamic Wave (3D Dark Analysis) -->
+            <div class="bg-slate-900 rounded-[2.5rem] p-10 shadow-2xl relative overflow-hidden">
+                <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com')] opacity-20"></div>
+                <h3 class="text-orange-400 font-black text-xs uppercase mb-6 relative">Deep-Scan Spectrum Analysis (Live)</h3>
+                <div class="h-32 flex items-center justify-center space-x-1 relative">
+                    <!-- Fake 3D Wave Bars -->
+                    <div class="w-1 bg-orange-500 h-10 animate-bounce"></div>
+                    <div class="w-1 bg-orange-500 h-20 animate-pulse"></div>
+                    <div class="w-1 bg-orange-400 h-16 animate-bounce" style="animation-delay: 0.2s"></div>
+                    <div class="w-1 bg-orange-600 h-24 animate-pulse"></div>
+                    <div class="w-1 bg-orange-500 h-12 animate-bounce"></div>
                 </div>
             </div>
+
         </section>
 
     </main>
 
-    <script>
-        // Working Tab Logic
-        function showTab(tabId, btn) {
-            // Hide all
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active-tab'));
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('nav-active'));
-            
-            // Show target
-            document.getElementById(tabId).classList.add('active-tab');
-            btn.classList.add('nav-active');
-        }
-
-        // Professional Graph
-        const ctx = document.getElementById('liveChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['10am','11am','12pm','1pm','2pm','3pm'],
-                datasets: [{
-                    label: 'Vibration',
-                    data: [1.2, 1.5, 1.3, 1.8, 1.6, 1.4],
-                    borderColor: '#FF9933',
-                    borderWidth: 4,
-                    pointBackgroundColor: '#FF9933',
-                    tension: 0.4,
-                    fill: true,
-                    backgroundColor: 'rgba(255, 153, 51, 0.05)'
-                }]
-            },
-            options: {
-                plugins: { legend: { display: false } },
-                scales: { y: { grid: { color: '#F3F4F6' } }, x: { grid: { display: false } } }
-            }
-        });
-    </script>
 </body>
 </html>
