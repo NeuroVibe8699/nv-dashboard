@@ -3,95 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroVibe AI | Live Industrial Monitor</title>
-    
-    <!-- Domain Logic for Subdomain -->
+    <title>NeuroVibe AI Technologies | Predictive Maintenance</title>
+    <!-- Fallback Redirect Logic -->
     <script>
-        if (window.location.hostname === 'predict.nvpredictive.com') {
-            window.location.href = 'admin.html';
-        }
+        if (window.location.hostname === 'predict.nvpredictive.com') { window.location.href = 'login.html'; }
     </script>
-
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net"></script>
-    <link href="https://cdnjs.cloudflare.com" rel="stylesheet">
-    <style>
-        :root { --saffron: #FF9933; --teal: #2DD4BF; --deep: #0f172a; }
-        body { background: #ffffff; color: var(--deep); font-family: 'Inter', sans-serif; }
-        .glass-3d { background: white; border: 1.5px solid #e2e8f0; border-radius: 2.5rem; box-shadow: 20px 20px 50px #d1d9e6, -10px -10px 40px #ffffff; }
-        .saffron-glow { box-shadow: 0 15px 30px rgba(255, 153, 51, 0.3); }
-    </style>
 </head>
-<body class="p-4 md:p-10">
-
-    <!-- Header Section (Logo Fixed with your ImgBB link) -->
-    <header class="flex flex-col items-center justify-center mb-16 space-y-6">
-        <!-- 🚩 Your Fixed Logo -->
-        <div class="w-32 h-32 md:w-40 md:h-40">
-            <img src="https://i.ibb.co" alt="NeuroVibe AI Logo" class="w-full h-full object-contain filter drop-shadow-xl">
+<body class="bg-white text-slate-900 font-sans">
+    <nav class="p-8 flex justify-between items-center max-w-7xl mx-auto">
+        <div class="flex flex-col items-center">
+            <img src="https://i.ibb.co" class="w-16 h-16 mb-2">
+            <h1 class="text-xl font-black tracking-tighter uppercase">NEUROVIBE <span class="text-teal-500">AI</span></h1>
         </div>
-        
-        <div class="text-center">
-            <h1 class="text-2xl md:text-3xl font-black tracking-tighter uppercase leading-none">NEUROVIBE <span class="text-teal-500 italic">AI</span></h1>
-            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[4px] mt-2">Technologies Pvt Ltd</p>
-        </div>
-
-        <div class="italic text-slate-500 text-xs text-center max-w-lg mt-4 px-4 font-medium">
-            "Proprietary AI-driven vibration and flux telemetry for mission-critical industrial assets."
-        </div>
-
-        <a href="https://predict.nvpredictive.com" class="mt-4 bg-[#FF9933] text-white px-10 py-3 rounded-2xl font-black saffron-glow uppercase tracking-widest text-[10px] hover:scale-105 transition-all">Client Access Portal</a>
-    </header>
-
-    <!-- Public Dashboard (PDF Logic: 6 Parameters) -->
-    <section class="max-w-7xl mx-auto space-y-8 pb-20">
-        <div class="flex justify-between items-center px-4">
-            <h3 class="font-black text-[10px] uppercase tracking-[3px] text-slate-400 italic">Live Public Telemetry Monitor</h3>
-            <span class="text-[9px] font-black text-green-500 uppercase animate-pulse flex items-center"><i class="fas fa-circle mr-2"></i> System Online</span>
-        </div>
-
-        <!-- The 6 Data Points -->
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 px-2">
-            <div class="glass-3d p-6 text-center border-t-4 border-t-[#FF9933]"><p class="text-[9px] font-black text-slate-400 uppercase mb-2">Flux</p><p class="text-xl font-black">125 <span class="text-xs">μT</span></p></div>
-            <div class="glass-3d p-6 text-center border-t-4 border-t-teal-500"><p class="text-[9px] font-black text-slate-400 uppercase mb-2">RPM</p><p class="text-xl font-black">1450</p></div>
-            <div class="glass-3d p-6 text-center border-t-4 border-t-slate-300"><p class="text-[9px] font-black text-slate-400 uppercase mb-2">Temp</p><p class="text-xl font-black">42°C</p></div>
-            <div class="glass-3d p-6 text-center border-t-4 border-t-slate-300"><p class="text-[9px] font-black text-slate-400 uppercase mb-2">Velocity</p><p class="text-xl font-black">4.5<span class="text-xs">mm/s</span></p></div>
-            <div class="glass-3d p-6 text-center border-t-4 border-t-slate-300"><p class="text-[9px] font-black text-slate-400 uppercase mb-2">Accel</p><p class="text-xl font-black">1.2g</p></div>
-            <div class="glass-3d p-6 text-center border-t-4 border-t-slate-300"><p class="text-[9px] font-black text-slate-400 uppercase mb-2">Ultra</p><p class="text-xl font-black">22kHz</p></div>
-        </div>
-
-        <!-- Live Analysis Graph -->
-        <div class="glass-3d p-8 mx-2">
-            <div class="flex justify-between items-center mb-6">
-                <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest italic">Vibration Trend (NV-PF4 Node)</h4>
-            </div>
-            <canvas id="publicChart" height="120"></canvas>
-        </div>
+        <a href="https://predict.nvpredictive.com" class="bg-[#FF9933] text-white px-8 py-3 rounded-2xl font-black shadow-xl shadow-orange-100 uppercase text-[10px]">Client Portal</a>
+    </nav>
+    <section class="text-center py-32 px-6">
+        <h2 class="text-6xl font-black text-slate-900 leading-tight">Autonomous <span class="text-[#FF9933]">Machine Intelligence</span></h2>
+        <p class="mt-8 text-slate-500 text-lg font-medium max-w-2xl mx-auto italic">"We provide tri-axial vibration, magnetic flux, and ultrasound telemetry to prevent industrial asset failure."</p>
     </section>
-
-    <script>
-        const ctx = document.getElementById('publicChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['10am', '11am', '12pm', '1pm', '2pm', '3pm'],
-                datasets: [{
-                    label: 'Vibration Level',
-                    data: [1.2, 1.5, 1.3, 1.8, 1.6, 1.4],
-                    borderColor: '#FF9933',
-                    borderWidth: 5,
-                    tension: 0.4,
-                    fill: true,
-                    backgroundColor: 'rgba(255, 153, 51, 0.05)',
-                    pointRadius: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { display: false } },
-                scales: { y: { border: { display: false } }, x: { grid: { display: false } } }
-            }
-        });
-    </script>
 </body>
 </html>
