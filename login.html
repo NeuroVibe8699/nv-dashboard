@@ -2,20 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Neurovibe | Portal Access</title>
+    <title>NeuroVibe | Portal Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-950 flex items-center justify-center min-h-screen text-white">
-    <div class="bg-slate-900 p-12 rounded-[3rem] border border-slate-800 w-[400px] text-center shadow-2xl">
-        <h2 class="text-2xl font-black mb-8 tracking-tighter uppercase">Client & Admin Login</h2>
+    <div class="bg-slate-900/50 p-12 rounded-[3rem] border border-slate-800 w-[400px] text-center shadow-2xl backdrop-blur-xl">
+        <h2 class="text-2xl font-black mb-8 tracking-tighter uppercase italic">Secure Access</h2>
         <div class="space-y-4">
-            <input type="email" id="email" placeholder="Email Address" class="w-full bg-slate-950 border border-slate-700 p-4 rounded-2xl outline-none focus:border-orange-500">
-            <input type="password" id="pass" placeholder="Password" class="w-full bg-slate-950 border border-slate-700 p-4 rounded-2xl outline-none focus:border-orange-500">
-            <button onclick="auth()" class="w-full bg-[#FF9933] py-4 rounded-2xl font-black shadow-xl shadow-orange-500/20">ENTER PORTAL</button>
+            <input type="email" id="email" placeholder="Corporate ID" class="w-full bg-slate-950 border border-slate-700 p-4 rounded-2xl outline-none focus:border-orange-500 transition font-bold">
+            <input type="password" id="pass" placeholder="Secret Key" class="w-full bg-slate-950 border border-slate-700 p-4 rounded-2xl outline-none focus:border-orange-500 transition font-bold">
+            <button onclick="handle()" class="w-full bg-[#FF9933] py-4 rounded-2xl font-black shadow-xl shadow-orange-500/20 hover:bg-orange-600 transition uppercase tracking-widest text-xs">Authorize</button>
         </div>
     </div>
     <script>
-        function auth() {
+        function handle() {
             const e = document.getElementById('email').value;
             const p = document.getElementById('pass').value;
             if(e === "admin@neurovibe.com" && p === "admin123") window.location.href = "/admin.html";
