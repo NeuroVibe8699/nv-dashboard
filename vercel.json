@@ -1,9 +1,10 @@
 {
+  "version": 2,
   "rewrites": [
     {
       "source": "/",
       "has": [{ "type": "host", "value": "predict.nvpredictive.com" }],
-      "destination": "/dashboard.html"
+      "destination": "/admin.html"
     },
     {
       "source": "/",
