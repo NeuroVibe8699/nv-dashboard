@@ -1,18 +1,106 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <title>Neurovibe AI Technologies</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neurovibe AI Technologies | Industrial Predictive Intelligence</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com" rel="stylesheet">
+    <style>
+        :root { --saffron: #FF9933; --teal: #2DD4BF; --deep: #0f172a; }
+        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        .hero-gradient { background: radial-gradient(circle at top right, #f8fafc, #ffffff); }
+        .feature-card:hover { transform: translateY(-10px); border-color: var(--saffron); }
+    </style>
 </head>
-<body class="bg-white">
-    <nav class="p-8 flex justify-between items-center max-w-7xl mx-auto">
-        <h1 class="text-2xl font-black tracking-tighter">NEUROVIBE <span class="text-teal-500">AI</span></h1>
-        <a href="https://predict.nvpredictive.com" class="bg-[#FF9933] text-white px-6 py-2 rounded-xl font-bold shadow-lg shadow-orange-200">Admin Portal</a>
+<body class="bg-white text-slate-900">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center rotate-45 shadow-lg shadow-teal-500/20">
+                    <i class="fas fa-brain text-teal-400 -rotate-45 text-xl"></i>
+                </div>
+                <h1 class="text-xl font-black tracking-tighter">NEUROVIBE <span class="text-teal-500">AI</span></h1>
+            </div>
+            <div class="hidden md:flex space-x-8 font-bold text-sm uppercase tracking-widest text-slate-500">
+                <a href="#about" class="hover:text-orange-500 transition">About Us</a>
+                <a href="#tech" class="hover:text-orange-500 transition">Technology</a>
+            </div>
+            <a href="https://predict.nvpredictive.com" class="bg-slate-900 text-white px-6 py-3 rounded-full font-black text-xs hover:bg-orange-500 transition shadow-xl shadow-slate-900/20">
+                CLIENT PORTAL <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
     </nav>
-    <div class="text-center py-40">
-        <h2 class="text-7xl font-black text-slate-900 leading-tight">Future of <br><span class="text-[#FF9933]">Industrial Maintenance.</span></h2>
-        <p class="mt-8 text-slate-500 font-medium">Neurovibe AI Technologies Pvt Ltd - Proprietary Vibe-Sense Ecosystem.</p>
-    </div>
+
+    <!-- Hero Section (Company Profile) -->
+    <section class="pt-40 pb-20 hero-gradient overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+            <div class="space-y-8">
+                <span class="bg-orange-100 text-orange-600 px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">ISO 9001:2026 Certified</span>
+                <h2 class="text-6xl md:text-7xl font-black leading-[1.1] tracking-tighter text-slate-900">
+                    Predicting <span class="text-orange-500 italic">Failure</span> Before It Happens.
+                </h2>
+                <p class="text-lg text-slate-500 font-medium leading-relaxed">
+                    Neurovibe AI Technologies Pvt Ltd भारत की अग्रणी कंपनी है जो Industrial IoT और AI-driven Predictive Maintenance में विशेषज्ञता रखती है। हम मशीनों की कंपन (Vibration) और स्वास्थ्य का विश्लेषण कर अनचाहे ब्रेकडाउन को रोकते हैं।
+                </p>
+                <div class="flex space-x-4">
+                    <button class="bg-orange-500 text-white px-8 py-4 rounded-2xl font-black shadow-2xl shadow-orange-500/30">Get Quote</button>
+                    <button class="border-2 border-slate-100 px-8 py-4 rounded-2xl font-black hover:bg-slate-50 transition">Watch Demo</button>
+                </div>
+            </div>
+            <div class="relative">
+                <div class="absolute -top-20 -right-20 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl"></div>
+                <div class="bg-white p-10 rounded-[3rem] shadow-2xl border border-slate-100 relative z-10">
+                    <h4 class="font-black text-xs text-orange-500 uppercase mb-6 tracking-widest">Core Capabilities</h4>
+                    <ul class="space-y-6">
+                        <li class="flex items-start space-x-4">
+                            <i class="fas fa-check-circle text-teal-500 mt-1"></i>
+                            <p class="text-sm font-bold">Real-time Vibration Monitoring (Vibe-Sense Node)</p>
+                        </li>
+                        <li class="flex items-start space-x-4">
+                            <i class="fas fa-check-circle text-teal-500 mt-1"></i>
+                            <p class="text-sm font-bold">Flux & Ultrasound Spectrum Analysis</p>
+                        </li>
+                        <li class="flex items-start space-x-4">
+                            <i class="fas fa-check-circle text-teal-500 mt-1"></i>
+                            <p class="text-sm font-bold">AI-Driven Time-to-Failure Prediction (30-Day Window)</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What We Do (Professional Grid) -->
+    <section id="about" class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-6 text-center mb-16">
+            <h3 class="text-3xl font-black tracking-tight mb-4 text-slate-900 uppercase">Hum Kya Karte Hai?</h3>
+            <div class="w-20 h-1.5 bg-orange-500 mx-auto rounded-full"></div>
+        </div>
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-8">
+            <div class="bg-white p-10 rounded-3xl border border-slate-100 feature-card transition duration-300">
+                <i class="fas fa-microchip text-4xl text-orange-500 mb-6"></i>
+                <h5 class="text-xl font-bold mb-4 italic">Hardware Design</h5>
+                <p class="text-sm text-slate-500 leading-relaxed">हम स्वदेशी Vibe-Sense Nodes डिजाइन और मैन्युफैक्चर करते हैं जो मशीनों के कंपन (Accelerometer) और मैग्नेटिक फ्लक्स (Flux) को ट्रैक करते हैं।</p>
+            </div>
+            <div class="bg-white p-10 rounded-3xl border border-slate-100 feature-card transition duration-300">
+                <i class="fas fa-brain text-4xl text-teal-500 mb-6"></i>
+                <h5 class="text-xl font-bold mb-4 italic">AI Algorithms</h5>
+                <p class="text-sm text-slate-500 leading-relaxed">हमारा AI मॉडल Raw Data को प्रोसेस कर संभावित मोटर या पंप फेलियर के शुरुआती संकेतों को पहचानता है।</p>
+            </div>
+            <div class="bg-white p-10 rounded-3xl border border-slate-100 feature-card transition duration-300">
+                <i class="fas fa-shield-alt text-4xl text-slate-900 mb-6"></i>
+                <h5 class="text-xl font-bold mb-4 italic">Remote Security</h5>
+                <p class="text-sm text-slate-500 leading-relaxed">हम इंडस्ट्री को सुरक्षित बनाने के लिए OTA अपडेट और सुरक्षित गेटवे प्रोविजनिंग के साथ एंड-टू-एंड इंक्रिप्शन प्रदान करते हैं।</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-10 text-center border-t border-slate-100">
+        <p class="text-xs font-bold text-slate-400">© 2026 Neurovibe AI Technologies Pvt Ltd. All Rights Reserved.</p>
+    </footer>
+
 </body>
 </html>
