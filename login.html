@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NV Predictive | Secure Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background: radial-gradient(circle at top right, #1e293b, #020617); height: 100vh; display: flex; align-items: center; justify-content: center; color: white; font-family: 'Inter', sans-serif; }
+        .login-card { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+    </style>
+</head>
+<body>
+    <div class="login-card p-10 rounded-[2.5rem] w-full max-w-md mx-4">
+        <div class="text-center mb-10">
+            <h1 class="text-3xl font-black tracking-tighter text-sky-400">NV <span class="text-white">PORTAL</span></h1>
+            <p class="text-slate-500 text-xs mt-2 uppercase tracking-widest">Predictive Intelligence Login</p>
+        </div>
+        <div class="space-y-5">
+            <div>
+                <label class="text-[10px] uppercase font-bold text-slate-500 ml-4">Access ID</label>
+                <input type="email" id="email" placeholder="email@nvpredictive.com" class="w-full bg-slate-950/50 border border-slate-800 p-4 rounded-2xl outline-none focus:border-sky-500 transition">
+            </div>
+            <div>
+                <label class="text-[10px] uppercase font-bold text-slate-500 ml-4">Security Key</label>
+                <input type="password" id="pass" placeholder="••••••••" class="w-full bg-slate-950/50 border border-slate-800 p-4 rounded-2xl outline-none focus:border-sky-500 transition">
+            </div>
+            <button onclick="auth()" class="w-full bg-sky-500 text-slate-950 font-black py-4 rounded-2xl hover:bg-sky-400 transform hover:scale-[1.02] transition-all shadow-lg shadow-sky-500/20">AUTHENTICATE</button>
+        </div>
+        <p id="msg" class="text-center text-red-400 text-xs mt-6 hidden font-bold">Access Denied: Invalid Credentials</p>
+    </div>
+
+    <script>
+        function auth() {
+            const e = document.getElementById('email').value;
+            const p = document.getElementById('pass').value;
+            // Logic based on your sketch
+            if(e === "admin@nv.com" && p === "admin123") window.location.href = "/admin.html";
+            else if(e === "user@client.com" && p === "user123") window.location.href = "/dashboard.html";
+            else document.getElementById('msg').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
