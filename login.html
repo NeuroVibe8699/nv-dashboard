@@ -1,13 +1,25 @@
-<script>
-    function login() {
-        const e = document.getElementById('email').value;
-        const p = document.getElementById('pass').value;
-        
-        // Logical Routing
-        if(e === "admin@neurovibe.com" && p === "admin123") {
-            window.location.href = "/admin.html"; // Admin Full Structure (P1, P2, P3)
-        } else if(e === "client@client.com" && p === "client123") {
-            window.location.href = "/dashboard.html"; // Client Limited View (Graph + Flux only)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Neurovibe | Secure Access</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 flex items-center justify-center min-h-screen">
+    <div class="bg-slate-900/50 p-12 rounded-[3rem] border border-slate-800 w-[450px] backdrop-blur-3xl text-center shadow-2xl">
+        <h2 class="text-3xl font-black text-white mb-8 tracking-tighter uppercase">Portal Authentication</h2>
+        <div class="space-y-5">
+            <input type="email" id="email" placeholder="Corporate Email" class="w-full bg-slate-950 border border-slate-800 p-5 rounded-2xl text-white outline-none focus:border-[#FF9933] transition">
+            <input type="password" id="pass" placeholder="Security Key" class="w-full bg-slate-950 border border-slate-800 p-5 rounded-2xl text-white outline-none focus:border-[#FF9933] transition">
+            <button onclick="auth()" class="w-full bg-[#FF9933] text-white font-black py-5 rounded-2xl shadow-2xl shadow-orange-500/20 hover:scale-[1.02] transition">LOGIN TO DASHBOARD</button>
+        </div>
+    </div>
+    <script>
+        function auth() {
+            const e = document.getElementById('email').value;
+            const p = document.getElementById('pass').value;
+            if(e === "admin@neurovibe.com" && p === "admin123") window.location.href = "/admin.html";
         }
-    }
-</script>
+    </script>
+</body>
+</html>
