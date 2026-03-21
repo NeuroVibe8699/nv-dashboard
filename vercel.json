@@ -3,7 +3,7 @@
     {
       "source": "/",
       "has": [{ "type": "host", "value": "predict.nvpredictive.com" }],
-      "destination": "/admin.html"
+      "destination": "/login.html"
     },
     {
       "source": "/",
