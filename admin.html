@@ -3,138 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NV Admin | Full Access</title>
+    <title>NV Admin | Enterprise Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net"></script>
     <link href="https://cdnjs.cloudflare.com" rel="stylesheet">
     <style>
-        body { background: #020617; color: #f8fafc; }
-        .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.05); }
+        :root { --saffron: #FF9933; --silver: #E5E7EB; --deep-blue: #1E293B; }
+        body { background: #F3F4F6; color: var(--deep-blue); font-family: 'Inter', sans-serif; }
+        .sidebar { background: white; border-right: 1px solid var(--silver); box-shadow: 4px 0 15px rgba(0,0,0,0.05); }
+        .card { background: white; border: 1px solid var(--silver); border-radius: 1.5rem; transition: 0.3s; }
+        .card:hover { border-color: var(--saffron); box-shadow: 0 10px 25px rgba(255, 153, 51, 0.1); }
         .tab-content { display: none; }
-        .tab-content.active { display: block; animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .active-tab { display: block; animation: fadeIn 0.4s; }
+        .nav-active { background: var(--saffron); color: white !important; box-shadow: 0 4px 12px rgba(255, 153, 51, 0.3); }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
-<body class="flex min-h-screen font-['Inter']">
+<body class="flex min-h-screen">
 
-    <!-- Sidebar (Logical Navigation) -->
-    <aside class="w-72 glass border-r border-slate-800 p-8 flex flex-col fixed h-full z-50">
-        <div class="mb-12">
-            <h1 class="text-2xl font-black text-white">NV <span class="text-sky-500">PREDICTIVE</span></h1>
-            <p class="text-[10px] text-slate-500 font-mono">v4.2.0-ADMIN-STABLE</p>
+    <!-- Sidebar -->
+    <aside class="w-72 sidebar fixed h-full p-8 flex flex-col z-50">
+        <div class="mb-12 text-center">
+            <h1 class="text-2xl font-black tracking-tighter" style="color: var(--deep-blue);">NV <span style="color: var(--saffron);">PREDICTIVE</span></h1>
+            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Admin Portal</p>
         </div>
         
-        <nav class="flex-1 space-y-1">
-            <button onclick="setTab('p2')" class="w-full flex items-center p-4 rounded-2xl hover:bg-slate-800 transition font-bold text-sm"><i class="fas fa-chart-line mr-4 text-sky-500"></i> LIVE DASHBOARD</button>
-            <button onclick="setTab('p1')" class="w-full flex items-center p-4 rounded-2xl hover:bg-slate-800 transition font-bold text-sm"><i class="fas fa-microchip mr-4 text-sky-500"></i> DEVICE CONFIG (P1)</button>
-            <button onclick="setTab('p3')" class="w-full flex items-center p-4 rounded-2xl hover:bg-slate-800 transition font-bold text-sm"><i class="fas fa-shield-halved mr-4 text-sky-500"></i> PROTOCOLS (P3)</button>
-            <button onclick="setTab('inv')" class="w-full flex items-center p-4 rounded-2xl hover:bg-slate-800 transition font-bold text-sm"><i class="fas fa-boxes-stacked mr-4 text-sky-500"></i> INVENTORY</button>
+        <nav class="flex-1 space-y-3" id="mainNav">
+            <button onclick="showTab('dash', this)" class="nav-btn w-full flex items-center p-4 rounded-2xl font-bold text-sm text-slate-500 hover:bg-slate-50 transition nav-active">
+                <i class="fas fa-chart-pie mr-4"></i> DASHBOARD
+            </button>
+            <button onclick="showTab('devices', this)" class="nav-btn w-full flex items-center p-4 rounded-2xl font-bold text-sm text-slate-500 hover:bg-slate-50 transition">
+                <i class="fas fa-microchip mr-4"></i> DEVICES (P1)
+            </button>
+            <button onclick="showTab('inventory', this)" class="nav-btn w-full flex items-center p-4 rounded-2xl font-bold text-sm text-slate-500 hover:bg-slate-50 transition">
+                <i class="fas fa-boxes-stacked mr-4"></i> INVENTORY (P3)
+            </button>
         </nav>
 
-        <a href="/login.html" class="p-4 text-red-400 font-bold text-sm flex items-center hover:bg-red-500/10 rounded-2xl transition"><i class="fas fa-power-off mr-4"></i> LOGOUT</a>
+        <a href="/login.html" class="p-4 text-red-500 font-bold text-sm flex items-center hover:bg-red-50 rounded-2xl transition mt-auto">
+            <i class="fas fa-power-off mr-4"></i> LOGOUT
+        </a>
     </aside>
 
     <!-- Main Content -->
-    <main class="ml-72 flex-1 p-10 bg-[url('https://www.transparenttextures.com')]">
+    <main class="ml-72 flex-1 p-10">
         
-        <!-- P2: DASHBOARD (Graph & 6 Data Points) -->
-        <section id="p2" class="tab-content active space-y-8">
-            <div class="flex justify-between items-end">
-                <h2 class="text-4xl font-black italic">OVERVIEW: AMMONIA PUMP</h2>
-                <div class="flex space-x-3">
-                    <div class="glass px-5 py-2 rounded-xl text-right border-l-4 border-sky-500"><p class="text-[10px] text-slate-500">PARTNER</p><p class="text-sm font-bold">J.D. CLIENT CORP</p></div>
+        <!-- DASHBOARD TAB -->
+        <section id="dash" class="tab-content active-tab space-y-8">
+            <div class="flex justify-between items-center">
+                <h2 class="text-3xl font-extrabold text-slate-800">Live Analytics</h2>
+                <div class="flex items-center space-x-3">
+                    <span class="text-xs font-bold text-slate-400">SELECT SITE:</span>
+                    <select class="bg-white border border-slate-200 p-2 rounded-xl text-sm font-bold shadow-sm outline-none focus:border-saffron">
+                        <option>Ammonia Pump Site</option>
+                        <option>Production Unit 4</option>
+                    </select>
                 </div>
             </div>
 
+            <!-- Stats (Saffron Accents) -->
             <div class="grid grid-cols-2 md:grid-cols-6 gap-5">
-                <div class="glass p-6 rounded-3xl border-t-4 border-sky-500 text-center"><p class="text-[10px] font-bold text-slate-500 mb-2 uppercase">Accel</p><p class="text-2xl font-black">1.2g</p></div>
-                <div class="glass p-6 rounded-3xl border-t-4 border-green-500 text-center"><p class="text-[10px] font-bold text-slate-500 mb-2 uppercase">Velocity</p><p class="text-2xl font-black">4.5<span class="text-xs ml-1">mm/s</span></p></div>
-                <div class="glass p-6 rounded-3xl border-t-4 border-indigo-500 text-center"><p class="text-[10px] font-bold text-slate-500 mb-2 uppercase">Flux</p><p class="text-2xl font-black">125<span class="text-xs ml-1">μT</span></p></div>
-                <div class="glass p-6 rounded-3xl border-t-4 border-purple-500 text-center"><p class="text-[10px] font-bold text-slate-500 mb-2 uppercase">Ultrasound</p><p class="text-2xl font-black">22<span class="text-xs ml-1">kHz</span></p></div>
-                <div class="glass p-6 rounded-3xl border-t-4 border-red-500 text-center"><p class="text-[10px] font-bold text-slate-500 mb-2 uppercase">Temp</p><p class="text-2xl font-black">42<span class="text-xs ml-1">°C</span></p></div>
-                <div class="glass p-6 rounded-3xl border-t-4 border-orange-500 text-center"><p class="text-[10px] font-bold text-slate-500 mb-2 uppercase">RPM</p><p class="text-2xl font-black">1450</p></div>
+                <div class="card p-6 text-center border-t-4 border-t-[#FF9933]">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase">Flux</p>
+                    <p class="text-2xl font-black">125 <span class="text-xs">μT</span></p>
+                </div>
+                <div class="card p-6 text-center border-t-4 border-t-slate-400">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase">RPM</p>
+                    <p class="text-2xl font-black">1450</p>
+                </div>
+                <!-- ... other cards ... -->
             </div>
 
-            <div class="glass p-8 rounded-[2.5rem]">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="font-bold">Real-time Vibration (NV-1002)</h3>
-                    <span class="bg-green-500/10 text-green-400 text-[10px] px-3 py-1 rounded-full border border-green-500/20 font-bold italic">LIVE STREAMING</span>
-                </div>
-                <canvas id="liveChart" height="120"></canvas>
+            <!-- Graph Area -->
+            <div class="card p-8 bg-white shadow-sm">
+                <h3 class="font-bold mb-6 flex items-center"><i class="fas fa-wave-square mr-2 text-[#FF9933]"></i> Vibration Real-time (g)</h3>
+                <canvas id="liveChart" height="100"></canvas>
             </div>
         </section>
 
-        <!-- P1: DEVICE CONFIG & USER SIGNUP -->
-        <section id="p1" class="tab-content space-y-8">
+        <!-- DEVICES TAB (P1 Logic) -->
+        <section id="devices" class="tab-content space-y-8">
+            <h2 class="text-3xl font-extrabold text-slate-800">Device Configuration</h2>
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div class="glass p-8 rounded-[2rem]">
-                    <h3 class="text-xl font-bold mb-6 text-sky-400">Add New Partner</h3>
+                <div class="card p-8">
+                    <h3 class="font-bold mb-6 text-[#FF9933]">Create New User</h3>
                     <div class="space-y-4">
-                        <input type="email" placeholder="Corporate Email" class="w-full bg-slate-900 border border-slate-800 p-4 rounded-2xl outline-none focus:border-sky-500">
-                        <input type="password" placeholder="Access Password" class="w-full bg-slate-900 border border-slate-800 p-4 rounded-2xl outline-none focus:border-sky-500">
-                        <button class="w-full bg-sky-500 text-slate-950 font-black py-4 rounded-2xl">CREATE ACCOUNT</button>
+                        <input type="email" placeholder="Partner Email" class="w-full bg-slate-50 border border-slate-200 p-4 rounded-2xl outline-none focus:border-saffron">
+                        <input type="password" placeholder="Password" class="w-full bg-slate-50 border border-slate-200 p-4 rounded-2xl outline-none focus:border-saffron">
+                        <button class="w-full py-4 rounded-2xl font-black text-white shadow-lg" style="background: var(--saffron);">SIGN UP USER</button>
                     </div>
                 </div>
-                <div class="lg:col-span-2 glass p-8 rounded-[2rem]">
-                    <h3 class="text-xl font-bold mb-6 italic">Active Gateway Mapping</h3>
-                    <div class="overflow-hidden rounded-xl border border-slate-800">
-                        <table class="w-full text-left text-sm">
-                            <thead class="bg-slate-800 text-slate-400 uppercase text-[10px] font-black">
-                                <tr><th class="p-4">MAC ID</th><th class="p-4">SITE NAME</th><th class="p-4">MAPPING AREA</th><th class="p-4">ACTION</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr class="border-b border-slate-800/50"><td class="p-4 font-mono text-sky-400">AC:23:11:90:54</td><td class="p-4">Ammonia Site</td><td class="p-4 text-xs">Section A-1</td><td class="p-4"><button class="text-red-400 hover:scale-110 transition"><i class="fas fa-trash"></i></button></td></tr>
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="lg:col-span-2 card p-8 overflow-hidden">
+                    <table class="w-full text-left">
+                        <thead class="bg-slate-50 text-slate-400 text-[10px] font-black uppercase">
+                            <tr><th class="p-4">MAC ID</th><th class="p-4">Site Name</th><th class="p-4">Status</th></tr>
+                        </thead>
+                        <tbody class="text-sm font-bold text-slate-600">
+                            <tr class="border-b border-slate-100"><td class="p-4 font-mono">AC:23:11:90:54</td><td class="p-4">Ammonia Site</td><td class="p-4 text-green-500">Online</td></tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </section>
 
-        <!-- P3: PROTOCOLS & OTA -->
-        <section id="p3" class="tab-content">
-            <div class="glass p-10 rounded-[2.5rem] border-l-8 border-orange-500">
-                <h2 class="text-3xl font-black mb-8 italic text-orange-500 underline decoration-sky-500">SYSTEM PROTOCOLS (OTA/PROVISION)</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                    <div class="space-y-6">
-                        <h4 class="font-black text-sky-400 uppercase tracking-tighter">Gateway Provision Cycle</h4>
-                        <ol class="space-y-4 text-slate-400 text-sm font-medium">
-                            <li class="flex items-center"><span class="bg-slate-800 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sky-400">1</span> Load Bootloader & Radio WiFi</li>
-                            <li class="flex items-center"><span class="bg-slate-800 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sky-400">2</span> Establish Local IP (192.168.1.1)</li>
-                            <li class="flex items-center"><span class="bg-slate-800 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sky-400">3</span> Cloud PSK Token Handshake</li>
-                            <li class="flex items-center"><span class="bg-slate-800 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sky-400">4</span> Push Automatic Metadata to Account</li>
-                        </ol>
-                    </div>
-                    <div class="glass bg-white/5 p-8 rounded-3xl border border-white/10">
-                        <h4 class="font-black text-orange-400 mb-4">NODE FIRMWARE (OTA)</h4>
-                        <div class="space-y-3">
-                            <div class="flex justify-between border-b border-slate-800 pb-2"><span class="text-xs">MCU Firmware</span><span class="text-green-400 font-bold italic">v4.0 STABLE</span></div>
-                            <div class="flex justify-between border-b border-slate-800 pb-2"><span class="text-xs">BLE Radio Logic</span><span class="text-green-400 font-bold italic">PROVISIONED</span></div>
-                            <button class="w-full mt-4 bg-orange-600/20 text-orange-400 border border-orange-500/30 p-3 rounded-xl font-black text-xs hover:bg-orange-500 hover:text-white transition">FORCE OTA UPDATE ALL</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- INVENTORY (P1 Bottom & Excel Logic) -->
-        <section id="inv" class="tab-content space-y-8">
-            <div class="glass p-10 rounded-[2.5rem]">
-                <h3 class="text-2xl font-black mb-8 italic">Excel Inventory Logic</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="md:col-span-2 border-4 border-dashed border-slate-800 p-16 rounded-[2rem] text-center group hover:border-sky-500/50 transition">
-                        <i class="fas fa-file-excel text-6xl text-slate-700 group-hover:text-green-500 transition mb-6"></i>
-                        <p class="text-sm font-mono text-slate-500">Expected: ST.NO | MODEL | IMEI | RADIO MAC | IP</p>
-                        <div class="mt-8 flex justify-center space-x-4">
-                            <button class="bg-slate-800 px-8 py-3 rounded-xl font-bold hover:bg-green-600 transition">IMPORT EXCEL</button>
-                            <button class="bg-slate-800 px-8 py-3 rounded-xl font-bold hover:bg-sky-600 transition">DOWNLOAD TEMPLATE</button>
-                        </div>
-                    </div>
-                    <div class="glass bg-sky-500/5 p-8 rounded-3xl border border-sky-500/20">
-                        <h4 class="font-bold text-sky-400 mb-6">Gateway Provision Token</h4>
-                        <input type="text" placeholder="Token: PSK-NV-XXXX" class="w-full bg-slate-950 p-4 rounded-2xl mb-4 border border-slate-800 outline-none focus:border-sky-500">
-                        <button class="w-full bg-sky-500 text-slate-950 font-black py-4 rounded-2xl shadow-xl shadow-sky-500/20">ACTIVATE NOW</button>
-                    </div>
+        <!-- INVENTORY TAB (P3 Logic) -->
+        <section id="inventory" class="tab-content space-y-8">
+            <h2 class="text-3xl font-extrabold text-slate-800">Inventory & Provisioning</h2>
+            <div class="card p-10 text-center border-2 border-dashed border-slate-200">
+                <i class="fas fa-file-excel text-5xl text-slate-300 mb-6"></i>
+                <h4 class="font-bold text-xl mb-2">Import Inventory Excel</h4>
+                <p class="text-slate-400 text-sm mb-8">ST.NO | MODEL | IMEI | RADIO MAC | IP</p>
+                <div class="flex justify-center space-x-4">
+                    <button class="px-8 py-3 bg-slate-800 text-white rounded-xl font-bold hover:bg-black transition">CHOOSE FILE</button>
+                    <button class="px-8 py-3 border border-slate-200 rounded-xl font-bold hover:bg-slate-50 transition">DOWNLOAD TEMPLATE</button>
                 </div>
             </div>
         </section>
@@ -142,29 +123,37 @@
     </main>
 
     <script>
-        function setTab(id) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
+        // Working Tab Logic
+        function showTab(tabId, btn) {
+            // Hide all
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active-tab'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('nav-active'));
+            
+            // Show target
+            document.getElementById(tabId).classList.add('active-tab');
+            btn.classList.add('nav-active');
         }
 
+        // Professional Graph
         const ctx = document.getElementById('liveChart').getContext('2d');
         new Chart(ctx, {
             type: 'line',
             data: {
-                labels: ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00'],
+                labels: ['10am','11am','12pm','1pm','2pm','3pm'],
                 datasets: [{
-                    label: 'Vibration g',
-                    data: [1.1, 1.3, 1.2, 1.6, 1.4, 1.2],
-                    borderColor: '#38bdf8',
+                    label: 'Vibration',
+                    data: [1.2, 1.5, 1.3, 1.8, 1.6, 1.4],
+                    borderColor: '#FF9933',
                     borderWidth: 4,
+                    pointBackgroundColor: '#FF9933',
+                    tension: 0.4,
                     fill: true,
-                    backgroundColor: 'rgba(56, 189, 248, 0.05)',
-                    tension: 0.4
+                    backgroundColor: 'rgba(255, 153, 51, 0.05)'
                 }]
             },
             options: {
                 plugins: { legend: { display: false } },
-                scales: { y: { grid: { color: '#1e293b' } }, x: { grid: { display: false } } }
+                scales: { y: { grid: { color: '#F3F4F6' } }, x: { grid: { display: false } } }
             }
         });
     </script>
