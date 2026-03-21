@@ -3,28 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroVibe AI Technologies | Predictive Maintenance</title>
+    <title>NeuroVibe AI Technologies | Industrial Predictive Intelligence</title>
+    
+    <!-- 🚩 Domain Logic: Redirects 'predict' subdomain to dashboard.html -->
+    <script>
+        if (window.location.hostname === 'predict.nvpredictive.com') {
+            window.location.href = 'dashboard.html';
+        }
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com" rel="stylesheet">
     <style>
-        body { background: #ffffff; color: #0f172a; font-family: 'Inter', sans-serif; }
-        .hero-3d { background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%); }
-        .saffron-glow { box-shadow: 0 10px 30px -5px rgba(255, 153, 51, 0.3); }
+        :root { --saffron: #FF9933; --teal: #2DD4BF; --deep: #0f172a; }
+        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; background: #ffffff; }
+        .hero-bg { background: radial-gradient(circle at top right, #f8fafc, #ffffff); }
+        .saffron-glow { box-shadow: 0 20px 40px -10px rgba(255, 153, 51, 0.3); }
     </style>
 </head>
-<body class="hero-3d">
-    <nav class="p-8 flex justify-between items-center max-w-7xl mx-auto">
-        <div class="flex items-center space-x-3">
-            <div class="w-12 h-12 bg-slate-900 rounded-xl flex items-center justify-center rotate-12 shadow-2xl">
-                <span class="text-teal-400 font-black text-2xl -rotate-12">N</span>
+<body class="text-slate-900">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 bg-slate-900 rounded-xl flex items-center justify-center rotate-12 shadow-2xl shadow-teal-500/20">
+                    <i class="fas fa-brain text-teal-400 -rotate-12 text-2xl"></i>
+                </div>
+                <h1 class="text-2xl font-black tracking-tighter uppercase">NEUROVIBE <span class="text-teal-500 italic">AI</span></h1>
             </div>
-            <h1 class="text-2xl font-black tracking-tighter uppercase">NeuroVibe <span class="text-teal-500 italic">AI</span></h1>
+            <div class="hidden md:flex space-x-10 font-bold text-[10px] uppercase tracking-[3px] text-slate-400">
+                <a href="#about" class="hover:text-orange-500 transition">About</a>
+                <a href="#solutions" class="hover:text-orange-500 transition">Solutions</a>
+            </div>
+            <a href="https://predict.nvpredictive.com" class="bg-slate-900 text-white px-8 py-3 rounded-2xl font-black text-[10px] tracking-widest hover:bg-orange-500 transition saffron-glow">
+                CLIENT PORTAL <i class="fas fa-arrow-right ml-2"></i>
+            </a>
         </div>
-        <a href="https://predict.nvpredictive.com" class="bg-[#FF9933] text-white px-8 py-3 rounded-2xl font-black saffron-glow hover:scale-105 transition-all uppercase text-xs tracking-widest">Client Portal</a>
     </nav>
 
-    <header class="text-center py-40 px-6">
-        <h2 class="text-7xl font-black tracking-tighter leading-tight">Zero Downtime <br><span class="text-[#FF9933]">Mission Accomplished.</span></h2>
-        <p class="mt-8 text-slate-500 text-lg font-medium max-w-3xl mx-auto italic">NeuroVibe AI Technologies Pvt Ltd: Leading the revolution in AI-driven vibration telemetry and industrial IoT solutions.</p>
-    </header>
+    <!-- Hero Section (Public Profile) -->
+    <section class="pt-48 pb-32 hero-bg overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+            <div class="space-y-10">
+                <span class="inline-block bg-orange-50 text-orange-600 px-5 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[3px] border border-orange-100">
+                    ISO 9001:2026 Certified
+                </span>
+                <h2 class="text-7xl md:text-8xl font-black leading-[1] tracking-tighter text-slate-900">
+                    Precision <span class="text-orange-500">Insights.</span> <br>Zero Downtime.
+                </h2>
+                <p class="text-xl text-slate-500 font-medium leading-relaxed max-w-lg">
+                    NeuroVibe AI Technologies Pvt Ltd specializes in advanced Industrial IoT nodes and AI-driven telemetry for high-stakes rotating machinery.
+                </p>
+                <div class="flex space-x-5">
+                    <button class="bg-orange-500 text-white px-10 py-5 rounded-[2rem] font-black text-xs tracking-widest shadow-2xl shadow-orange-500/40 hover:scale-105 transition">REQUEST QUOTE</button>
+                    <button class="border-2 border-slate-100 px-10 py-5 rounded-[2rem] font-black text-xs tracking-widest hover:bg-slate-50 transition">OUR TECH</button>
+                </div>
+            </div>
+            <div class="relative">
+                <!-- Visual Element -->
+                <div class="bg-white p-12 rounded-[4rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.1)] border border-slate-50 relative z-10">
+                    <div class="flex items-center space-x-4 mb-8">
+                        <div class="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+                        <h4 class="font-black text-[10px] text-slate-400 uppercase tracking-[4px]">Vibe-Sense Node v4</h4>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+                            <div class="h-full bg-orange-500 w-3/4"></div>
+                        </div>
+                        <div class="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+                            <div class="h-full bg-teal-500 w-1/2"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="absolute -bottom-10 -left-10 w-64 h-64 bg-orange-500/10 rounded-full blur-[100px]"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="about" class="py-32 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-10">
+            <div class="p-10 bg-white rounded-[3rem] border border-slate-100 transition-all hover:border-orange-500">
+                <i class="fas fa-microchip text-4xl text-orange-500 mb-8"></i>
+                <h5 class="text-xl font-black mb-4 italic uppercase">Edge Hardware</h5>
+                <p class="text-sm text-slate-500 leading-relaxed font-medium">Proprietary wireless nodes capable of capturing high-frequency vibration and magnetic flux data.</p>
+            </div>
+            <div class="p-10 bg-white rounded-[3rem] border border-slate-100 transition-all hover:border-teal-500">
+                <i class="fas fa-brain text-4xl text-teal-500 mb-8"></i>
+                <h5 class="text-xl font-black mb-4 italic uppercase">AI Telemetry</h5>
+                <p class="text-sm text-slate-500 leading-relaxed font-medium">Deep-learning algorithms that process complex waveforms to identify microscopic bearing & motor faults.</p>
+            </div>
+            <div class="p-10 bg-white rounded-[3rem] border border-slate-100 transition-all hover:border-slate-900">
+                <i class="fas fa-shield-halved text-4xl text-slate-900 mb-8"></i>
+                <h5 class="text-xl font-black mb-4 italic uppercase">Cyber Security</h5>
+                <p class="text-sm text-slate-500 leading-relaxed font-medium">Enterprise-grade encryption and secure OTA (Over-the-Air) protocols for sensitive industrial data.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-12 text-center border-t border-slate-100">
+        <p class="text-[10px] font-black text-slate-400 uppercase tracking-[5px]">© 2026 NeuroVibe AI Technologies Pvt Ltd</p>
+    </footer>
+
 </body>
 </html>
