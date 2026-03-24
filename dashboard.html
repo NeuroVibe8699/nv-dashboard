@@ -3,122 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | NeuroVibe AI</title>
-    <!-- Chart.js ka sabse reliable link -->
-    <script src="https://cdnjs.cloudflare.com"></script>
+    <title>NeuroVibe Dashboard | 8699</title>
+    <script src="https://cdn.jsdelivr.net"></script>
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
         :root { --blue: #4facfe; --orange: #ff9933; --bg: #0f172a; --card: #1e293b; }
-        body { margin: 0; padding: 10px; font-family: 'Roboto', sans-serif; background: var(--bg); color: white; overflow-x: hidden; }
+        body { margin:0; font-family:'Roboto'; background:var(--bg); color:white; padding:15px; }
         
-        .header { display: flex; justify-content: space-between; align-items: center; background: var(--card); padding: 10px 15px; border-radius: 10px; border-bottom: 2px solid var(--orange); margin-bottom: 15px; }
-        .logo-section { display: flex; align-items: center; gap: 10px; }
-        .logo-box { background: white; padding: 3px; border-radius: 5px; height: 30px; width: 30px; display: flex; align-items: center; justify-content: center; }
+        .header { display:flex; justify-content:space-between; align-items:center; background:var(--card); padding:10px 15px; border-radius:12px; border-bottom:3px solid var(--orange); margin-bottom:15px; }
+        .logo-box { background:white; padding:5px; border-radius:6px; height:35px; width:35px; display:flex; align-items:center; justify-content:center; }
         
-        .brand h1 { margin: 0; font-family: 'Orbitron'; font-size: 14px; color: var(--blue); letter-spacing: 0.5px; }
-        .brand p { margin: 0; font-size: 7px; color: var(--orange); letter-spacing: 1px; text-transform: uppercase; }
+        /* Control Section - PDF Page 2 Logic */
+        .controls { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:15px; }
+        select { background:var(--card); color:white; border:1px solid var(--blue); padding:10px; border-radius:8px; font-size:12px; outline:none; }
 
-        .metrics-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 15px; }
-        .box { background: var(--card); padding: 12px; border-radius: 10px; text-align: center; border: 1px solid #334155; }
-        .box h3 { margin: 0; font-size: 9px; color: #94a3b8; text-transform: uppercase; }
-        .val { font-size: 18px; font-weight: bold; margin: 5px 0; color: #fff; }
-        .unit { font-size: 9px; color: var(--orange); }
+        .metrics-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; margin-bottom:15px; }
+        .box { background:var(--card); padding:12px; border-radius:10px; text-align:center; border:1px solid #334155; }
+        .box h3 { margin:0; font-size:9px; color:#94a3b8; text-transform:uppercase; }
+        .val { font-size:18px; font-weight:bold; margin:5px 0; color:var(--blue); }
+        .unit { font-size:8px; color:var(--orange); }
 
-        /* Chart Fix */
-        .chart-container { background: var(--card); padding: 10px; border-radius: 10px; border: 1px solid #334155; height: 250px; position: relative; width: 100%; box-sizing: border-box; }
-        canvas { width: 100% !important; height: 100% !important; display: block; }
+        .chart-container { background:var(--card); padding:15px; border-radius:12px; border:1px solid #334155; height:250px; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <div class="logo-section">
+        <div style="display:flex; align-items:center; gap:10px;">
             <div class="logo-box">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org" style="height:100%;">
-                    <circle cx="50" cy="50" r="45" fill="white""")/>>
-                    <path d="M30 70 L50 30 L70 70 Z" fill="#4facfe""")/>>
-                    <circle cx="50" cy="50" r="12" fill="#ff9933""")/>>
-                </svg>
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org" style="height:100%;"><circle cx="50" cy="50" r="45" fill="white""")/>><path d="M30 70 L50 30 L70 70 Z" fill="#4facfe""")/>><circle cx="50" cy="50" r="12" fill="#ff9933""")/>></svg>
             </div>
-            <div class="brand">
-                <h1>NEUROVIBE AI</h1>
-                <p>Technologies Pvt Ltd</p>
+            <div style="line-height:1.2;">
+                <span style="font-family:'Orbitron'; color:var(--blue); font-size:14px;">NEUROVIBE AI</span><br>
+                <span style="font-size:7px; color:var(--orange); letter-spacing:1px;">TECHNOLOGIES PVT LTD</span>
             </div>
         </div>
-        <div style="background:rgba(0,255,0,0.1); color:#00ff00; padding:3px 8px; border-radius:15px; font-size:9px; font-weight:bold; border:1px solid #00ff00;">● ONLINE</div>
+        <div style="color:#00ff00; font-size:9px; font-weight:bold;">● ONLINE</div>
+    </div>
+
+    <!-- Logic Ref: PDF Page 2 (Selection) -->
+    <div class="controls">
+        <select id="siteSelect"><option>Select Site (Ammonia Pump)</option></select>
+        <select id="dataMode">
+            <option value="overall">MODE: OVERALL DATA</option>
+            <option value="spectrum">MODE: SPECTRUM (FFT)</option>
+        </select>
     </div>
 
     <div class="metrics-grid">
-        <div class="box"><h3>Velocity</h3><div class="val" id="v">0.0 <span class="unit">mm/s</span></div></div>
-        <div class="box"><h3>RPM</h3><div class="val" id="r">0 <span class="unit">RPM</span></div></div>
-        <div class="box"><h3>Temp</h3><div class="val" id="t">0.0 <span class="unit">°C</span></div></div>
-        <div class="box"><h3>Flux</h3><div class="val" id="f">0.0 <span class="unit">T</span></div></div>
+        <div class="box"><h3>Velocity</h3><div class="val" id="v">0.0</div><span class="unit">mm/s</span></div>
+        <div class="box"><h3>Accel</h3><div class="val" id="a">0.0</div><span class="unit">g</span></div>
+        <div class="box"><h3>Temp</h3><div class="val" id="t">0.0</div><span class="unit">°C</span></div>
+        <div class="box"><h3>Flux</h3><div class="val" id="f">0.0</div><span class="unit">T</span></div>
+        <div class="box"><h3>RPM</h3><div class="val" id="r">0</div><span class="unit">RPM</span></div>
+        <div class="box"><h3>Ultra</h3><div class="val" id="u">0.0</div><span class="unit">dB</span></div>
     </div>
 
     <div class="chart-container">
-        <p style="color:var(--blue); font-size:10px; margin: 0 0 5px 0; font-family:'Orbitron';">Live Vibration Spectrum (FFT)</p>
+        <p id="chartTitle" style="color:var(--blue); font-size:10px; margin:0 0 10px 0; font-family:'Orbitron';">Live Trend</p>
         <canvas id="liveChart"></canvas>
     </div>
 
     <script>
         let liveChart;
+        const ctx = document.getElementById('liveChart').getContext('2d');
 
-        function startDashboard() {
-            const canvas = document.getElementById('liveChart');
-            if (!canvas) return;
-            
-            const ctx = canvas.getContext('2d');
-            
-            // Chart Initialization
+        function initChart() {
             liveChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: Array(30).fill(''),
                     datasets: [{
-                        data: Array(30).fill(0).map(() => Math.random() * 5),
+                        data: Array(30).fill(0),
                         borderColor: '#4facfe',
                         backgroundColor: 'rgba(79, 172, 254, 0.1)',
-                        borderWidth: 2,
-                        fill: true,
-                        tension: 0.4,
-                        pointRadius: 0
+                        fill: true, tension: 0.4, pointRadius: 0
                     }]
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    animation: false,
-                    scales: { 
-                        y: { display: false, min: 0, max: 10 },
-                        x: { display: false }
-                    },
-                    plugins: { legend: { display: false } }
-                }
+                options: { responsive:true, maintainAspectRatio:false, scales:{y:{display:false},x:{display:false}}, plugins:{legend:{display:false}} }
             });
-
-            // Update Loop
-            setInterval(async () => {
-                try {
-                    const response = await fetch('/api/status');
-                    const data = await response.json();
-                    
-                    if (data.status === "Online") {
-                        document.getElementById('v').innerHTML = `${data.metrics.velocity} <span class="unit">mm/s</span>`;
-                        document.getElementById('r').innerText = data.metrics.rpm;
-                        document.getElementById('t').innerHTML = `${data.metrics.temp} <span class="unit">°C</span>`;
-                        document.getElementById('f').innerHTML = `${data.metrics.flux} <span class="unit">T</span>`;
-                        
-                        // Push new data to graph
-                        liveChart.data.datasets[0].data.shift();
-                        liveChart.data.datasets[0].data.push(Math.random() * 8);
-                        liveChart.update('none');
-                    }
-                } catch (err) { console.log("Syncing..."); }
-            }, 1000);
         }
 
-        // Wait for page and library to load
-        window.onload = startDashboard;
+        async function sync() {
+            const res = await fetch('/api/status');
+            const d = await res.json();
+            const mode = document.getElementById('dataMode').value;
+
+            // Displaying all 6 parameters [Ref: 0.1.2]
+            document.getElementById('v').innerText = d.metrics.velocity;
+            document.getElementById('a').innerText = d.metrics.acceleration;
+            document.getElementById('t').innerText = d.metrics.temp;
+            document.getElementById('f').innerText = d.metrics.flux;
+            document.getElementById('r').innerText = d.metrics.rpm;
+            document.getElementById('u').innerText = d.metrics.ultrasound;
+
+            if (mode === "spectrum") {
+                document.getElementById('chartTitle').innerText = "Vibration Spectrum (FFT)";
+                liveChart.data.datasets[0].data = d.spectrum;
+            } else {
+                document.getElementById('chartTitle').innerText = "Overall Velocity Trend";
+                liveChart.data.datasets[0].data.shift();
+                liveChart.data.datasets[0].data.push(d.metrics.velocity);
+            }
+            liveChart.update('none');
+        }
+
+        window.onload = () => { initChart(); setInterval(sync, 2000); };
     </script>
 </body>
 </html>
