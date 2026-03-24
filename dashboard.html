@@ -2,57 +2,76 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>NeuroVibe User Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroVibe Dashboard | NV-8699</title>
+    <!-- Graph ke liye Chart.js zaroori hai -->
     <script src="https://cdn.jsdelivr.net"></script>
     <style>
-        :root { --blue: #4facfe; --orange: #ff9933; --bg: #0f172a; --card: #1e293b; }
-        body { background: var(--bg); color: white; font-family: sans-serif; padding: 15px; }
-        .header { display: flex; justify-content: space-between; border-bottom: 2px solid var(--orange); padding: 10px; border-radius: 8px; background: var(--card); margin-bottom: 15px; }
-        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
-        .box { background: var(--card); padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #334155; }
-        .val { font-size: 22px; color: var(--blue); font-weight: bold; }
-        .unit { font-size: 10px; color: var(--orange); }
-        select { background: var(--card); color: white; border: 1px solid var(--blue); padding: 8px; border-radius: 5px; width: 48%; }
+        :root { --blue: #4facfe; --orange: #ff9933; --bg: #0d1117; --card: #161b22; }
+        body { margin:0; font-family: sans-serif; background:var(--bg); color:white; padding:12px; }
+        
+        /* Aapka Original Header Layout */
+        .header { display:flex; justify-content:space-between; align-items:center; border-bottom: 1px solid #30363d; padding-bottom:10px; margin-bottom:15px; }
+        .brand { line-height:1.2; }
+        .brand b { color:white; font-size:14px; letter-spacing:1px; }
+        .brand small { color:#8b949e; font-size:9px; display:block; }
+        .status { color:var(--orange); font-size:10px; font-weight:bold; }
+
+        .controls { display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:15px; }
+        select { background:var(--card); border:1px solid #30363d; color:white; padding:8px; border-radius:4px; font-size:11px; }
+
+        /* Original 3-Column Grid */
+        .grid { display:grid; grid-template-columns: repeat(3, 1fr); gap:8px; }
+        .box { background:var(--card); border:1px solid #30363d; padding:20px 5px; border-radius:6px; text-align:center; }
+        .label { color:#8b949e; font-size:10px; text-transform:uppercase; margin-bottom:10px; }
+        .val { font-size:24px; font-weight:bold; color:var(--blue); margin-bottom:5px; }
+        .unit { color:var(--orange); font-size:10px; font-weight:bold; }
+
+        .graph-area { background:var(--card); border:1px solid #30363d; margin-top:15px; padding:15px; border-radius:6px; height:180px; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <div><b>NEUROVIBE AI</b><br><small>NV-8699 SYSTEM</small></div>
-        <div id="badge" style="color:var(--orange);">● CONNECTING...</div>
+        <div class="brand">
+            <b>NEUROVIBE AI</b>
+            <small>NV-8699 SYSTEM</small>
+        </div>
+        <div id="status-badge" class="status">● CONNECTING...</div>
     </div>
 
-    <!-- Site Selection (As per Page 2 Logic) -->
-    <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
-        <select id="site"><option value="">Select Site (e.g. Ammonia Pump)</option><option value="p1">Ammonia Pump</option></select>
-        <select id="mode"><option value="trend">MODE: OVERALL TREND</option><option value="fft">MODE: SPECTRUM (FFT)</option></select>
+    <div class="controls">
+        <select id="siteSelect"><option value="">Select Site (e.g. Ammonia Pump)</option><option value="p1">Ammonia Pump</option></select>
+        <select id="modeSelect"><option value="trend">MODE: OVERALL TREND</option></select>
     </div>
 
     <div class="grid">
-        <div class="box"><h3>Velocity</h3><div id="v" class="val">0.0</div><span class="unit">mm/s</span></div>
-        <div class="box"><h3>Acceleration</h3><div id="a" class="val">0.0</div><span class="unit">g</span></div>
-        <div class="box"><h3>Temperature</h3><div id="t" class="val">0.0</div><span class="unit">°C</span></div>
-        <div class="box"><h3>Flux</h3><div id="f" class="val">0.0</div><span class="unit">T</span></div>
-        <div class="box"><h3>RPM</h3><div id="r" class="val">0</div><span class="unit">RPM</span></div>
-        <div class="box"><h3>Ultrasound</h3><div id="u" class="val">0.0</div><span class="unit">dB</span></div>
+        <div class="box"><div class="label">Velocity</div><div class="val" id="v">0.0</div><div class="unit">MM/S</div></div>
+        <div class="box"><div class="label">Acceleration</div><div class="val" id="a">0.0</div><div class="unit">G</div></div>
+        <div class="box"><div class="label">Temperature</div><div class="val" id="t">0.0</div><div class="unit">°C</div></div>
+        <div class="box"><div class="label">Flux</div><div class="val" id="f">0.0</div><div class="unit">T</div></div>
+        <div class="box"><div class="label">RPM</div><div class="val" id="r">0</div><div class="unit">RPM</div></div>
+        <div class="box"><div class="label">Ultrasound</div><div class="val" id="u">0.0</div><div class="unit">DB</div></div>
     </div>
 
-    <div style="background:var(--card); padding:15px; border-radius:10px; height:200px;">
-        <canvas id="chart"></canvas>
+    <div class="graph-area">
+        <canvas id="liveChart"></canvas>
     </div>
 
     <script>
         let chart;
-        const ctx = document.getElementById('chart').getContext('2d');
-        chart = new Chart(ctx, { type: 'line', data: { labels: Array(20).fill(''), datasets: [{ data: Array(20).fill(0), borderColor: '#4facfe', borderWidth: 2, fill: true, backgroundColor: 'rgba(79,172,254,0.1)', pointRadius: 0 }] }, options: { responsive:true, maintainAspectRatio:false, scales: { x:{display:false}, y:{grid:{color:'#334155'}} }, plugins:{legend:{display:false}} } });
+        const ctx = document.getElementById('liveChart').getContext('2d');
+        chart = new Chart(ctx, { type: 'line', data: { labels: Array(20).fill(''), datasets: [{ data: Array(20).fill(0), borderColor: '#ff9933', borderWidth: 2, fill: false, pointRadius: 0, tension: 0.4 }] }, options: { responsive:true, maintainAspectRatio:false, scales: { x:{display:false}, y:{grid:{color:'#30363d'}} }, plugins:{legend:{display:false}} } });
 
-        async function sync() {
-            if(!document.getElementById('site').value) return; // Jab tak site select na ho
+        async function syncData() {
+            const site = document.getElementById('siteSelect').value;
+            if(!site) return; // Site select hone par hi data aayega (Page 2 Logic)
+
             try {
                 const res = await fetch('/api/status');
                 const d = await res.json();
                 const m = d.metrics;
-                
+
                 document.getElementById('v').innerText = m.velocity;
                 document.getElementById('a').innerText = m.acceleration;
                 document.getElementById('t').innerText = m.temp;
@@ -63,11 +82,14 @@
                 chart.data.datasets[0].data.shift();
                 chart.data.datasets[0].data.push(m.velocity);
                 chart.update('none');
-                document.getElementById('badge').innerText = "● ONLINE";
-                document.getElementById('badge').style.color = "#00ff00";
-            } catch (e) { document.getElementById('badge').innerText = "● OFFLINE"; }
+
+                document.getElementById('status-badge').innerText = "● ONLINE";
+                document.getElementById('status-badge').style.color = "#00ff00";
+            } catch (e) {
+                document.getElementById('status-badge').innerText = "● OFFLINE";
+            }
         }
-        setInterval(sync, 1500);
+        setInterval(syncData, 1500);
     </script>
 </body>
 </html>
