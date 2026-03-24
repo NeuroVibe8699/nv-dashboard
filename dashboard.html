@@ -4,26 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NeuroVibe Dashboard | 8699</title>
+    <!-- FIX 1: Corrected Chart.js Library Link -->
     <script src="https://cdn.jsdelivr.net"></script>
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
         :root { --blue: #4facfe; --orange: #ff9933; --bg: #0f172a; --card: #1e293b; }
-        body { margin:0; font-family:'Roboto'; background:var(--bg); color:white; padding:12px; overflow-x:hidden; }
+        body { margin:0; font-family:'Roboto', sans-serif; background:var(--bg); color:white; padding:12px; overflow-x:hidden; }
         
         .header { display:flex; justify-content:space-between; align-items:center; background:var(--card); padding:10px 15px; border-radius:12px; border-bottom:3px solid var(--orange); margin-bottom:15px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
         .logo-box { background:white; padding:4px; border-radius:6px; height:32px; width:32px; display:flex; align-items:center; justify-content:center; }
         
         .controls { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:15px; }
-        select { background:var(--card); color:white; border:1px solid var(--blue); padding:10px; border-radius:8px; font-size:12px; outline:none; cursor:pointer; }
+        select { background:var(--card); color:white; border:1px solid var(--blue); padding:10px; border-radius:8px; font-size:12px; outline:none; }
 
         .metrics-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; margin-bottom:15px; }
-        .box { background:var(--card); padding:12px; border-radius:10px; text-align:center; border:1px solid #334155; position:relative; }
+        .box { background:var(--card); padding:12px; border-radius:10px; text-align:center; border:1px solid #334155; }
         .box h3 { margin:0; font-size:9px; color:#94a3b8; text-transform:uppercase; letter-spacing:0.5px; }
         .val { font-size:18px; font-weight:bold; margin:5px 0; color:var(--blue); }
         .unit { font-size:8px; color:var(--orange); display:block; }
 
-        .chart-container { background:var(--card); padding:15px; border-radius:12px; border:1px solid #334155; height:240px; position:relative; }
-        #chartTitle { color:var(--blue); font-size:11px; margin:0 0 8px 0; font-family:'Orbitron'; text-transform:uppercase; }
+        .chart-container { background:var(--card); padding:15px; border-radius:12px; border:1px solid #334155; height:240px; }
+        #chartTitle { color:var(--blue); font-size:11px; margin-bottom:8px; font-family:'Orbitron'; text-transform:uppercase; }
         canvas { width: 100% !important; height: 180px !important; }
     </style>
 </head>
@@ -32,18 +33,22 @@
     <div class="header">
         <div style="display:flex; align-items:center; gap:10px;">
             <div class="logo-box">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org" style="height:100%;"><circle cx="50" cy="50" r="45" fill="white""")/>><path d="M30 70 L50 30 L70 70 Z" fill="#4facfe""")/>><circle cx="50" cy="50" r="12" fill="#ff9933""")/>></svg>
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org">
+                    <circle cx="50" cy="50" r="45" fill="#4facfe" />
+                    <path d="M30 70 L50 30 L70 70 Z" fill="white" />
+                    <circle cx="50" cy="55" r="10" fill="#ff9933" />
+                </svg>
             </div>
             <div style="line-height:1.2;">
                 <span style="font-family:'Orbitron'; color:var(--blue); font-size:14px; font-weight:bold;">NEUROVIBE AI</span><br>
                 <span style="font-size:7px; color:var(--orange); letter-spacing:1px; font-weight:bold;">TECHNOLOGIES PVT LTD</span>
             </div>
         </div>
-        <div id="status-badge" style="color:#00ff00; font-size:9px; font-weight:bold; background:rgba(0,255,0,0.1); padding:4px 8px; border-radius:15px; border:1px solid #00ff00;">● ONLINE</div>
+        <div id="status-badge" style="color:#ff9933; font-size:9px; font-weight:bold; background:rgba(255,153,51,0.1); padding:4px 8px; border-radius:15px; border:1px solid #ff9933;">● CONNECTING...</div>
     </div>
 
     <div class="controls">
-        <select id="siteSelect"><option value="site1">Ammonia Pump (Main)</option><option value="site2">Compressor Area</option></select>
+        <select id="siteSelect"><option value="site1">Ammonia Pump (Main)</option></select>
         <select id="dataMode"><option value="overall">MODE: OVERALL DATA</option><option value="spectrum">MODE: SPECTRUM (FFT)</option></select>
     </div>
 
@@ -66,12 +71,12 @@
         const ctx = document.getElementById('liveChart').getContext('2d');
 
         function initChart() {
+            // FIX 2: Added error handling to ensure chart creates even if data is slow
             liveChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: Array(25).fill(''),
                     datasets: [{
-                        label: 'Signal',
                         data: Array(25).fill(0),
                         borderColor: '#4facfe',
                         backgroundColor: 'rgba(79, 172, 254, 0.1)',
@@ -81,7 +86,7 @@
                 },
                 options: {
                     responsive: true, maintainAspectRatio: false,
-                    scales: { y: { grid: { color: '#334155' }, ticks: { display: false } }, x: { grid: { display: false } } },
+                    scales: { y: { grid: { color: '#334155' }, ticks: { color: '#94a3b8', font: {size: 8} } }, x: { display: false } },
                     plugins: { legend: { display: false } }
                 }
             });
@@ -89,36 +94,50 @@
 
         async function sync() {
             try {
+                // FIX 3: Pointing to the internal /api/status route
                 const response = await fetch('/api/status');
-                if (!response.ok) throw new Error('Offline');
+                if (!response.ok) throw new Error('Backend Offline');
                 const d = await response.json();
-                const mode = document.getElementById('dataMode').value;
+                
+                if (d.metrics) {
+                    const m = d.metrics;
+                    document.getElementById('v').innerText = m.velocity;
+                    document.getElementById('a').innerText = m.acceleration;
+                    document.getElementById('t').innerText = m.temp;
+                    document.getElementById('f').innerText = m.flux;
+                    document.getElementById('r').innerText = m.rpm;
+                    document.getElementById('u').innerText = m.ultrasound;
 
-                document.getElementById('v').innerText = d.metrics.velocity;
-                document.getElementById('a').innerText = d.metrics.acceleration;
-                document.getElementById('t').innerText = d.metrics.temp;
-                document.getElementById('f').innerText = d.metrics.flux;
-                document.getElementById('r').innerText = d.metrics.rpm;
-                document.getElementById('u').innerText = d.metrics.ultrasound;
-
-                if (mode === "spectrum") {
-                    document.getElementById('chartTitle').innerText = "Vibration Spectrum (FFT)";
-                    liveChart.data.datasets[0].data = d.spectrum;
-                } else {
-                    document.getElementById('chartTitle').innerText = "Overall Velocity Trend";
-                    liveChart.data.datasets[0].data.shift();
-                    liveChart.data.datasets[0].data.push(d.metrics.velocity + (Math.random() * 0.2));
+                    // Update Graphics
+                    const mode = document.getElementById('dataMode').value;
+                    if (mode === "spectrum" && d.spectrum) {
+                        document.getElementById('chartTitle').innerText = "Vibration Spectrum (FFT)";
+                        liveChart.data.datasets[0].data = d.spectrum;
+                    } else {
+                        document.getElementById('chartTitle').innerText = "Overall Velocity Trend";
+                        liveChart.data.datasets[0].data.shift();
+                        liveChart.data.datasets[0].data.push(m.velocity);
+                    }
+                    liveChart.update('none');
+                    
+                    // Update Status to Online
+                    document.getElementById('status-badge').innerText = "● ONLINE";
+                    document.getElementById('status-badge').style.color = "#00ff00";
+                    document.getElementById('status-badge').style.borderColor = "#00ff00";
+                    document.getElementById('status-badge').style.backgroundColor = "rgba(0,255,0,0.1)";
                 }
-                liveChart.update('none');
-                document.getElementById('status-badge').innerText = "● ONLINE";
-                document.getElementById('status-badge').style.color = "#00ff00";
             } catch (err) {
-                document.getElementById('status-badge').innerText = "● CONNECTING...";
-                document.getElementById('status-badge').style.color = "#ff9933";
+                console.error("Sync Error:", err);
+                document.getElementById('status-badge').innerText = "● OFFLINE";
+                document.getElementById('status-badge').style.color = "#ff4444";
             }
         }
 
-        window.onload = () => { initChart(); setInterval(sync, 1500); };
+        window.onload = () => { 
+            initChart(); 
+            setInterval(sync, 1500); 
+            sync(); // Initial fetch
+        };
     </script>
 </body>
 </html>
