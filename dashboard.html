@@ -3,40 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | NeuroVibe AI</title>
-    <link href="https://fonts.googleapis.com" rel="stylesheet">
-    <!-- Chart.js Library -->
+    <title>NeuroVibe Dashboard</title>
+    <!-- Chart.js and Fonts -->
     <script src="https://cdn.jsdelivr.net"></script>
+    <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
         :root { --blue: #4facfe; --orange: #ff9933; --bg: #0f172a; --card: #1e293b; }
         body { margin: 0; padding: 15px; font-family: 'Roboto', sans-serif; background: var(--bg); color: white; }
         
-        .header { display: flex; justify-content: space-between; align-items: center; background: var(--card); padding: 12px 20px; border-radius: 12px; border-bottom: 2px solid var(--orange); margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        .logo-section { display: flex; align-items: center; gap: 12px; }
-        .logo-box { background: white; padding: 4px; border-radius: 6px; height: 35px; display: flex; align-items: center; }
+        /* Header Fix */
+        .header { display: flex; justify-content: space-between; align-items: center; background: var(--card); padding: 12px 15px; border-radius: 12px; border-bottom: 2px solid var(--orange); margin-bottom: 20px; }
+        .logo-section { display: flex; align-items: center; gap: 10px; }
+        .logo-placeholder { background: white; padding: 4px; border-radius: 5px; height: 35px; width: 35px; display: flex; align-items: center; justify-content: center; }
         
-        .brand h1 { margin: 0; font-family: 'Orbitron'; font-size: 16px; color: var(--blue); letter-spacing: 0.5px; }
-        .brand p { margin: 0; font-size: 8px; color: var(--orange); letter-spacing: 1px; text-transform: uppercase; }
+        .brand-name h1 { margin: 0; font-family: 'Orbitron'; font-size: 15px; color: var(--blue); }
+        .brand-name p { margin: 0; font-size: 8px; color: var(--orange); letter-spacing: 1px; }
 
+        /* Metrics Boxes */
         .metrics-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
-        .metric-card { background: var(--card); padding: 15px; border-radius: 12px; text-align: center; border-top: 3px solid var(--blue); }
-        .metric-card h3 { margin: 0; font-size: 11px; color: #94a3b8; text-transform: uppercase; }
-        .val { font-size: 20px; font-weight: bold; margin: 8px 0; }
+        .box { background: var(--card); padding: 15px; border-radius: 12px; text-align: center; border: 1px solid #334155; }
+        .box h3 { margin: 0; font-size: 10px; color: #94a3b8; text-transform: uppercase; }
+        .val { font-size: 20px; font-weight: bold; margin: 8px 0; color: #fff; }
         .unit { font-size: 10px; color: var(--orange); }
 
-        .chart-box { background: var(--card); padding: 15px; border-radius: 12px; border: 1px solid #334155; }
-        canvas { width: 100% !important; height: 250px !important; }
+        /* Chart Area */
+        .chart-container { background: var(--card); padding: 15px; border-radius: 15px; height: 280px; border: 1px solid #334155; }
     </style>
 </head>
 <body>
 
     <div class="header">
         <div class="logo-section">
-            <div class="logo-box">
-                <!-- Aapka Asli Logo Image Link -->
-                <img src="https://i.ibb.co" style="height: 100%;">
+            <div class="logo-placeholder">
+                <img src="logo.png" alt="NV" style="height: 100%; width: auto;" onerror="this.src='https://via.placeholder.com'">
             </div>
-            <div class="brand">
+            <div class="brand-name">
                 <h1>NEUROVIBE AI</h1>
                 <p>Technologies Pvt Ltd</p>
             </div>
@@ -45,25 +46,26 @@
     </div>
 
     <div class="metrics-grid">
-        <div class="metric-card"><h3>Velocity</h3><div class="val" id="v">4.2 <span class="unit">mm/s</span></div></div>
-        <div class="metric-card"><h3>RPM</h3><div class="val" id="r">1450 <span class="unit">RPM</span></div></div>
-        <div class="metric-card"><h3>Temp</h3><div class="val" id="t">38.4 <span class="unit">°C</span></div></div>
-        <div class="metric-card"><h3>Flux</h3><div class="val" id="f">0.12 <span class="unit">T</span></div></div>
+        <div class="box"><h3>Velocity</h3><div class="val" id="vel">4.2 <span class="unit">mm/s</span></div></div>
+        <div class="box"><h3>RPM</h3><div class="val" id="rpm">1450 <span class="unit">RPM</span></div></div>
+        <div class="box"><h3>Temp</h3><div class="val" id="temp">38.4 <span class="unit">°C</span></div></div>
+        <div class="box"><h3>Flux</h3><div class="val" id="flux">0.12 <span class="unit">T</span></div></div>
     </div>
 
-    <div class="chart-box">
+    <div class="chart-container">
         <p style="color:var(--blue); font-size:12px; margin-top:0; font-family:'Orbitron'">Live Vibration Spectrum</p>
-        <canvas id="myChart"></canvas>
+        <canvas id="liveChart"></canvas>
     </div>
 
     <script>
-        const ctx = document.getElementById('myChart').getContext('2d');
-        let myChart = new Chart(ctx, {
+        // Graph Initialization
+        const ctx = document.getElementById('liveChart').getContext('2d');
+        const liveChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: Array(20).fill(''),
+                labels: Array(30).fill(''),
                 datasets: [{
-                    data: Array(20).fill(0).map(() => Math.random() * 5),
+                    data: Array(30).fill(0).map(() => Math.random() * 5),
                     borderColor: '#4facfe',
                     backgroundColor: 'rgba(79, 172, 254, 0.1)',
                     borderWidth: 2,
@@ -75,27 +77,34 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                scales: { y: { display: false }, x: { display: false } },
+                scales: { 
+                    y: { grid: { color: '#334155' }, ticks: { display: false } },
+                    x: { grid: { display: false } }
+                },
                 plugins: { legend: { display: false } }
             }
         });
 
-        async function update() {
+        // Backend Sync Logic
+        async function refreshData() {
             try {
-                const res = await fetch('/api/status');
-                const d = await res.json();
-                if(d.status === "Online") {
-                    document.getElementById('v').innerHTML = `${d.metrics.velocity} <span class="unit">mm/s</span>`;
-                    document.getElementById('r').innerHTML = `${d.metrics.rpm} <span class="unit">RPM</span>`;
-                    document.getElementById('t').innerHTML = `${d.metrics.temp} <span class="unit">°C</span>`;
+                const response = await fetch('/api/status');
+                const data = await response.json();
+                
+                if (data.status === "Online") {
+                    document.getElementById('vel').innerHTML = `${data.metrics.velocity} <span class="unit">mm/s</span>`;
+                    document.getElementById('rpm').innerText = data.metrics.rpm;
+                    document.getElementById('temp').innerHTML = `${data.metrics.temp} <span class="unit">°C</span>`;
                     
-                    myChart.data.datasets[0].data.shift();
-                    myChart.data.datasets[0].data.push(Math.random() * 8);
-                    myChart.update('none');
+                    // Moving Graph logic
+                    liveChart.data.datasets[0].data.shift();
+                    liveChart.data.datasets[0].data.push(Math.random() * 8);
+                    liveChart.update('none');
                 }
-            } catch(e) {}
+            } catch (err) { console.log("Offline Check"); }
         }
-        setInterval(update, 2000);
+
+        setInterval(refreshData, 2000);
     </script>
 </body>
 </html>
