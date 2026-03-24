@@ -3,107 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroVibe AI | Predictive Maintenance</title>
+    <title>NeuroVibe Dashboard | 8699</title>
     <script src="https://cdn.jsdelivr.net"></script>
+    <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
-        :root { --bhagwa: #FF9933; --bg: #0d1117; --card: #161b22; --border: #30363d; --blue-text: #58a6ff; --gray-text: #8b949e; }
-        body { background-color: var(--bg); color: white; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; margin: 0; padding: 12px; overflow-x: hidden; }
+        :root { --blue: #4facfe; --orange: #ff9933; --bg: #0f172a; --card: #1e293b; }
+        body { margin:0; font-family:'Roboto'; background:var(--bg); color:white; padding:12px; overflow-x:hidden; }
         
-        /* Header */
-        .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-bottom: 15px; }
-        .logo-section { line-height: 1.2; }
-        .logo-main { color: var(--bhagwa); font-weight: bold; font-size: 13px; letter-spacing: 0.5px; }
-        .logo-sub { color: var(--gray-text); font-size: 8px; text-transform: uppercase; }
-        .online-tag { background: #238636; color: white; font-size: 9px; padding: 2px 8px; border-radius: 4px; font-weight: bold; }
+        .header { display:flex; justify-content:space-between; align-items:center; background:var(--card); padding:10px 15px; border-radius:12px; border-bottom:3px solid var(--orange); margin-bottom:15px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .logo-box { background:white; padding:4px; border-radius:6px; height:32px; width:32px; display:flex; align-items:center; justify-content:center; }
+        
+        .controls { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:15px; }
+        select { background:var(--card); color:white; border:1px solid var(--blue); padding:10px; border-radius:8px; font-size:12px; outline:none; cursor:pointer; }
 
-        /* Dropdowns */
-        .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px; }
-        select { background: var(--card); border: 1px solid var(--border); color: white; padding: 8px; border-radius: 6px; font-size: 11px; outline: none; }
+        .metrics-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; margin-bottom:15px; }
+        .box { background:var(--card); padding:12px; border-radius:10px; text-align:center; border:1px solid #334155; position:relative; }
+        .box h3 { margin:0; font-size:9px; color:#94a3b8; text-transform:uppercase; letter-spacing:0.5px; }
+        .val { font-size:18px; font-weight:bold; margin:5px 0; color:var(--blue); }
+        .unit { font-size:8px; color:var(--orange); display:block; }
 
-        /* 3x2 Grid */
-        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
-        .card { background: var(--card); border: 1px solid var(--border); padding: 18px 5px; border-radius: 6px; text-align: center; }
-        .card-label { color: var(--gray-text); font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
-        .card-value { color: var(--blue-text); font-size: 24px; font-weight: 600; margin-bottom: 4px; }
-        .card-unit { color: var(--bhagwa); font-size: 9px; font-weight: bold; }
-
-        /* Graph Section */
-        .graph-container { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 12px; height: 180px; }
-        .graph-title { color: var(--blue-text); font-size: 10px; font-weight: bold; text-transform: uppercase; margin-bottom: 10px; }
+        .chart-container { background:var(--card); padding:15px; border-radius:12px; border:1px solid #334155; height:240px; position:relative; }
+        #chartTitle { color:var(--blue); font-size:11px; margin:0 0 8px 0; font-family:'Orbitron'; text-transform:uppercase; }
+        canvas { width: 100% !important; height: 180px !important; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <div class="logo-section">
-            <div class="logo-main">NEUROVIBE AI</div>
-            <div class="logo-sub">PREDICTIVE MAINTENANCE 8699</div>
+        <div style="display:flex; align-items:center; gap:10px;">
+            <div class="logo-box">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org" style="height:100%;"><circle cx="50" cy="50" r="45" fill="white""")/>><path d="M30 70 L50 30 L70 70 Z" fill="#4facfe""")/>><circle cx="50" cy="50" r="12" fill="#ff9933""")/>></svg>
+            </div>
+            <div style="line-height:1.2;">
+                <span style="font-family:'Orbitron'; color:var(--blue); font-size:14px; font-weight:bold;">NEUROVIBE AI</span><br>
+                <span style="font-size:7px; color:var(--orange); letter-spacing:1px; font-weight:bold;">TECHNOLOGIES PVT LTD</span>
+            </div>
         </div>
-        <div class="online-tag">● ONLINE</div>
+        <div id="status-badge" style="color:#00ff00; font-size:9px; font-weight:bold; background:rgba(0,255,0,0.1); padding:4px 8px; border-radius:15px; border:1px solid #00ff00;">● ONLINE</div>
     </div>
 
     <div class="controls">
-        <select><option>Ammonia Pump (Main)</option></select>
-        <select><option>MODE: SPECTRUM (FFT)</option></select>
+        <select id="siteSelect"><option value="site1">Ammonia Pump (Main)</option><option value="site2">Compressor Area</option></select>
+        <select id="dataMode"><option value="overall">MODE: OVERALL DATA</option><option value="spectrum">MODE: SPECTRUM (FFT)</option></select>
     </div>
 
-    <!-- The 6 Tiles Grid -->
-    <div class="grid">
-        <div class="card"><div class="card-label">Velocity</div><div class="card-value" id="v">0.0</div><div class="card-unit">MM/S</div></div>
-        <div class="card"><div class="card-label">Acceleration</div><div class="card-value" id="a">0.0</div><div class="card-unit">G</div></div>
-        <div class="card"><div class="card-label">Temperature</div><div class="card-value" id="t">0.0</div><div class="card-unit">°C</div></div>
-        <div class="card"><div class="card-label">Max RPM</div><div class="card-value" id="r">0</div><div class="card-unit">RPM</div></div>
-        <div class="card"><div class="card-label">Flux</div><div class="card-value" id="f">0</div><div class="card-unit">WB</div></div>
-        <div class="card"><div class="card-label">Ultrasound</div><div class="card-value" id="u">0.0</div><div class="card-unit">DB</div></div>
+    <div class="metrics-grid">
+        <div class="box"><h3>Velocity</h3><div class="val" id="v">0.0</div><span class="unit">mm/s</span></div>
+        <div class="box"><h3>Acceleration</h3><div class="val" id="a">0.0</div><span class="unit">g</span></div>
+        <div class="box"><h3>Temperature</h3><div class="val" id="t">0.0</div><span class="unit">°C</span></div>
+        <div class="box"><h3>Mag. Flux</h3><div class="val" id="f">0.0</div><span class="unit">T</span></div>
+        <div class="box"><h3>RPM</h3><div class="val" id="r">0</div><span class="unit">RPM</span></div>
+        <div class="box"><h3>Ultrasound</h3><div class="val" id="u">0.0</div><span class="unit">dB</span></div>
     </div>
 
-    <!-- Live Chart -->
-    <div class="graph-container">
-        <div class="graph-title">LIVE VIBRATION TREND</div>
-        <canvas id="liveChart" style="width:100%; height:130px;"></canvas>
+    <div class="chart-container">
+        <p id="chartTitle">LIVE VIBRATION TREND</p>
+        <canvas id="liveChart"></canvas>
     </div>
 
     <script>
-        // 1. Chart.js Initialization
+        let liveChart;
         const ctx = document.getElementById('liveChart').getContext('2d');
-        const chart = new Chart(ctx, {
-            type: 'line',
-            data: { labels: [], datasets: [{ data: [], borderColor: '#FF9933', borderWidth: 2, pointRadius: 0, fill: false, tension: 0.4 }] },
-            options: { responsive: true, maintainAspectRatio: false, scales: { x: { display: false }, y: { grid: { color: '#30363d' }, ticks: { color: '#8b949e', font: { size: 10 } } } }, plugins: { legend: { display: false } } }
-        });
 
-        // 2. Fetch Logic (Connecting to your Python Backend)
-        async function fetchMetrics() {
-            try {
-                // Fetching from your Backend /api/status route
-                const response = await fetch('/api/status');
-                const data = await response.json();
-                
-                if (data.metrics) {
-                    const m = data.metrics;
-
-                    // Update UI Tiles using IDs
-                    document.getElementById('v').innerText = m.velocity;
-                    document.getElementById('a').innerText = m.acceleration;
-                    document.getElementById('t').innerText = m.temp;
-                    document.getElementById('r').innerText = m.rpm;
-                    document.getElementById('f').innerText = m.flux;
-                    document.getElementById('u').innerText = m.ultrasound;
-
-                    // Update Real-time Graph (Acceleration)
-                    if (chart.data.labels.length > 30) { chart.data.labels.shift(); chart.data.datasets[0].data.shift(); }
-                    chart.data.labels.push("");
-                    chart.data.datasets[0].data.push(m.acceleration);
-                    chart.update('none');
+        function initChart() {
+            liveChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array(25).fill(''),
+                    datasets: [{
+                        label: 'Signal',
+                        data: Array(25).fill(0),
+                        borderColor: '#4facfe',
+                        backgroundColor: 'rgba(79, 172, 254, 0.1)',
+                        borderWidth: 2,
+                        fill: true, tension: 0.4, pointRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    scales: { y: { grid: { color: '#334155' }, ticks: { display: false } }, x: { grid: { display: false } } },
+                    plugins: { legend: { display: false } }
                 }
-            } catch (error) {
-                console.log("Searching for NeuroVibe Backend...");
+            });
+        }
+
+        async function sync() {
+            try {
+                const response = await fetch('/api/status');
+                if (!response.ok) throw new Error('Offline');
+                const d = await response.json();
+                const mode = document.getElementById('dataMode').value;
+
+                document.getElementById('v').innerText = d.metrics.velocity;
+                document.getElementById('a').innerText = d.metrics.acceleration;
+                document.getElementById('t').innerText = d.metrics.temp;
+                document.getElementById('f').innerText = d.metrics.flux;
+                document.getElementById('r').innerText = d.metrics.rpm;
+                document.getElementById('u').innerText = d.metrics.ultrasound;
+
+                if (mode === "spectrum") {
+                    document.getElementById('chartTitle').innerText = "Vibration Spectrum (FFT)";
+                    liveChart.data.datasets[0].data = d.spectrum;
+                } else {
+                    document.getElementById('chartTitle').innerText = "Overall Velocity Trend";
+                    liveChart.data.datasets[0].data.shift();
+                    liveChart.data.datasets[0].data.push(d.metrics.velocity + (Math.random() * 0.2));
+                }
+                liveChart.update('none');
+                document.getElementById('status-badge').innerText = "● ONLINE";
+                document.getElementById('status-badge').style.color = "#00ff00";
+            } catch (err) {
+                document.getElementById('status-badge').innerText = "● CONNECTING...";
+                document.getElementById('status-badge').style.color = "#ff9933";
             }
         }
 
-        // Refresh every 2 seconds
-        setInterval(fetchMetrics, 2000);
-        fetchMetrics(); // Initial call
+        window.onload = () => { initChart(); setInterval(sync, 1500); };
     </script>
 </body>
 </html>
