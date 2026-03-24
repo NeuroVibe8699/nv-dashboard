@@ -1,159 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | NeuroVibe AI Technologies</title>
-    <link href="https://fonts.googleapis.com" rel="stylesheet">
-    <style>
-        :root {
-            --bhagwa: #FF9933; 
-            --dark-bg: #121212;
-            --card-bg: #1c1c1c;
-            --text-gray: #b0b0b0;
-        }
+<!-- index.html Header Section -->
+<div style="text-align:center; margin-bottom:30px;">
+    <h2 style="color:#ff9933; margin:0; font-family:'Orbitron';">NEUROVIBE AI</h2>
+    <p style="color:#8b949e; font-size:10px; margin:5px 0;">Technologies Pvt Ltd</p>
+</div>
 
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Roboto', sans-serif;
-            background-color: var(--dark-bg);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            color: white;
-        }
+<!-- Login Script -->
+<script>
+async function handleLogin() {
+    const u = document.getElementById('username').value;
+    const p = document.getElementById('password').value;
+    
+    // Bypass logic for testing
+    if (u === "admin@neurovibe.com" && p === "admin123") {
+        window.location.href = "dashboard.html";
+        return;
+    }
 
-        .login-card {
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            border: 1px solid var(--bhagwa);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-        }
-
-        .logo-text {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 24px;
-            color: var(--bhagwa);
-            margin-bottom: 5px;
-            letter-spacing: 2px;
-        }
-
-        .sub-text {
-            font-size: 12px;
-            color: var(--text-gray);
-            margin-bottom: 30px;
-            text-transform: uppercase;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            margin-top: 5px;
-            background: #2a2a2a;
-            border: 1px solid #444;
-            border-radius: 5px;
-            color: white;
-            box-sizing: border-box;
-            outline: none;
-            transition: 0.3s;
-        }
-
-        input:focus { border-color: var(--bhagwa); }
-
-        button {
-            width: 100%;
-            padding: 15px;
-            background: var(--bhagwa);
-            border: none;
-            border-radius: 5px;
-            color: white;
-            font-weight: bold;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-            margin-top: 10px;
-            font-family: 'Orbitron', sans-serif;
-        }
-
-        button:hover {
-            background: #e68a00;
-            box-shadow: 0 0 15px rgba(255, 153, 51, 0.4);
-        }
-
-        #errorMessage {
-            color: #ff4444;
-            font-size: 14px;
-            margin-top: 15px;
-            display: none;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="login-card">
-        <div class="logo-text">NEUROVIBE AI</div>
-        <div class="sub-text">Predictive Maintenance System 8699</div>
-        
-        <form id="loginForm">
-            <div class="form-group">
-                <input type="email" id="username" placeholder="Enter User ID (Email)" required>
-            </div>
-            <div class="form-group">
-                <input type="password" id="password" placeholder="Enter Password" required>
-            </div>
-            <button type="submit">CONNECT TO SYSTEM</button>
-        </form>
-
-        <div id="errorMessage">Invalid Credentials. Try again!</div>
-    </div>
-
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const errorDiv = document.getElementById('errorMessage');
-
-            // NeuroVibe 8699 Routing
-            const API_ENDPOINT = "/api/login"; 
-
-            try {
-                const response = await fetch(API_ENDPOINT, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password })
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    // Success logic
-                    localStorage.setItem('nv_user', JSON.stringify(data.user)); 
-                    window.location.href = "dashboard.html"; 
-                } else {
-                    // Backend Error logic
-                    errorDiv.innerText = data.error || "Invalid Credentials!";
-                    errorDiv.style.display = "block";
-                }
-            } catch (err) {
-                console.error("Connection Error:", err);
-                errorDiv.innerText = "Backend Server is Offline! (Check api/index.py)";
-                errorDiv.style.display = "block";
-            }
+    try {
+        const response = await fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: u, password: p })
         });
-    </script>
-
-</body>
-</html>
+        if (response.ok) window.location.href = "dashboard.html";
+        else document.getElementById('error').innerText = "Invalid Credentials";
+    } catch (e) {
+        // Agar backend offline bhi hai toh login allow kar do (Sirf testing ke liye)
+        window.location.href = "dashboard.html"; 
+    }
+}
+</script>
