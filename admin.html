@@ -1,40 +1,64 @@
-<!-- NeuroVibe AI - Admin Control Center -->
-<div style="background: #1a1a1a; color: #FF9933; padding: 30px; font-family: sans-serif;">
-    <h2 style="border-bottom: 2px solid #FF9933;">NeuroVibe Admin: NV-8699</h2>
-
-    <!-- Section 1: User Management -->
-    <div style="margin-top: 30px; background: #262626; padding: 20px; border-radius: 10px;">
-        <h4>1. Create New Client User</h4>
-        <input type="text" id="new_user" placeholder="Client Name" style="padding: 10px; width: 200px;">
-        <input type="password" id="new_pass" placeholder="Password" style="padding: 10px; width: 200px;">
-        <button onclick="createUser()" style="background: #FF9933; border: none; padding: 10px 20px; cursor: pointer;">ADD USER</button>
+<!-- Admin Controls for Gateway & Node Provisioning -->
+<div class="admin-panel" style="background:#1e293b; padding:20px; border-radius:12px; border:1px solid #4facfe; margin-top:20px;">
+    <h2 style="color:#4facfe; font-family:'Orbitron'; font-size:16px;">ADMIN: INVENTORY MANAGEMENT</h2>
+    
+    <!-- Excel Import Section (As per Page 1: "Excel file format for Gateway") -->
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; margin-bottom:20px;">
+        <div style="border:1px dashed #ff9933; padding:15px; border-radius:8px;">
+            <p style="font-size:11px; color:#ff9933;">1. IMPORT GATEWAY (Excel)</p>
+            <input type="file" id="gatewayExcel" style="font-size:10px; color:white;">
+            <button onclick="uploadExcel('gateway')" style="background:#4facfe; border:none; padding:5px 10px; border-radius:4px; margin-top:10px; cursor:pointer;">Upload</button>
+        </div>
+        
+        <div style="border:1px dashed #4facfe; padding:15px; border-radius:8px;">
+            <p style="font-size:11px; color:#4facfe;">2. PROVISIONING TOKEN (As per Page 3)</p>
+            <input type="text" id="tokenInput" placeholder="Enter Cloud Token" style="background:#0f172a; border:1px solid #334155; color:white; padding:5px; width:80%;">
+            <button onclick="provision()" style="background:#ff9933; border:none; padding:5px 10px; border-radius:4px; margin-top:10px; cursor:pointer;">Generate</button>
+        </div>
     </div>
 
-    <!-- Section 2: Gateway Provisioning (Inventory) -->
-    <div style="margin-top: 20px; background: #262626; padding: 20px; border-radius: 10px;">
-        <h4>2. Provision New Gateway</h4>
-        <input type="text" id="gw_id" placeholder="Gateway ID (e.g. GW_8699)" style="padding: 10px; width: 200px;">
-        <button onclick="provisionGW()" style="background: #FF9933; border: none; padding: 10px 20px; cursor: pointer;">REGISTER GATEWAY</button>
-    </div>
-
-    <!-- Section 3: System Health & OTA -->
-    <div style="margin-top: 20px; background: #262626; padding: 20px; border-radius: 10px;">
-        <h4>3. Firmware OTA Update</h4>
-        <p>Current Version: v1.0.2</p>
-        <button onclick="triggerOTA()" style="background: #e60000; color: white; border: none; padding: 12px 25px; cursor: pointer; font-weight: bold;">
-            PUSH UPDATE TO ALL NODES (OTA)
-        </button>
-    </div>
+    <!-- Inventory Table (As per Page 1: "MAC ID | Site Name | Mapping Area") -->
+    <table style="width:100%; font-size:11px; text-align:left; border-collapse:collapse;">
+        <tr style="background:#334155; color:#4facfe;">
+            <th style="padding:10px;">MAC ID</th>
+            <th>SITE NAME</th>
+            <th>MAPPING AREA</th>
+            <th>STATUS</th>
+        </tr>
+        <tbody id="inventoryList">
+            <!-- Data will be populated here -->
+            <tr>
+                <td style="padding:10px;">NV-8699-01</td>
+                <td>Ammonia Pump</td>
+                <td>Section A</td>
+                <td style="color:#00ff00;">Active</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 
 <script>
-    // Frontend logic to call Backend APIs (Flask)
-    function provisionGW() {
-        const id = document.getElementById('gw_id').value;
-        fetch('https://predict.nvpredictive.com', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ gateway_id: id })
-        }).then(res => alert('Gateway Registered!'));
-    }
+// Logic to handle Provisioning as per your Notes Page 3
+async function provision() {
+    const token = document.getElementById('tokenInput').value;
+    if(!token) return alert("Please enter Token No (Page 3 Logic)");
+    
+    // API Call to provision Gateway on Cloud
+    const res = await fetch('/api/provision', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ token: token, action: 'power_on_boot' })
+    });
+    
+    if(res.ok) alert("Gateway Provisioned Successfully!");
+}
+
+// Logic for Excel Upload as per Page 1
+function uploadExcel(type) {
+    const file = document.getElementById(type + 'Excel').files[0];
+    if(!file) return alert("Select Excel File (Format: SR NO | MODEL | IMEI)");
+    
+    // Here you would use FormData to send file to Backend
+    console.log("Uploading " + type + " inventory...");
+}
 </script>
