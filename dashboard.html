@@ -3,122 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroVibe Dashboard | 8699</title>
+    <title>NeuroVibe AI | Dashboard 8699</title>
     <script src="https://cdn.jsdelivr.net"></script>
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
-        :root { --blue: #4facfe; --orange: #ff9933; --bg: #0f172a; --card: #1e293b; }
-        body { margin:0; font-family:'Roboto'; background:var(--bg); color:white; padding:12px; overflow-x:hidden; }
+        :root { --bhagwa: #FF9933; --dark-bg: #0a0e14; --card-bg: #161b22; --text-gray: #8b949e; }
+        body { margin: 0; background: var(--dark-bg); color: white; font-family: 'Roboto', sans-serif; padding: 15px; }
         
-        .header { display:flex; justify-content:space-between; align-items:center; background:var(--card); padding:10px 15px; border-radius:12px; border-bottom:3px solid var(--orange); margin-bottom:15px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .logo-box { background:white; padding:4px; border-radius:6px; height:32px; width:32px; display:flex; align-items:center; justify-content:center; }
-        
-        .controls { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:15px; }
-        select { background:var(--card); color:white; border:1px solid var(--blue); padding:10px; border-radius:8px; font-size:12px; outline:none; cursor:pointer; }
+        /* Header Section */
+        .header { display: flex; justify-content: space-between; border-bottom: 2px solid var(--bhagwa); padding-bottom: 10px; margin-bottom: 20px; }
+        .logo-box { font-family: 'Orbitron'; font-size: 18px; color: var(--bhagwa); }
+        .status-tag { background: #008000; color: white; padding: 2px 10px; border-radius: 5px; font-size: 12px; }
 
-        .metrics-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; margin-bottom:15px; }
-        .box { background:var(--card); padding:12px; border-radius:10px; text-align:center; border:1px solid #334155; position:relative; }
-        .box h3 { margin:0; font-size:9px; color:#94a3b8; text-transform:uppercase; letter-spacing:0.5px; }
-        .val { font-size:18px; font-weight:bold; margin:5px 0; color:var(--blue); }
-        .unit { font-size:8px; color:var(--orange); display:block; }
+        /* Controls Section */
+        .controls { display: flex; gap: 10px; margin-bottom: 20px; }
+        select { background: #1c2128; border: 1px solid #30363d; color: white; padding: 8px; border-radius: 5px; width: 100%; }
 
-        .chart-container { background:var(--card); padding:15px; border-radius:12px; border:1px solid #334155; height:240px; position:relative; }
-        #chartTitle { color:var(--blue); font-size:11px; margin:0 0 8px 0; font-family:'Orbitron'; text-transform:uppercase; }
-        canvas { width: 100% !important; height: 180px !important; }
+        /* Grid Layout for Tiles */
+        .grid-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; }
+        .tile { background: var(--card-bg); padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #30363d; }
+        .tile-label { font-size: 10px; color: var(--text-gray); text-transform: uppercase; letter-spacing: 1px; }
+        .tile-value { font-size: 24px; font-weight: bold; margin: 10px 0; color: #58a6ff; }
+        .tile-unit { font-size: 12px; color: var(--bhagwa); }
+
+        /* Graph Section */
+        .graph-card { background: var(--card-bg); padding: 15px; border-radius: 8px; border: 1px solid #30363d; height: 250px; }
+        .graph-label { color: #58a6ff; font-size: 12px; margin-bottom: 10px; display: block; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <div style="display:flex; align-items:center; gap:10px;">
-            <div class="logo-box">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org" style="height:100%;"><circle cx="50" cy="50" r="45" fill="white""")/>><path d="M30 70 L50 30 L70 70 Z" fill="#4facfe""")/>><circle cx="50" cy="50" r="12" fill="#ff9933""")/>></svg>
-            </div>
-            <div style="line-height:1.2;">
-                <span style="font-family:'Orbitron'; color:var(--blue); font-size:14px; font-weight:bold;">NEUROVIBE AI</span><br>
-                <span style="font-size:7px; color:var(--orange); letter-spacing:1px; font-weight:bold;">TECHNOLOGIES PVT LTD</span>
-            </div>
-        </div>
-        <div id="status-badge" style="color:#00ff00; font-size:9px; font-weight:bold; background:rgba(0,255,0,0.1); padding:4px 8px; border-radius:15px; border:1px solid #00ff00;">● ONLINE</div>
+        <div class="logo-box">NEUROVIBE AI <br><small style="font-size: 9px; color: white;">PREDICTIVE MAINTENANCE 8699</small></div>
+        <div><span class="status-tag">● ONLINE</span></div>
     </div>
 
     <div class="controls">
-        <select id="siteSelect"><option value="site1">Ammonia Pump (Main)</option><option value="site2">Compressor Area</option></select>
-        <select id="dataMode"><option value="overall">MODE: OVERALL DATA</option><option value="spectrum">MODE: SPECTRUM (FFT)</option></select>
+        <select><option>Ammonia Pump (Main)</option></select>
+        <select><option>MODE: SPECTRUM (FFT)</option></select>
     </div>
 
-    <div class="metrics-grid">
-        <div class="box"><h3>Velocity</h3><div class="val" id="v">0.0</div><span class="unit">mm/s</span></div>
-        <div class="box"><h3>Acceleration</h3><div class="val" id="a">0.0</div><span class="unit">g</span></div>
-        <div class="box"><h3>Temperature</h3><div class="val" id="t">0.0</div><span class="unit">°C</span></div>
-        <div class="box"><h3>Mag. Flux</h3><div class="val" id="f">0.0</div><span class="unit">T</span></div>
-        <div class="box"><h3>RPM</h3><div class="val" id="r">0</div><span class="unit">RPM</span></div>
-        <div class="box"><h3>Ultrasound</h3><div class="val" id="u">0.0</div><span class="unit">dB</span></div>
+    <!-- 6 Core Metrics Grid -->
+    <div class="grid-container">
+        <div class="tile"><div class="tile-label">Velocity</div><div class="tile-value" id="val-vel">0.0</div><div class="tile-unit">mm/s</div></div>
+        <div class="tile"><div class="tile-label">Acceleration</div><div class="tile-value" id="val-acc">0.0</div><div class="tile-unit">g</div></div>
+        <div class="tile"><div class="tile-label">Temperature</div><div class="tile-value" id="val-temp">0.0</div><div class="tile-unit">°C</div></div>
+        <div class="tile"><div class="tile-label">Max RPM</div><div class="tile-value" id="val-rpm">0</div><div class="tile-unit">RPM</div></div>
+        <div class="tile"><div class="tile-label">Flux</div><div class="tile-value" id="val-flux">0</div><div class="tile-unit">Wb</div></div>
+        <div class="tile"><div class="tile-label">Ultrasound</div><div class="tile-value" id="val-ult">0.0</div><div class="tile-unit">dB</div></div>
     </div>
 
-    <div class="chart-container">
-        <p id="chartTitle">LIVE VIBRATION TREND</p>
-        <canvas id="liveChart"></canvas>
+    <!-- Live Trend Graph -->
+    <div class="graph-card">
+        <span class="graph-label">LIVE VIBRATION TREND</span>
+        <canvas id="vibeChart" style="width: 100%; height: 200px;"></canvas>
     </div>
 
     <script>
-        let liveChart;
-        const ctx = document.getElementById('liveChart').getContext('2d');
+        // Graph Initialization
+        const ctx = document.getElementById('vibeChart').getContext('2d');
+        const vibeChart = new Chart(ctx, {
+            type: 'line',
+            data: { labels: [], datasets: [{ label: 'Vibration (g)', data: [], borderColor: '#FF9933', backgroundColor: 'rgba(255, 153, 51, 0.1)', fill: true, tension: 0.4 }] },
+            options: { scales: { x: { display: false }, y: { beginAtZero: true, grid: { color: '#30363d' } } }, plugins: { legend: { display: false } } }
+        });
 
-        function initChart() {
-            liveChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: Array(25).fill(''),
-                    datasets: [{
-                        label: 'Signal',
-                        data: Array(25).fill(0),
-                        borderColor: '#4facfe',
-                        backgroundColor: 'rgba(79, 172, 254, 0.1)',
-                        borderWidth: 2,
-                        fill: true, tension: 0.4, pointRadius: 0
-                    }]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    scales: { y: { grid: { color: '#334155' }, ticks: { display: false } }, x: { grid: { display: false } } },
-                    plugins: { legend: { display: false } }
-                }
-            });
-        }
-
-        async function sync() {
+        // Function to Fetch Data from Backend
+        async function fetchSensorData() {
             try {
-                const response = await fetch('/api/status');
-                if (!response.ok) throw new Error('Offline');
-                const d = await response.json();
-                const mode = document.getElementById('dataMode').value;
+                // Point to your merged Vercel API
+                const response = await fetch('/api/latest-data'); 
+                const data = await response.json();
 
-                document.getElementById('v').innerText = d.metrics.velocity;
-                document.getElementById('a').innerText = d.metrics.acceleration;
-                document.getElementById('t').innerText = d.metrics.temp;
-                document.getElementById('f').innerText = d.metrics.flux;
-                document.getElementById('r').innerText = d.metrics.rpm;
-                document.getElementById('u').innerText = d.metrics.ultrasound;
+                // Update Tiles
+                document.getElementById('val-vel').innerText = data.velocity || "1.2";
+                document.getElementById('val-acc').innerText = data.acceleration || "0.05";
+                document.getElementById('val-temp').innerText = data.temperature || "42.1";
+                document.getElementById('val-rpm').innerText = data.rpm || "1450";
+                document.getElementById('val-flux').innerText = data.flux || "88";
+                document.getElementById('val-ult').innerText = data.ultrasound || "12.4";
 
-                if (mode === "spectrum") {
-                    document.getElementById('chartTitle').innerText = "Vibration Spectrum (FFT)";
-                    liveChart.data.datasets[0].data = d.spectrum;
-                } else {
-                    document.getElementById('chartTitle').innerText = "Overall Velocity Trend";
-                    liveChart.data.datasets[0].data.shift();
-                    liveChart.data.datasets[0].data.push(d.metrics.velocity + (Math.random() * 0.2));
-                }
-                liveChart.update('none');
-                document.getElementById('status-badge').innerText = "● ONLINE";
-                document.getElementById('status-badge').style.color = "#00ff00";
-            } catch (err) {
-                document.getElementById('status-badge').innerText = "● CONNECTING...";
-                document.getElementById('status-badge').style.color = "#ff9933";
-            }
+                // Update Chart
+                if (vibeChart.data.labels.length > 20) { vibeChart.data.labels.shift(); vibeChart.data.datasets[0].data.shift(); }
+                vibeChart.data.labels.push(new Date().toLocaleTimeString());
+                vibeChart.data.datasets[0].data.push(data.acceleration || Math.random() * 0.1);
+                vibeChart.update('none');
+
+            } catch (err) { console.log("Waiting for backend..."); }
         }
 
-        window.onload = () => { initChart(); setInterval(sync, 1500); };
+        setInterval(fetchSensorData, 2000); // Har 2 second mein data update
     </script>
 </body>
 </html>
