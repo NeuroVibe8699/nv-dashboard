@@ -1,130 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroVibe AI | Enterprise 3D Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net"></script>
-    <link href="https://cdnjs.cloudflare.com" rel="stylesheet">
-    <style>
-        :root { --saffron: #FF9933; --silver: #f1f5f9; --deep: #0f172a; }
-        body { background: #ffffff; color: var(--deep); font-family: 'Inter', sans-serif; overflow-x: hidden; }
-        
-        /* 3D Premium Glassmorphism */
-        .glass-3d {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 20px 20px 60px #d1d9e6, -20px -20px 60px #ffffff;
-            border-radius: 2.5rem;
-            transition: 0.4s ease;
-        }
-        .glass-3d:hover { transform: translateY(-5px); box-shadow: 0 30px 60px rgba(255, 153, 51, 0.1); }
-        
-        /* Tab Navigation Logic */
-        .tab-content { display: none; }
-        .active-tab { display: block; animation: fadeIn 0.5s ease; }
-        .nav-btn.active { background: var(--saffron); color: white !important; box-shadow: 0 10px 20px rgba(255, 153, 51, 0.3); }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
-</head>
-<body class="flex min-h-screen p-4 md:p-8">
+<!-- NeuroVibe AI - Admin Control Center -->
+<div style="background: #1a1a1a; color: #FF9933; padding: 30px; font-family: sans-serif;">
+    <h2 style="border-bottom: 2px solid #FF9933;">NeuroVibe Admin: NV-8699</h2>
 
-    <!-- SIDEBAR (Navigation from PDF Page 1) -->
-    <aside class="w-80 hidden lg:flex flex-col space-y-6 pr-8">
-        <div class="glass-3d p-8 text-center flex flex-col items-center">
-            <img src="https://i.ibb.co" class="w-20 h-20 mb-4 object-contain">
-            <h1 class="text-xl font-black italic tracking-tighter uppercase">NEUROVIBE <span class="text-[#FF9933]">AI</span></h1>
-            <p class="text-[9px] text-slate-400 font-bold uppercase tracking-[4px] mt-1">Tech Pvt Ltd</p>
-        </div>
+    <!-- Section 1: User Management -->
+    <div style="margin-top: 30px; background: #262626; padding: 20px; border-radius: 10px;">
+        <h4>1. Create New Client User</h4>
+        <input type="text" id="new_user" placeholder="Client Name" style="padding: 10px; width: 200px;">
+        <input type="password" id="new_pass" placeholder="Password" style="padding: 10px; width: 200px;">
+        <button onclick="createUser()" style="background: #FF9933; border: none; padding: 10px 20px; cursor: pointer;">ADD USER</button>
+    </div>
 
-        <nav class="space-y-3">
-            <button onclick="setTab('dash', this)" class="nav-btn active w-full flex items-center p-5 rounded-[1.5rem] font-black text-xs text-slate-500 hover:bg-slate-50 transition">
-                <i class="fas fa-chart-line mr-4 text-lg"></i> ECOSYSTEM (P2)
-            </button>
-            <button onclick="setTab('config', this)" class="nav-btn w-full flex items-center p-5 rounded-[1.5rem] font-black text-xs text-slate-500 hover:bg-slate-50 transition">
-                <i class="fas fa-cog mr-4 text-lg"></i> CONFIG (P1)
-            </button>
-            <button onclick="setTab('ota', this)" class="nav-btn w-full flex items-center p-5 rounded-[1.5rem] font-black text-xs text-slate-500 hover:bg-slate-50 transition">
-                <i class="fas fa-cloud-arrow-up mr-4 text-lg"></i> PROTOCOLS (P3)
-            </button>
-        </nav>
-    </aside>
+    <!-- Section 2: Gateway Provisioning (Inventory) -->
+    <div style="margin-top: 20px; background: #262626; padding: 20px; border-radius: 10px;">
+        <h4>2. Provision New Gateway</h4>
+        <input type="text" id="gw_id" placeholder="Gateway ID (e.g. GW_8699)" style="padding: 10px; width: 200px;">
+        <button onclick="provisionGW()" style="background: #FF9933; border: none; padding: 10px 20px; cursor: pointer;">REGISTER GATEWAY</button>
+    </div>
 
-    <!-- MAIN CONTENT -->
-    <main class="flex-1 space-y-8">
-        
-        <!-- P2 DASHBOARD: Stats & Deep-Scan Graph -->
-        <section id="dash" class="tab-content active-tab space-y-8">
-            <div class="flex justify-between items-end">
-                <h2 class="text-4xl font-black italic tracking-tighter">Live Monitor</h2>
-                <div class="text-right text-xs font-bold text-slate-400">PARTNER: <span class="text-slate-900">JD CLIENT</span></div>
-            </div>
+    <!-- Section 3: System Health & OTA -->
+    <div style="margin-top: 20px; background: #262626; padding: 20px; border-radius: 10px;">
+        <h4>3. Firmware OTA Update</h4>
+        <p>Current Version: v1.0.2</p>
+        <button onclick="triggerOTA()" style="background: #e60000; color: white; border: none; padding: 12px 25px; cursor: pointer; font-weight: bold;">
+            PUSH UPDATE TO ALL NODES (OTA)
+        </button>
+    </div>
+</div>
 
-            <!-- PDF Grid: 6 Params -->
-            <div class="grid grid-cols-2 md:grid-cols-6 gap-4">
-                <div class="glass-3d p-6 text-center border-t-4 border-t-[#FF9933]"><p class="text-[9px] font-black text-slate-400 uppercase">Flux</p><p class="text-xl font-black">125μT</p></div>
-                <div class="glass-3d p-6 text-center border-t-4 border-t-teal-400"><p class="text-[9px] font-black text-slate-400 uppercase">RPM</p><p class="text-xl font-black">1450</p></div>
-                <div class="glass-3d p-6 text-center border-t-4 border-t-slate-200"><p class="text-[9px] font-black text-slate-400 uppercase">Temp</p><p class="text-xl font-black">42°C</p></div>
-                <div class="glass-3d p-6 text-center border-t-4 border-t-slate-200"><p class="text-[9px] font-black text-slate-400 uppercase">Velocity</p><p class="text-xl font-black">4.5mm/s</p></div>
-                <div class="glass-3d p-6 text-center border-t-4 border-t-slate-200"><p class="text-[9px] font-black text-slate-400 uppercase">Accel</p><p class="text-xl font-black">1.2g</p></div>
-                <div class="glass-3d p-6 text-center border-t-4 border-t-slate-200"><p class="text-[9px] font-black text-slate-400 uppercase">Ultra</p><p class="text-xl font-black">22kHz</p></div>
-            </div>
-
-            <!-- Dark Spectrum Analysis Box (PDF P3 Style) -->
-            <div class="bg-[#0f172a] p-10 rounded-[3rem] shadow-2xl relative overflow-hidden">
-                <h3 class="text-[#FF9933] font-black text-[10px] uppercase tracking-[4px] mb-8 italic">Deep-Scan Spectrum Analysis (Live)</h3>
-                <canvas id="liveChart" height="110"></canvas>
-            </div>
-        </section>
-
-        <!-- P1 CONFIG: User & Device Management -->
-        <section id="config" class="tab-content space-y-8">
-            <h2 class="text-3xl font-black italic tracking-tighter">System Configuration</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="glass-3d p-8">
-                    <h3 class="font-black text-xs uppercase tracking-widest text-orange-500 mb-6">Create Access</h3>
-                    <input type="email" placeholder="Corporate ID" class="w-full bg-slate-50 border border-slate-200 p-4 rounded-2xl mb-4 font-bold outline-none focus:border-orange-500">
-                    <button class="w-full bg-orange-500 text-white font-black py-4 rounded-2xl shadow-xl">AUTHENTICATE</button>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <script>
-        function setTab(id, btn) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active-tab'));
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(id).classList.add('active-tab');
-            btn.classList.add('active');
-        }
-
-        const ctx = document.getElementById('liveChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['1pm', '2pm', '3pm', '4pm', '5pm', '6pm'],
-                datasets: [{
-                    label: 'Spectrum Analysis',
-                    data: [1.2, 1.8, 1.4, 2.3, 1.9, 1.6],
-                    borderColor: '#FF9933',
-                    borderWidth: 5,
-                    tension: 0.4,
-                    fill: true,
-                    backgroundColor: 'rgba(255, 153, 51, 0.05)',
-                    pointRadius: 0
-                }]
-            },
-            options: {
-                plugins: { legend: { display: false } },
-                scales: { 
-                    y: { border: { display: false }, grid: { color: '#1e293b' }, ticks: { color: '#475569' } },
-                    x: { grid: { display: false }, ticks: { color: '#475569' } }
-                }
-            }
-        });
-    </script>
-</body>
-</html>
+<script>
+    // Frontend logic to call Backend APIs (Flask)
+    function provisionGW() {
+        const id = document.getElementById('gw_id').value;
+        fetch('https://predict.nvpredictive.com', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ gateway_id: id })
+        }).then(res => alert('Gateway Registered!'));
+    }
+</script>
