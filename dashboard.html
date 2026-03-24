@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | NeuroVibe AI</title>
-    <!-- Is Library Link ko dhyan se check karein (Fixed) -->
+    <!-- Chart.js ka naya aur fast link -->
     <script src="https://cdn.jsdelivr.net"></script>
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
         :root { --blue: #4facfe; --orange: #ff9933; --bg: #0f172a; --card: #1e293b; }
         body { margin: 0; padding: 15px; font-family: 'Roboto', sans-serif; background: var(--bg); color: white; overflow-x: hidden; }
         
-        .header { display: flex; justify-content: space-between; align-items: center; background: var(--card); padding: 12px 15px; border-radius: 12px; border-bottom: 2px solid var(--orange); margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
+        .header { display: flex; justify-content: space-between; align-items: center; background: var(--card); padding: 12px 15px; border-radius: 12px; border-bottom: 2px solid var(--orange); margin-bottom: 20px; }
         .logo-section { display: flex; align-items: center; gap: 10px; }
         .logo-box { background: white; padding: 4px; border-radius: 6px; height: 35px; width: 35px; display: flex; align-items: center; justify-content: center; }
         
@@ -62,55 +62,62 @@
     </div>
 
     <script>
-        // Graph Initialization with error handling
-        window.onload = function() {
-            try {
-                const ctx = document.getElementById('liveChart').getContext('2d');
-                const liveChart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: Array(30).fill(''),
-                        datasets: [{
-                            data: Array(30).fill(0).map(() => Math.random() * 5),
-                            borderColor: '#4facfe',
-                            backgroundColor: 'rgba(79, 172, 254, 0.1)',
-                            borderWidth: 2,
-                            fill: true,
-                            tension: 0.4,
-                            pointRadius: 0
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: { 
-                            y: { display: false },
-                            x: { display: false }
-                        },
-                        plugins: { legend: { display: false } }
-                    }
-                });
+        let liveChart;
 
-                // Backend Update
-                setInterval(async () => {
-                    try {
-                        const res = await fetch('/api/status');
-                        const data = await res.json();
-                        if (data.status === "Online") {
-                            document.getElementById('v').innerHTML = `${data.metrics.velocity} <span class="unit">mm/s</span>`;
-                            document.getElementById('r').innerText = data.metrics.rpm;
-                            document.getElementById('t').innerHTML = `${data.metrics.temp} <span class="unit">°C</span>`;
-                            document.getElementById('f').innerHTML = `${data.metrics.flux} <span class="unit">T</span>`;
-                            
-                            liveChart.data.datasets[0].data.shift();
-                            liveChart.data.datasets[0].data.push(Math.random() * 8);
-                            liveChart.update('none');
-                        }
-                    } catch (err) { console.log("Updating..."); }
-                }, 2000);
-            } catch (e) {
-                console.error("Chart failed to load:", e);
-            }
+        // Graph Initialization Function
+        function initChart() {
+            const ctx = document.getElementById('liveChart').getContext('2d');
+            liveChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array(30).fill(''),
+                    datasets: [{
+                        data: Array(30).fill(0).map(() => Math.random() * 5),
+                        borderColor: '#4facfe',
+                        backgroundColor: 'rgba(79, 172, 254, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: { 
+                        y: { display: false },
+                        x: { display: false }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        // Backend Sync Logic
+        async function updateData() {
+            try {
+                const response = await fetch('/api/status');
+                const data = await response.json();
+                
+                if (data.status === "Online") {
+                    document.getElementById('v').innerHTML = `${data.metrics.velocity} <span class="unit">mm/s</span>`;
+                    document.getElementById('r').innerText = data.metrics.rpm;
+                    document.getElementById('t').innerHTML = `${data.metrics.temp} <span class="unit">°C</span>`;
+                    document.getElementById('f').innerHTML = `${data.metrics.flux} <span class="unit">T</span>`;
+                    
+                    if (liveChart) {
+                        liveChart.data.datasets[0].data.shift();
+                        liveChart.data.datasets[0].data.push(Math.random() * 8);
+                        liveChart.update('none');
+                    }
+                }
+            } catch (err) { console.log("Updating..."); }
+        }
+
+        // Run everything after page loads
+        window.onload = () => {
+            initChart();
+            setInterval(updateData, 2000);
         };
     </script>
 </body>
