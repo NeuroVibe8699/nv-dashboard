@@ -1,15 +1,23 @@
 {
   "version": 2,
-  "rewrites": [
+  "builds": [
     {
-      "source": "/",
-      "has": [{ "type": "host", "value": "predict.nvpredictive.com" }],
-      "destination": "/login.html"
+      "src": "api/index.py",
+      "use": "@vercel/python"
     },
     {
-      "source": "/",
-      "has": [{ "type": "host", "value": "nvpredictive.com" }],
-      "destination": "/index.html"
+      "src": "*.html",
+      "use": "@vercel/static"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "api/index.py"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/$1"
     }
   ]
 }
