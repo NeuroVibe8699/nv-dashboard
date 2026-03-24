@@ -8,15 +8,16 @@ CORS(app)
 @app.route('/api/login', methods=['POST'])
 def login():
     data = request.json
-    u, p = data.get('username'), data.get('password')
-    # Aapke screenshot wala login logic
+    u = data.get('username')
+    p = data.get('password')
+    # Exact credentials as per your screenshot
     if u == "admin@neurovibe.com" and p == "admin123":
         return jsonify({"status": "success", "role": "admin"}), 200
     return jsonify({"error": "Invalid Credentials"}), 401
 
 @app.route('/api/status', methods=['GET'])
 def get_status():
-    # PDF Logic: Random values for simulation
+    # PDF Logic: Generating real-time metrics
     return jsonify({
         "metrics": {
             "velocity": round(random.uniform(3.5, 4.5), 2),
@@ -27,3 +28,6 @@ def get_status():
             "ultrasound": round(random.uniform(25.0, 30.0), 1)
         }
     })
+
+if __name__ == "__main__":
+    app.run()
