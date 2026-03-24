@@ -4,30 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | NeuroVibe AI</title>
-    <!-- Chart.js ka naya aur fast link -->
-    <script src="https://cdn.jsdelivr.net"></script>
+    <!-- Chart.js ka sabse reliable link -->
+    <script src="https://cdnjs.cloudflare.com"></script>
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
         :root { --blue: #4facfe; --orange: #ff9933; --bg: #0f172a; --card: #1e293b; }
-        body { margin: 0; padding: 15px; font-family: 'Roboto', sans-serif; background: var(--bg); color: white; overflow-x: hidden; }
+        body { margin: 0; padding: 10px; font-family: 'Roboto', sans-serif; background: var(--bg); color: white; overflow-x: hidden; }
         
-        .header { display: flex; justify-content: space-between; align-items: center; background: var(--card); padding: 12px 15px; border-radius: 12px; border-bottom: 2px solid var(--orange); margin-bottom: 20px; }
+        .header { display: flex; justify-content: space-between; align-items: center; background: var(--card); padding: 10px 15px; border-radius: 10px; border-bottom: 2px solid var(--orange); margin-bottom: 15px; }
         .logo-section { display: flex; align-items: center; gap: 10px; }
-        .logo-box { background: white; padding: 4px; border-radius: 6px; height: 35px; width: 35px; display: flex; align-items: center; justify-content: center; }
+        .logo-box { background: white; padding: 3px; border-radius: 5px; height: 30px; width: 30px; display: flex; align-items: center; justify-content: center; }
         
-        .brand h1 { margin: 0; font-family: 'Orbitron'; font-size: 15px; color: var(--blue); letter-spacing: 0.5px; }
-        .brand p { margin: 0; font-size: 8px; color: var(--orange); letter-spacing: 1px; text-transform: uppercase; }
+        .brand h1 { margin: 0; font-family: 'Orbitron'; font-size: 14px; color: var(--blue); letter-spacing: 0.5px; }
+        .brand p { margin: 0; font-size: 7px; color: var(--orange); letter-spacing: 1px; text-transform: uppercase; }
 
-        .metrics-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
-        .box { background: var(--card); padding: 15px; border-radius: 12px; text-align: center; border: 1px solid #334155; position: relative; overflow: hidden; }
-        .box::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--blue); }
-        .box h3 { margin: 0; font-size: 10px; color: #94a3b8; text-transform: uppercase; }
-        .val { font-size: 20px; font-weight: bold; margin: 8px 0; color: #fff; }
-        .unit { font-size: 10px; color: var(--orange); }
+        .metrics-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 15px; }
+        .box { background: var(--card); padding: 12px; border-radius: 10px; text-align: center; border: 1px solid #334155; }
+        .box h3 { margin: 0; font-size: 9px; color: #94a3b8; text-transform: uppercase; }
+        .val { font-size: 18px; font-weight: bold; margin: 5px 0; color: #fff; }
+        .unit { font-size: 9px; color: var(--orange); }
 
-        /* Chart Area Fix */
-        .chart-container { background: var(--card); padding: 15px; border-radius: 15px; border: 1px solid #334155; height: 280px; position: relative; }
-        canvas { width: 100% !important; height: 100% !important; }
+        /* Chart Fix */
+        .chart-container { background: var(--card); padding: 10px; border-radius: 10px; border: 1px solid #334155; height: 250px; position: relative; width: 100%; box-sizing: border-box; }
+        canvas { width: 100% !important; height: 100% !important; display: block; }
     </style>
 </head>
 <body>
@@ -46,7 +45,7 @@
                 <p>Technologies Pvt Ltd</p>
             </div>
         </div>
-        <div style="background:rgba(0,255,0,0.1); color:#00ff00; padding:4px 10px; border-radius:20px; font-size:10px; font-weight:bold; border:1px solid #00ff00;">● ONLINE</div>
+        <div style="background:rgba(0,255,0,0.1); color:#00ff00; padding:3px 8px; border-radius:15px; font-size:9px; font-weight:bold; border:1px solid #00ff00;">● ONLINE</div>
     </div>
 
     <div class="metrics-grid">
@@ -57,16 +56,20 @@
     </div>
 
     <div class="chart-container">
-        <p style="color:var(--blue); font-size:12px; margin: 0 0 10px 0; font-family:'Orbitron';">Live Vibration Spectrum (FFT)</p>
+        <p style="color:var(--blue); font-size:10px; margin: 0 0 5px 0; font-family:'Orbitron';">Live Vibration Spectrum (FFT)</p>
         <canvas id="liveChart"></canvas>
     </div>
 
     <script>
         let liveChart;
 
-        // Graph Initialization Function
-        function initChart() {
-            const ctx = document.getElementById('liveChart').getContext('2d');
+        function startDashboard() {
+            const canvas = document.getElementById('liveChart');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            
+            // Chart Initialization
             liveChart = new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -84,41 +87,38 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    animation: false,
                     scales: { 
-                        y: { display: false },
+                        y: { display: false, min: 0, max: 10 },
                         x: { display: false }
                     },
                     plugins: { legend: { display: false } }
                 }
             });
-        }
 
-        // Backend Sync Logic
-        async function updateData() {
-            try {
-                const response = await fetch('/api/status');
-                const data = await response.json();
-                
-                if (data.status === "Online") {
-                    document.getElementById('v').innerHTML = `${data.metrics.velocity} <span class="unit">mm/s</span>`;
-                    document.getElementById('r').innerText = data.metrics.rpm;
-                    document.getElementById('t').innerHTML = `${data.metrics.temp} <span class="unit">°C</span>`;
-                    document.getElementById('f').innerHTML = `${data.metrics.flux} <span class="unit">T</span>`;
+            // Update Loop
+            setInterval(async () => {
+                try {
+                    const response = await fetch('/api/status');
+                    const data = await response.json();
                     
-                    if (liveChart) {
+                    if (data.status === "Online") {
+                        document.getElementById('v').innerHTML = `${data.metrics.velocity} <span class="unit">mm/s</span>`;
+                        document.getElementById('r').innerText = data.metrics.rpm;
+                        document.getElementById('t').innerHTML = `${data.metrics.temp} <span class="unit">°C</span>`;
+                        document.getElementById('f').innerHTML = `${data.metrics.flux} <span class="unit">T</span>`;
+                        
+                        // Push new data to graph
                         liveChart.data.datasets[0].data.shift();
                         liveChart.data.datasets[0].data.push(Math.random() * 8);
                         liveChart.update('none');
                     }
-                }
-            } catch (err) { console.log("Updating..."); }
+                } catch (err) { console.log("Syncing..."); }
+            }, 1000);
         }
 
-        // Run everything after page loads
-        window.onload = () => {
-            initChart();
-            setInterval(updateData, 2000);
-        };
+        // Wait for page and library to load
+        window.onload = startDashboard;
     </script>
 </body>
 </html>
