@@ -7,6 +7,7 @@ CORS(app)
 
 @app.route('/api/status', methods=['GET'])
 def get_status():
+    # Ye metrics aapke dashboard ke IDs (v, a, t, f, r, u) se match karte hain
     return jsonify({
         "status": "Online",
         "metrics": {
@@ -27,5 +28,4 @@ def login():
         return jsonify({"status": "success", "user": {"role": "admin"}}), 200
     return jsonify({"error": "Invalid Credentials"}), 401
 
-# Vercel ko 'app' object dena zaroori hai
 app = app
