@@ -3,39 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroVibe AI | Dashboard 8699</title>
+    <title>NeuroVibe AI Dashboard</title>
     <script src="https://cdn.jsdelivr.net"></script>
-    <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
-        :root { --bhagwa: #FF9933; --dark-bg: #0a0e14; --card-bg: #161b22; --text-gray: #8b949e; }
-        body { margin: 0; background: var(--dark-bg); color: white; font-family: 'Roboto', sans-serif; padding: 15px; }
+        body { background-color: #0d1117; color: white; font-family: sans-serif; margin: 0; padding: 10px; }
+        .header { display: flex; justify-content: space-between; border-bottom: 1px solid #30363d; padding: 5px; }
+        .logo { color: #FF9933; font-weight: bold; font-size: 14px; letter-spacing: 1px; }
+        .status { background: #008000; color: white; padding: 2px 10px; border-radius: 4px; font-size: 10px; font-weight: bold; }
         
-        /* Header Section */
-        .header { display: flex; justify-content: space-between; border-bottom: 2px solid var(--bhagwa); padding-bottom: 10px; margin-bottom: 20px; }
-        .logo-box { font-family: 'Orbitron'; font-size: 18px; color: var(--bhagwa); }
-        .status-tag { background: #008000; color: white; padding: 2px 10px; border-radius: 5px; font-size: 12px; }
+        .controls { display: flex; gap: 10px; margin: 15px 0; }
+        select { background: #161b22; color: white; border: 1px solid #30363d; padding: 8px; width: 100%; border-radius: 5px; font-size: 12px; }
 
-        /* Controls Section */
-        .controls { display: flex; gap: 10px; margin-bottom: 20px; }
-        select { background: #1c2128; border: 1px solid #30363d; color: white; padding: 8px; border-radius: 5px; width: 100%; }
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .card { background: #161b22; border: 1px solid #30363d; padding: 20px; border-radius: 6px; text-align: center; }
+        .label { color: #8b949e; font-size: 10px; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 1px; }
+        .value { font-size: 26px; font-weight: bold; color: #58a6ff; margin-bottom: 5px; }
+        .unit { color: #FF9933; font-size: 10px; font-weight: bold; }
 
-        /* Grid Layout for Tiles */
-        .grid-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; }
-        .tile { background: var(--card-bg); padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #30363d; }
-        .tile-label { font-size: 10px; color: var(--text-gray); text-transform: uppercase; letter-spacing: 1px; }
-        .tile-value { font-size: 24px; font-weight: bold; margin: 10px 0; color: #58a6ff; }
-        .tile-unit { font-size: 12px; color: var(--bhagwa); }
-
-        /* Graph Section */
-        .graph-card { background: var(--card-bg); padding: 15px; border-radius: 8px; border: 1px solid #30363d; height: 250px; }
-        .graph-label { color: #58a6ff; font-size: 12px; margin-bottom: 10px; display: block; }
+        .graph-area { background: #161b22; border: 1px solid #30363d; margin-top: 15px; padding: 15px; border-radius: 6px; height: 180px; }
+        .graph-title { color: #58a6ff; font-size: 11px; margin-bottom: 10px; text-transform: uppercase; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <div class="logo-box">NEUROVIBE AI <br><small style="font-size: 9px; color: white;">PREDICTIVE MAINTENANCE 8699</small></div>
-        <div><span class="status-tag">● ONLINE</span></div>
+        <div class="logo">NEUROVIBE AI <br><span style="font-size: 8px; color: #8b949e;">PREDICTIVE MAINTENANCE 8699</span></div>
+        <div class="status">● ONLINE</div>
     </div>
 
     <div class="controls">
@@ -43,56 +36,50 @@
         <select><option>MODE: SPECTRUM (FFT)</option></select>
     </div>
 
-    <!-- 6 Core Metrics Grid -->
-    <div class="grid-container">
-        <div class="tile"><div class="tile-label">Velocity</div><div class="tile-value" id="val-vel">0.0</div><div class="tile-unit">mm/s</div></div>
-        <div class="tile"><div class="tile-label">Acceleration</div><div class="tile-value" id="val-acc">0.0</div><div class="tile-unit">g</div></div>
-        <div class="tile"><div class="tile-label">Temperature</div><div class="tile-value" id="val-temp">0.0</div><div class="tile-unit">°C</div></div>
-        <div class="tile"><div class="tile-label">Max RPM</div><div class="tile-value" id="val-rpm">0</div><div class="tile-unit">RPM</div></div>
-        <div class="tile"><div class="tile-label">Flux</div><div class="tile-value" id="val-flux">0</div><div class="tile-unit">Wb</div></div>
-        <div class="tile"><div class="tile-label">Ultrasound</div><div class="tile-value" id="val-ult">0.0</div><div class="tile-unit">dB</div></div>
+    <div class="grid">
+        <div class="card"><div class="label">Velocity</div><div class="value" id="v">0.0</div><div class="unit">MM/S</div></div>
+        <div class="card"><div class="label">Acceleration</div><div class="value" id="a">0.0</div><div class="unit">G</div></div>
+        <div class="card"><div class="label">Temperature</div><div class="value" id="t">0.0</div><div class="unit">°C</div></div>
+        <div class="card"><div class="label">Max RPM</div><div class="value" id="r">0</div><div class="unit">RPM</div></div>
+        <div class="card"><div class="label">Flux</div><div class="value" id="f">0</div><div class="unit">WB</div></div>
+        <div class="card"><div class="label">Ultrasound</div><div class="value" id="u">0.0</div><div class="unit">DB</div></div>
     </div>
 
-    <!-- Live Trend Graph -->
-    <div class="graph-card">
-        <span class="graph-label">LIVE VIBRATION TREND</span>
-        <canvas id="vibeChart" style="width: 100%; height: 200px;"></canvas>
+    <div class="graph-area">
+        <div class="graph-title">LIVE VIBRATION TREND</div>
+        <canvas id="liveChart" style="width: 100%; height: 120px;"></canvas>
     </div>
 
     <script>
-        // Graph Initialization
-        const ctx = document.getElementById('vibeChart').getContext('2d');
-        const vibeChart = new Chart(ctx, {
+        const ctx = document.getElementById('liveChart').getContext('2d');
+        const chart = new Chart(ctx, {
             type: 'line',
-            data: { labels: [], datasets: [{ label: 'Vibration (g)', data: [], borderColor: '#FF9933', backgroundColor: 'rgba(255, 153, 51, 0.1)', fill: true, tension: 0.4 }] },
-            options: { scales: { x: { display: false }, y: { beginAtZero: true, grid: { color: '#30363d' } } }, plugins: { legend: { display: false } } }
+            data: { labels: [], datasets: [{ data: [], borderColor: '#FF9933', borderWidth: 2, pointRadius: 0, fill: false, tension: 0.4 }] },
+            options: { scales: { x: { display: false }, y: { grid: { color: '#30363d' } } }, plugins: { legend: { display: false } } }
         });
 
-        // Function to Fetch Data from Backend
-        async function fetchSensorData() {
+        async function updateData() {
             try {
-                // Point to your merged Vercel API
-                const response = await fetch('/api/latest-data'); 
-                const data = await response.json();
+                const res = await fetch('/api/status');
+                const json = await res.json();
+                const m = json.metrics;
 
-                // Update Tiles
-                document.getElementById('val-vel').innerText = data.velocity || "1.2";
-                document.getElementById('val-acc').innerText = data.acceleration || "0.05";
-                document.getElementById('val-temp').innerText = data.temperature || "42.1";
-                document.getElementById('val-rpm').innerText = data.rpm || "1450";
-                document.getElementById('val-flux').innerText = data.flux || "88";
-                document.getElementById('val-ult').innerText = data.ultrasound || "12.4";
+                // Purane IDs (v, a, t, r, f, u) se match karte huye update
+                document.getElementById('v').innerText = m.velocity;
+                document.getElementById('a').innerText = m.acceleration;
+                document.getElementById('t').innerText = m.temp;
+                document.getElementById('r').innerText = m.rpm;
+                document.getElementById('f').innerText = m.flux;
+                document.getElementById('u').innerText = m.ultrasound;
 
-                // Update Chart
-                if (vibeChart.data.labels.length > 20) { vibeChart.data.labels.shift(); vibeChart.data.datasets[0].data.shift(); }
-                vibeChart.data.labels.push(new Date().toLocaleTimeString());
-                vibeChart.data.datasets[0].data.push(data.acceleration || Math.random() * 0.1);
-                vibeChart.update('none');
-
-            } catch (err) { console.log("Waiting for backend..."); }
+                // Live Graph update
+                if (chart.data.labels.length > 20) { chart.data.labels.shift(); chart.data.datasets[0].data.shift(); }
+                chart.data.labels.push("");
+                chart.data.datasets[0].data.push(m.acceleration);
+                chart.update('none');
+            } catch (e) { console.log("Connecting..."); }
         }
-
-        setInterval(fetchSensorData, 2000); // Har 2 second mein data update
+        setInterval(updateData, 2000);
     </script>
 </body>
 </html>
