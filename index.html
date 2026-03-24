@@ -1,32 +1,57 @@
-<!-- index.html Header Section -->
-<div style="text-align:center; margin-bottom:30px;">
-    <h2 style="color:#ff9933; margin:0; font-family:'Orbitron';">NEUROVIBE AI</h2>
-    <p style="color:#8b949e; font-size:10px; margin:5px 0;">Technologies Pvt Ltd</p>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroVibe AI Technologies Pvt Ltd | Login</title>
+    <style>
+        body { background: #0d1117; color: white; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        .login-card { background: #161b22; padding: 40px; border-radius: 15px; border: 1px solid #ff9933; text-align: center; width: 320px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .brand h2 { color: #ff9933; margin: 0; letter-spacing: 1px; }
+        .brand p { color: #8b949e; font-size: 10px; margin-bottom: 25px; font-weight: bold; }
+        input { width: 100%; padding: 12px; margin: 10px 0; background: #0d1117; border: 1px solid #30363d; color: white; border-radius: 8px; box-sizing: border-box; outline: none; }
+        button { width: 100%; padding: 12px; background: #ff9933; border: none; color: white; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 15px; transition: 0.3s; }
+        button:hover { background: #e68a00; }
+        #error-msg { color: #ff4444; font-size: 11px; margin-top: 10px; display: none; }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <div class="brand">
+            <h2>NEUROVIBE AI</h2>
+            <p>TECHNOLOGIES PVT LTD</p>
+        </div>
+        <input type="text" id="user" placeholder="Username" value="admin@neurovibe.com">
+        <input type="password" id="pass" placeholder="Password" value="admin123">
+        <button onclick="handleLogin()">CONNECT TO SYSTEM</button>
+        <div id="error-msg">Invalid Credentials</div>
+    </div>
 
-<!-- Login Script -->
-<script>
-async function handleLogin() {
-    const u = document.getElementById('username').value;
-    const p = document.getElementById('password').value;
-    
-    // Bypass logic for testing
-    if (u === "admin@neurovibe.com" && p === "admin123") {
-        window.location.href = "dashboard.html";
-        return;
-    }
+    <script>
+        async function handleLogin() {
+            const u = document.getElementById('user').value;
+            const p = document.getElementById('pass').value;
+            const err = document.getElementById('error-msg');
 
-    try {
-        const response = await fetch('/api/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username: u, password: p })
-        });
-        if (response.ok) window.location.href = "dashboard.html";
-        else document.getElementById('error').innerText = "Invalid Credentials";
-    } catch (e) {
-        // Agar backend offline bhi hai toh login allow kar do (Sirf testing ke liye)
-        window.location.href = "dashboard.html"; 
-    }
-}
-</script>
+            try {
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: u, password: p })
+                });
+                
+                const data = await res.json();
+                if (res.ok) {
+                    window.location.href = "dashboard.html";
+                } else {
+                    err.style.display = "block";
+                    err.innerText = data.error;
+                }
+            } catch (e) {
+                // Bypass for offline testing if API fails
+                window.location.href = "dashboard.html";
+            }
+        }
+    </script>
+</body>
+</html>
