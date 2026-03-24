@@ -4,35 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NeuroVibe Dashboard | 8699</title>
-    <!-- FIX 1: Correct Chart.js Library Link -->
+    <!-- Chart.js Library Fix -->
     <script src="https://cdn.jsdelivr.net"></script>
+    <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
         :root { --blue: #4facfe; --orange: #ff9933; --bg: #0f172a; --card: #1e293b; }
-        body { margin:0; font-family: sans-serif; background:var(--bg); color:white; padding:12px; }
-        .header { display:flex; justify-content:space-between; align-items:center; background:var(--card); padding:10px; border-radius:12px; border-bottom:3px solid var(--orange); margin-bottom:15px; }
-        .controls { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:15px; }
-        select { background:var(--card); color:white; border:1px solid var(--blue); padding:10px; border-radius:8px; font-size:12px; }
+        body { margin:0; font-family:'Roboto', sans-serif; background:var(--bg); color:white; padding:12px; }
+        
+        .header { display:flex; justify-content:space-between; align-items:center; background:var(--card); padding:10px 15px; border-radius:12px; border-bottom:3px solid var(--orange); margin-bottom:15px; }
+        .logo-box { background:white; padding:4px; border-radius:6px; height:32px; width:32px; display:flex; align-items:center; justify-content:center; }
+        
         .metrics-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; margin-bottom:15px; }
         .box { background:var(--card); padding:12px; border-radius:10px; text-align:center; border:1px solid #334155; }
         .box h3 { margin:0; font-size:9px; color:#94a3b8; text-transform:uppercase; }
         .val { font-size:18px; font-weight:bold; margin:5px 0; color:var(--blue); }
         .unit { font-size:8px; color:var(--orange); display:block; }
-        .chart-container { background:var(--card); padding:15px; border-radius:12px; border:1px solid #334155; height:200px; }
+
+        .chart-container { background:var(--card); padding:15px; border-radius:12px; border:1px solid #334155; height:220px; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <div>
-            <span style="color:var(--blue); font-weight:bold;">NEUROVIBE AI</span><br>
-            <span style="font-size:7px; color:var(--orange);">TECHNOLOGIES PVT LTD</span>
+        <div style="display:flex; align-items:center; gap:10px;">
+            <div class="logo-box">
+                <!-- Fixed Logo SVG -->
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org" style="height:100%;">
+                    <circle cx="50" cy="50" r="45" fill="#4facfe""")/>>
+                    <path d="M30 70 L50 30 L70 70 Z" fill="white""")/>>
+                    <circle cx="50" cy="55" r="10" fill="#ff9933""")/>>
+                </svg>
+            </div>
+            <div style="line-height:1.2;">
+                <span style="font-family:'Orbitron'; color:var(--blue); font-size:14px; font-weight:bold;">NEUROVIBE AI</span><br>
+                <span style="font-size:7px; color:var(--orange); font-weight:bold;">TECHNOLOGIES PVT LTD</span>
+            </div>
         </div>
-        <div id="status-badge" style="color:#ff9933; font-size:9px;">● CONNECTING...</div>
-    </div>
-
-    <div class="controls">
-        <select><option>Ammonia Pump (Main)</option></select>
-        <select id="dataMode"><option value="overall">MODE: OVERALL DATA</option></select>
+        <div id="status-badge" style="color:#ff9933; font-size:9px; font-weight:bold;">● CONNECTING...</div>
     </div>
 
     <div class="metrics-grid">
@@ -40,7 +48,7 @@
         <div class="box"><h3>Acceleration</h3><div class="val" id="a">0.0</div><span class="unit">g</span></div>
         <div class="box"><h3>Temperature</h3><div class="val" id="t">0.0</div><span class="unit">°C</span></div>
         <div class="box"><h3>Mag. Flux</h3><div class="val" id="f">0.0</div><span class="unit">T</span></div>
-        <div class="box"><h3>RPM</h3><div class="val" id="r">0</div><span class="unit">RPM</span></div>
+        <div class="box :id"><h3>RPM</h3><div class="val" id="r">0</div><span class="unit">RPM</span></div>
         <div class="box"><h3>Ultrasound</h3><div class="val" id="u">0.0</div><span class="unit">dB</span></div>
     </div>
 
@@ -52,47 +60,51 @@
         let liveChart;
         const ctx = document.getElementById('liveChart').getContext('2d');
 
-        // Chart Init
+        // Initial Chart
         liveChart = new Chart(ctx, {
             type: 'line',
-            data: {
-                labels: Array(20).fill(''),
-                datasets: [{ data: Array(20).fill(0), borderColor: '#4facfe', borderWidth: 2, fill: false, pointRadius: 0, tension: 0.4 }]
-            },
+            data: { labels: Array(20).fill(''), datasets: [{ data: Array(20).fill(0), borderColor: '#4facfe', borderWidth: 2, fill: false, tension: 0.4, pointRadius: 0 }] },
             options: { responsive: true, maintainAspectRatio: false, scales: { x: { display: false }, y: { grid: { color: '#334155' } } }, plugins: { legend: { display: false } } }
         });
 
         async function sync() {
             try {
-                // FIX 2: Backend URL point to Vercel API
-                const response = await fetch('/api/status');
-                const d = await response.json();
+                // IMPORTANT: Fetch from internal Vercel API
+                const res = await fetch('/api/status');
+                const d = await res.json();
                 
                 if (d.metrics) {
                     const m = d.metrics;
-                    document.getElementById('v').innerText = m.velocity || (3.5 + Math.random()).toFixed(2);
-                    document.getElementById('a').innerText = m.acceleration || (0.8 + Math.random() * 0.2).toFixed(2);
-                    document.getElementById('t').innerText = m.temp || (39 + Math.random()).toFixed(1);
-                    document.getElementById('f').innerText = m.flux || "0.101";
-                    document.getElementById('r').innerText = m.rpm || "1450";
-                    document.getElementById('u').innerText = m.ultrasound || "26.5";
+                    document.getElementById('v').innerText = m.velocity;
+                    document.getElementById('a').innerText = m.acceleration;
+                    document.getElementById('t').innerText = m.temp;
+                    document.getElementById('f').innerText = m.flux;
+                    document.getElementById('r').innerText = m.rpm;
+                    document.getElementById('u').innerText = m.ultrasound;
 
-                    // Update Chart
                     liveChart.data.datasets[0].data.shift();
-                    liveChart.data.datasets[0].data.push(m.velocity || 4.0);
+                    liveChart.data.datasets[0].data.push(m.velocity);
                     liveChart.update('none');
 
                     document.getElementById('status-badge').innerText = "● ONLINE";
                     document.getElementById('status-badge').style.color = "#00ff00";
                 }
             } catch (err) {
-                // Agar backend fail ho, toh local simulation dikhao (for testing)
-                console.log("Offline mode: Simulating data");
+                // Backend nahi mil raha toh Demo Data dikhao (Simulation)
+                console.log("Simulating data...");
                 document.getElementById('v').innerText = (3.5 + Math.random()).toFixed(2);
-                document.getElementById('status-badge').innerText = "● LOCAL DEMO";
+                document.getElementById('a').innerText = (0.9 + Math.random()*0.2).toFixed(2);
+                document.getElementById('t').innerText = (40 + Math.random()).toFixed(1);
+                document.getElementById('r').innerText = Math.floor(1440 + Math.random()*20);
+                
+                liveChart.data.datasets[0].data.shift();
+                liveChart.data.datasets[0].data.push(3.5 + Math.random());
+                liveChart.update('none');
+                
+                document.getElementById('status-badge').innerText = "● LOCAL MODE";
+                document.getElementById('status-badge').style.color = "#ff9933";
             }
         }
-
         setInterval(sync, 2000);
     </script>
 </body>
