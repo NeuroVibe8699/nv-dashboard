@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>NeuroVibe AI Technologies Pvt Ltd</title>
-    <!-- FIX: Pura Chart.js Link -->
+    <!-- FIX: Pura Chart.js Library Link -->
     <script src="https://cdn.jsdelivr.net"></script>
     <style>
         :root { --blue: #4facfe; --orange: #ff9933; --bg: #0d1117; --card: #161b22; }
         body { margin:0; font-family: sans-serif; background:var(--bg); color:white; padding:12px; }
         .header { display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid var(--orange); padding-bottom:10px; margin-bottom:15px; }
-        .logo-box { background:white; padding:4px; border-radius:6px; height:32px; width:32px; display:flex; align-items:center; justify-content:center; }
-        .metrics { display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; margin-bottom:15px; }
+        .logo-box { background:white; padding:4px; border-radius:6px; height:35px; width:35px; display:flex; align-items:center; justify-content:center; }
+        .grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; margin-bottom:15px; }
         .box { background:var(--card); border:1px solid #334155; padding:15px; border-radius:10px; text-align:center; }
         .val { font-size:18px; font-weight:bold; color:var(--blue); }
-        .unit { font-size:8px; color:var(--orange); display:block; }
-        .graph-card { background:var(--card); padding:15px; border-radius:12px; height:200px; border:1px solid #334155; }
+        .unit { font-size:8px; color:var(--orange); display:block; margin-top:2px; }
+        .chart-area { background:var(--card); border:1px solid #334155; padding:15px; border-radius:12px; height:220px; }
     </style>
 </head>
 <body>
@@ -22,26 +22,22 @@
     <div class="header">
         <div style="display:flex; align-items:center; gap:10px;">
             <div class="logo-box">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org">
-                    <circle cx="50" cy="50" r="45" fill="#4facfe" />
-                    <path d="M30 70 L50 30 L70 70 Z" fill="white" />
-                    <circle cx="50" cy="55" r="10" fill="#ff9933" />
-                </svg>
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org"><circle cx="50" cy="50" r="45" fill="#4facfe""")/>><path d="M30 70 L50 30 L70 70 Z" fill="white""")/>><circle cx="50" cy="55" r="10" fill="#ff9933""")/>></svg>
             </div>
             <div>
-                <b style="color:var(--blue); font-size:14px;">NEUROVIBE AI</b><br>
+                <b style="color:var(--blue); font-size:14px; letter-spacing:1px;">NEUROVIBE AI</b><br>
                 <small style="color:var(--orange); font-size:8px; font-weight:bold;">Technologies Pvt Ltd</small>
             </div>
         </div>
-        <div id="st" style="color:#ff9933; font-size:9px;">● CONNECTING...</div>
+        <div id="st" style="color:#00ff00; font-size:9px;">● ONLINE</div>
     </div>
 
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:15px;">
-        <select id="site" style="background:var(--card); color:white; border:1px solid var(--blue); padding:8px; border-radius:6px;"><option value="s1">Ammonia Pump (Main)</option></select>
-        <select id="mode" style="background:var(--card); color:white; border:1px solid var(--blue); padding:8px; border-radius:6px;"><option value="trend">MODE: OVERALL TREND</option><option value="fft">MODE: SPECTRUM (FFT)</option></select>
+        <select id="site" style="background:var(--card); color:white; border:1px solid var(--blue); padding:10px; border-radius:8px;"><option value="s1">Ammonia Pump (Main)</option></select>
+        <select id="mode" style="background:var(--card); color:white; border:1px solid var(--blue); padding:10px; border-radius:8px;"><option value="trend">MODE: OVERALL TREND</option><option value="fft">MODE: SPECTRUM (FFT)</option></select>
     </div>
 
-    <div class="metrics">
+    <div class="grid">
         <div class="box"><h3>Velocity</h3><div class="val" id="v">0.0</div><span class="unit">mm/s</span></div>
         <div class="box"><h3>Acceleration</h3><div class="val" id="a">0.0</div><span class="unit">g</span></div>
         <div class="box"><h3>Temperature</h3><div class="val" id="t">0.0</div><span class="unit">°C</span></div>
@@ -50,26 +46,18 @@
         <div class="box"><h3>Ultrasound</h3><div class="val" id="u">0.0</div><span class="unit">dB</span></div>
     </div>
 
-    <div class="graph-card">
+    <div class="chart-area">
         <p id="title" style="color:var(--blue); font-size:10px; margin:0 0 10px 0;">LIVE VIBRATION TREND</p>
-        <canvas id="chart"></canvas>
+        <canvas id="liveChart"></canvas>
     </div>
 
     <script>
         let chart;
-        const ctx = document.getElementById('chart').getContext('2d');
-
-        function init() {
-            chart = new Chart(ctx, {
-                type: 'line',
-                data: { labels: Array(20).fill(''), datasets: [{ data: Array(20).fill(0), borderColor: '#4facfe', backgroundColor: 'rgba(79,172,254,0.1)', borderWidth: 2, fill: true, tension: 0.4, pointRadius: 0 }] },
-                options: { responsive:true, maintainAspectRatio:false, scales: { x:{display:false}, y:{grid:{color:'#334155'}} }, plugins:{legend:{display:false}} }
-            });
-        }
+        const ctx = document.getElementById('liveChart').getContext('2d');
+        chart = new Chart(ctx, { type: 'line', data: { labels: Array(25).fill(''), datasets: [{ data: Array(25).fill(0), borderColor: '#4facfe', backgroundColor: 'rgba(79, 172, 254, 0.1)', borderWidth: 2, fill: true, tension: 0.4, pointRadius: 0 }] }, options: { responsive:true, maintainAspectRatio:false, scales: { x:{display:false}, y:{grid:{color:'#334155'}} }, plugins:{legend:{display:false}} } });
 
         async function sync() {
             try {
-                // Pointing to internal Vercel API
                 const res = await fetch('/api/status');
                 const d = await res.json();
                 const m = d.metrics;
@@ -92,13 +80,9 @@
                 }
                 chart.update('none');
                 document.getElementById('st').innerText = "● ONLINE";
-                document.getElementById('st').style.color = "#00ff00";
-            } catch (e) {
-                document.getElementById('st').innerText = "● RECONNECTING...";
-            }
+            } catch (e) { document.getElementById('st').innerText = "● CONNECTING..."; }
         }
-
-        window.onload = () => { init(); setInterval(sync, 1500); };
+        setInterval(sync, 1500);
     </script>
 </body>
 </html>
