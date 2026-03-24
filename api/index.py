@@ -1,23 +1,13 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import pandas as pd
 import random
 
 app = Flask(__name__)
 CORS(app)
 
-# 1. Login Logic (Bypass logic enabled)
-@app.route('/api/login', methods=['POST'])
-def login():
-    data = request.json
-    u, p = data.get('username'), data.get('password')
-    if u == "admin@neurovibe.com" and p == "admin123":
-        return jsonify({"status": "success", "role": "admin"}), 200
-    return jsonify({"error": "Invalid Credentials"}), 401
-
-# 2. Status Logic (Data Read for Dashboard)
 @app.route('/api/status', methods=['GET'])
-def get_status():
-    # PDF Logic: Generating random metrics + Spectrum FFT
+def status():
     return jsonify({
         "metrics": {
             "velocity": round(random.uniform(3.5, 4.5), 2),
@@ -27,5 +17,14 @@ def get_status():
             "rpm": random.randint(1440, 1480),
             "ultrasound": round(random.uniform(25.0, 30.0), 1)
         },
-        "spectrum": [random.uniform(1, 15) for _ in range(30)] # For Graphics
+        "spectrum": [random.uniform(2, 10) for _ in range(30)]
     })
+
+@app.route('/api/import-inventory', methods=['POST'])
+def import_inv():
+    # PDF Logic: Excel read karke inventory mein save karna
+    if 'file' not in request.files: return jsonify({"error": "No file"}), 400
+    return jsonify({"status": "success", "message": "Inventory Imported Successfully!"})
+
+if __name__ == "__main__":
+    app.run()
