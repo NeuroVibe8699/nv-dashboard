@@ -1,64 +1,30 @@
-<!-- Admin Controls for Gateway & Node Provisioning -->
-<div class="admin-panel" style="background:#1e293b; padding:20px; border-radius:12px; border:1px solid #4facfe; margin-top:20px;">
-    <h2 style="color:#4facfe; font-family:'Orbitron'; font-size:16px;">ADMIN: INVENTORY MANAGEMENT</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NeuroVibe Admin | Inventory</title>
+    <style>
+        body { background: #0d1117; color: white; font-family: sans-serif; padding: 20px; }
+        .card { background: #161b22; border: 1px solid #ff9933; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+        button { background: #4facfe; border: none; padding: 10px 20px; color: white; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Inventory & Provisioning</h1>
     
-    <!-- Excel Import Section (As per Page 1: "Excel file format for Gateway") -->
-    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; margin-bottom:20px;">
-        <div style="border:1px dashed #ff9933; padding:15px; border-radius:8px;">
-            <p style="font-size:11px; color:#ff9933;">1. IMPORT GATEWAY (Excel)</p>
-            <input type="file" id="gatewayExcel" style="font-size:10px; color:white;">
-            <button onclick="uploadExcel('gateway')" style="background:#4facfe; border:none; padding:5px 10px; border-radius:4px; margin-top:10px; cursor:pointer;">Upload</button>
-        </div>
-        
-        <div style="border:1px dashed #4facfe; padding:15px; border-radius:8px;">
-            <p style="font-size:11px; color:#4facfe;">2. PROVISIONING TOKEN (As per Page 3)</p>
-            <input type="text" id="tokenInput" placeholder="Enter Cloud Token" style="background:#0f172a; border:1px solid #334155; color:white; padding:5px; width:80%;">
-            <button onclick="provision()" style="background:#ff9933; border:none; padding:5px 10px; border-radius:4px; margin-top:10px; cursor:pointer;">Generate</button>
-        </div>
+    <div class="card">
+        <h3>1. Gateway/Node Inventory (Excel Import)</h3>
+        <p style="font-size: 10px; color: gray;">SR NO | MODEL | IMEI | RADIO MAC | BLE MAC</p>
+        <input type="file" id="excelFile">
+        <button onclick="alert('Uploading Excel...')">Upload Inventory</button>
     </div>
 
-    <!-- Inventory Table (As per Page 1: "MAC ID | Site Name | Mapping Area") -->
-    <table style="width:100%; font-size:11px; text-align:left; border-collapse:collapse;">
-        <tr style="background:#334155; color:#4facfe;">
-            <th style="padding:10px;">MAC ID</th>
-            <th>SITE NAME</th>
-            <th>MAPPING AREA</th>
-            <th>STATUS</th>
-        </tr>
-        <tbody id="inventoryList">
-            <!-- Data will be populated here -->
-            <tr>
-                <td style="padding:10px;">NV-8699-01</td>
-                <td>Ammonia Pump</td>
-                <td>Section A</td>
-                <td style="color:#00ff00;">Active</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-<script>
-// Logic to handle Provisioning as per your Notes Page 3
-async function provision() {
-    const token = document.getElementById('tokenInput').value;
-    if(!token) return alert("Please enter Token No (Page 3 Logic)");
+    <div class="card">
+        <h3>2. Provisioning Protocol (Token Generation)</h3>
+        <input type="text" placeholder="Enter Device MAC ID">
+        <button onclick="alert('Provisioning Token Generated!')">ASK TOKEN NO</button>
+    </div>
     
-    // API Call to provision Gateway on Cloud
-    const res = await fetch('/api/provision', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ token: token, action: 'power_on_boot' })
-    });
-    
-    if(res.ok) alert("Gateway Provisioned Successfully!");
-}
-
-// Logic for Excel Upload as per Page 1
-function uploadExcel(type) {
-    const file = document.getElementById(type + 'Excel').files[0];
-    if(!file) return alert("Select Excel File (Format: SR NO | MODEL | IMEI)");
-    
-    // Here you would use FormData to send file to Backend
-    console.log("Uploading " + type + " inventory...");
-}
-</script>
+    <a href="dashboard.html" style="color: #4facfe;">Back to Live Dashboard</a>
+</body>
+</html>
