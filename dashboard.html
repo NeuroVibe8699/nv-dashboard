@@ -2,34 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NeuroVibe AI Technologies Pvt Ltd</title>
+    <!-- FIX: Pura Chart.js Link -->
     <script src="https://cdn.jsdelivr.net"></script>
-    <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
         :root { --blue: #4facfe; --orange: #ff9933; --bg: #0d1117; --card: #161b22; }
-        body { margin:0; font-family:'Roboto', sans-serif; background:var(--bg); color:white; padding:12px; }
-        
-        /* Header Fix: Brand Name + Logo */
+        body { margin:0; font-family: sans-serif; background:var(--bg); color:white; padding:12px; }
         .header { display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid var(--orange); padding-bottom:10px; margin-bottom:15px; }
-        .logo-box { background:white; padding:4px; border-radius:6px; height:35px; width:35px; display:flex; align-items:center; justify-content:center; }
-        .brand b { font-family:'Orbitron'; color:var(--blue); font-size:15px; letter-spacing:1px; }
-        .brand small { color:var(--orange); font-size:8px; display:block; font-weight:bold; text-transform:uppercase; }
-
-        /* Site Controls */
-        .controls { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:15px; }
-        select { background:var(--card); color:white; border:1px solid var(--blue); padding:10px; border-radius:8px; font-size:11px; outline:none; }
-
-        /* 3x2 Metrics Grid */
-        .grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; margin-bottom:15px; }
-        .box { background:var(--card); border:1px solid #334155; padding:18px 5px; border-radius:10px; text-align:center; }
-        .label { color:#94a3b8; font-size:9px; text-transform:uppercase; margin-bottom:8px; }
-        .val { font-size:20px; font-weight:bold; color:var(--blue); }
-        .unit { color:var(--orange); font-size:9px; font-weight:bold; display:block; margin-top:2px; }
-
-        /* Graphics Area for Overall/Spectrum */
-        .graph-area { background:var(--card); padding:15px; border-radius:12px; border:1px solid #334155; height:240px; }
-        #chartTitle { color:var(--blue); font-size:11px; font-family:'Orbitron'; margin-bottom:10px; text-transform:uppercase; }
+        .logo-box { background:white; padding:4px; border-radius:6px; height:32px; width:32px; display:flex; align-items:center; justify-content:center; }
+        .metrics { display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; margin-bottom:15px; }
+        .box { background:var(--card); border:1px solid #334155; padding:15px; border-radius:10px; text-align:center; }
+        .val { font-size:18px; font-weight:bold; color:var(--blue); }
+        .unit { font-size:8px; color:var(--orange); display:block; }
+        .graph-card { background:var(--card); padding:15px; border-radius:12px; height:200px; border:1px solid #334155; }
     </style>
 </head>
 <body>
@@ -43,26 +28,20 @@
                     <circle cx="50" cy="55" r="10" fill="#ff9933" />
                 </svg>
             </div>
-            <div class="brand">
-                <b>NEUROVIBE AI</b>
-                <small>Technologies Pvt Ltd</small>
+            <div>
+                <b style="color:var(--blue); font-size:14px;">NEUROVIBE AI</b><br>
+                <small style="color:var(--orange); font-size:8px; font-weight:bold;">Technologies Pvt Ltd</small>
             </div>
         </div>
-        <div id="status" style="color:#00ff00; font-size:9px; font-weight:bold; background:rgba(0,255,0,0.1); padding:4px 8px; border-radius:15px; border:1px solid #00ff00;">● ONLINE</div>
+        <div id="st" style="color:#ff9933; font-size:9px;">● CONNECTING...</div>
     </div>
 
-    <div class="controls">
-        <select id="siteSelect">
-            <option value="s1">Ammonia Pump (Main)</option>
-            <option value="s2">Compressor Area</option>
-        </select>
-        <select id="modeSelect">
-            <option value="overall">MODE: OVERALL TREND</option>
-            <option value="spectrum">MODE: SPECTRUM (FFT)</option>
-        </select>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:15px;">
+        <select id="site" style="background:var(--card); color:white; border:1px solid var(--blue); padding:8px; border-radius:6px;"><option value="s1">Ammonia Pump (Main)</option></select>
+        <select id="mode" style="background:var(--card); color:white; border:1px solid var(--blue); padding:8px; border-radius:6px;"><option value="trend">MODE: OVERALL TREND</option><option value="fft">MODE: SPECTRUM (FFT)</option></select>
     </div>
 
-    <div class="grid">
+    <div class="metrics">
         <div class="box"><h3>Velocity</h3><div class="val" id="v">0.0</div><span class="unit">mm/s</span></div>
         <div class="box"><h3>Acceleration</h3><div class="val" id="a">0.0</div><span class="unit">g</span></div>
         <div class="box"><h3>Temperature</h3><div class="val" id="t">0.0</div><span class="unit">°C</span></div>
@@ -71,31 +50,31 @@
         <div class="box"><h3>Ultrasound</h3><div class="val" id="u">0.0</div><span class="unit">dB</span></div>
     </div>
 
-    <div class="graph-area">
-        <p id="chartTitle">LIVE VIBRATION TREND</p>
-        <canvas id="liveChart"></canvas>
+    <div class="graph-card">
+        <p id="title" style="color:var(--blue); font-size:10px; margin:0 0 10px 0;">LIVE VIBRATION TREND</p>
+        <canvas id="chart"></canvas>
     </div>
 
     <script>
         let chart;
-        const ctx = document.getElementById('liveChart').getContext('2d');
+        const ctx = document.getElementById('chart').getContext('2d');
 
-        function initChart() {
+        function init() {
             chart = new Chart(ctx, {
                 type: 'line',
-                data: { labels: Array(25).fill(''), datasets: [{ data: Array(25).fill(0), borderColor: '#4facfe', backgroundColor: 'rgba(79, 172, 254, 0.1)', borderWidth: 2, fill: true, tension: 0.4, pointRadius: 0 }] },
-                options: { responsive: true, maintainAspectRatio: false, scales: { y: { grid: { color: '#334155' }, ticks: { color: '#94a3b8', font: {size: 8} } }, x: { display: false } }, plugins: { legend: { display: false } } }
+                data: { labels: Array(20).fill(''), datasets: [{ data: Array(20).fill(0), borderColor: '#4facfe', backgroundColor: 'rgba(79,172,254,0.1)', borderWidth: 2, fill: true, tension: 0.4, pointRadius: 0 }] },
+                options: { responsive:true, maintainAspectRatio:false, scales: { x:{display:false}, y:{grid:{color:'#334155'}} }, plugins:{legend:{display:false}} }
             });
         }
 
         async function sync() {
             try {
+                // Pointing to internal Vercel API
                 const res = await fetch('/api/status');
                 const d = await res.json();
                 const m = d.metrics;
-                const mode = document.getElementById('modeSelect').value;
+                const mode = document.getElementById('mode').value;
 
-                // Values update
                 document.getElementById('v').innerText = m.velocity;
                 document.getElementById('a').innerText = m.acceleration;
                 document.getElementById('t').innerText = m.temp;
@@ -103,20 +82,23 @@
                 document.getElementById('r').innerText = m.rpm;
                 document.getElementById('u').innerText = m.ultrasound;
 
-                // Graphics Logic (As per PDF Spectrum Mode)
-                if (mode === "spectrum" && d.spectrum) {
-                    document.getElementById('chartTitle').innerText = "Vibration Spectrum (FFT)";
+                if (mode === "fft") {
+                    document.getElementById('title').innerText = "Vibration Spectrum (FFT)";
                     chart.data.datasets[0].data = d.spectrum;
                 } else {
-                    document.getElementById('chartTitle').innerText = "Overall Velocity Trend";
+                    document.getElementById('title').innerText = "Overall Velocity Trend";
                     chart.data.datasets[0].data.shift();
                     chart.data.datasets[0].data.push(m.velocity);
                 }
                 chart.update('none');
-            } catch (e) { console.log("Sync error..."); }
+                document.getElementById('st').innerText = "● ONLINE";
+                document.getElementById('st').style.color = "#00ff00";
+            } catch (e) {
+                document.getElementById('st').innerText = "● RECONNECTING...";
+            }
         }
 
-        window.onload = () => { initChart(); setInterval(sync, 1500); };
+        window.onload = () => { init(); setInterval(sync, 1500); };
     </script>
 </body>
 </html>
