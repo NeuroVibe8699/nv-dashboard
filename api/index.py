@@ -1,50 +1,39 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import random
 
-# Flask App Initialisation
 app = Flask(__name__)
 CORS(app)
 
-# 1. Login Route (HTML Login form isi se connect hoga)
-@app.route('/api/login', methods=['POST'])
-def login():
-    try:
-        data = request.json
-        username = data.get('username')
-        password = data.get('password')
-
-        # NeuroVibe 8699 Admin Credentials
-        if username == "admin@neurovibe.com" and password == "admin123":
-            return jsonify({
-                "status": "success",
-                "user": {"email": username, "role": "admin"}
-            }), 200
-        else:
-            return jsonify({"error": "Invalid Credentials"}), 401
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-# 2. System Status Route (Dashboard Connectivity Check)
+# NeuroVibe 8699 Logic - PDF Ref: 0.1.2
 @app.route('/api/status', methods=['GET'])
 def get_status():
+    # Saare 6 Parameters ka Real-time Simulation
+    metrics = {
+        "acceleration": round(random.uniform(0.8, 1.5), 2),
+        "velocity": round(random.uniform(2.5, 6.0), 2),
+        "flux": round(random.uniform(0.01, 0.15), 3),
+        "ultrasound": round(random.uniform(25.0, 40.0), 1),
+        "temp": round(random.uniform(36.0, 55.0), 1),
+        "rpm": random.randint(1440, 1485)
+    }
+    
+    # Spectrum (FFT) Data - PDF Ref: 0.1.2 (Graph Logic)
+    spectrum = [random.uniform(0.5, 8.0) for _ in range(40)]
+    
     return jsonify({
         "status": "Online",
         "company": "NeuroVibe AI Technologies",
-        "version": "8699.1",
-        "metrics": {
-            "rpm": 1450,
-            "velocity": 4.2,
-            "vibration_g": 0.85,
-            "temp": 38.4
-        }
+        "metrics": metrics,
+        "spectrum": spectrum,
+        "sites": ["Ammonia Pump", "Production Area", "Main Compressor"]
     })
 
-# 3. Hardware Update Route (i.MX6 Gateway se data lene ke liye)
-@app.route('/api/update', methods=['POST'])
-def receive_data():
+@app.route('/api/login', methods=['POST'])
+def login():
     data = request.json
-    # Yahan logic hardware se data receive karega
-    return jsonify({"message": "Data received successfully", "status": "success"})
+    if data.get('username') == "admin@neurovibe.com" and data.get('password') == "admin123":
+        return jsonify({"status": "success", "role": "admin", "token": "nv_8699_secure"}), 200
+    return jsonify({"error": "Invalid Credentials"}), 401
 
-# Vercel ke liye Flask app ko expose karna zaroori hai
 app = app
