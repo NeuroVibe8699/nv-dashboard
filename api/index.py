@@ -5,9 +5,23 @@ import random
 app = Flask(__name__)
 CORS(app)
 
+# Login Route (PDF Ref: Page 1)
+@app.route('/api/login', methods=['POST', 'GET'])
+def login():
+    if request.method == 'GET':
+        return jsonify({"status": "Login API is Active"}), 200
+        
+    data = request.json
+    username = data.get('username')
+    password = data.get('password')
+
+    if username == "admin@neurovibe.com" and password == "admin123":
+        return jsonify({"status": "success", "user": {"role": "admin"}}), 200
+    return jsonify({"error": "Invalid Credentials"}), 401
+
+# Dashboard Data Route (PDF Ref: 0.1.2)
 @app.route('/api/status', methods=['GET'])
 def get_status():
-    # PDF Ref 0.1.2: Real-time values simulation
     return jsonify({
         "status": "Online",
         "metrics": {
@@ -21,9 +35,5 @@ def get_status():
         "spectrum": [random.uniform(1, 10) for _ in range(30)]
     })
 
-# Vercel handler
-def handler(request):
-    return app(request)
-
-# Vercel ke liye expose karna zaroori hai
+# Vercel requirement: 'app' export
 app = app
