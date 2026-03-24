@@ -1,79 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroVibe | AI Monitor</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net"></script>
-    <link href="https://cdnjs.cloudflare.com" rel="stylesheet">
-    <style>
-        :root { --saffron: #FF9933; --deep: #0f172a; }
-        body { background: #f8fafc; font-family: 'Inter', sans-serif; }
-        .glass-3d { background: white; border-radius: 2rem; border: 1px solid #e2e8f0; box-shadow: 15px 15px 40px #d1d9e6, -15px -15px 40px #ffffff; }
-    </style>
-</head>
-<body class="p-6 md:p-12">
-
-    <!-- PDF Page 3 Logic: Live Monitoring -->
-    <header class="flex justify-between items-center mb-12">
-        <div>
-            <h1 class="text-2xl font-black italic tracking-tighter uppercase text-slate-900">NeuroVibe <span class="text-orange-500">AI</span></h1>
-            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[4px] mt-1">Autonomous Machine Intelligence</p>
-        </div>
-        <div class="glass-3d px-8 py-3 flex items-center space-x-4 border-l-4 border-l-orange-500">
-            <span class="text-xs font-black text-slate-900">ASSET: <span class="text-orange-500">Main Ammonia Pump</span></span>
-        </div>
-    </header>
-
-    <div class="grid lg:grid-cols-4 gap-8">
-        <!-- Live Risk Indicators -->
-        <div class="lg:col-span-1 space-y-6">
-            <div class="glass-3d p-6 border-l-8 border-l-red-500">
-                <p class="text-[10px] font-bold text-slate-400 uppercase mb-2">Failure Risk</p>
-                <h4 class="text-2xl font-black text-red-500">CRITICAL</h4>
-                <p class="text-[10px] text-slate-500 mt-2 font-medium">Early bearing fault suspected. High frequency vibration detected.</p>
-            </div>
-            <div class="glass-3d p-6">
-                <p class="text-[10px] font-bold text-slate-400 uppercase mb-4">Risk Distribution</p>
-                <div class="space-y-4">
-                    <div><p class="text-[10px] font-bold mb-1">Harmonics</p><div class="w-full bg-slate-100 h-1 rounded-full overflow-hidden"><div class="bg-orange-500 h-full w-[80%]"></div></div></div>
-                    <div><p class="text-[10px] font-bold mb-1">Vibrations</p><div class="w-full bg-slate-100 h-1 rounded-full overflow-hidden"><div class="bg-teal-500 h-full w-[40%]"></div></div></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Main Graph (P2/P3 Mix) -->
-        <div class="lg:col-span-3 glass-3d p-10">
-            <div class="flex justify-between items-center mb-10">
-                <h3 class="font-black text-xs uppercase tracking-widest text-slate-400 italic">Spectrum & Flux Real-time (μT/g)</h3>
-                <div class="flex space-x-4">
-                    <span class="text-[10px] font-bold bg-slate-900 text-white px-4 py-1.5 rounded-full">NODE: NV-PF4</span>
-                </div>
-            </div>
-            <canvas id="mainChart" height="120"></canvas>
-        </div>
+<!-- NeuroVibe Real-time Dashboard -->
+<div style="background: #121212; padding: 20px; color: #FF9933;">
+    <div style="display: flex; justify-content: space-between;">
+        <h3>Machine Health: NV-8699</h3>
+        <p id="status">Status: <span style="color: #00FF00;">ONLINE</span></p>
     </div>
 
-    <script>
-        const ctx = document.getElementById('mainChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['10am','11am','12pm','1pm','2pm','3pm'],
-                datasets: [{
-                    label: 'Anomaly Trend',
-                    data: [1.2, 1.8, 1.4, 2.2, 1.9, 1.5],
-                    borderColor: '#FF9933',
-                    borderWidth: 6,
-                    tension: 0.4,
-                    fill: true,
-                    backgroundColor: 'rgba(255, 153, 51, 0.05)',
-                    pointRadius: 0
-                }]
-            },
-            options: { plugins: { legend: { display: false } }, scales: { y: { border: { display: false } }, x: { grid: { display: false } } } }
-        });
-    </script>
-</body>
-</html>
+    <!-- Charts Container -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <canvas id="vibeChart" style="background: #1e1e1e; border-radius: 10px;"></canvas>
+        <canvas id="rpmChart" style="background: #1e1e1e; border-radius: 10px;"></canvas>
+    </div>
+
+    <!-- Data Tiles -->
+    <div style="display: flex; gap: 15px; margin-top: 20px;">
+        <div style="border: 1px solid #FF9933; padding: 10px;">Velocity: <span id="vel">0.0</span> mm/s</div>
+        <div style="border: 1px solid #FF9933; padding: 10px;">Temp: <span id="temp">0.0</span>°C</div>
+        <div style="border: 1px solid #FF9933; padding: 10px;">Flux: <span id="flux">0.0</span></div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net"></script>
+<script>
+    // Chart Initialization (Bhagwa Theme)
+    const ctxVibe = document.getElementById('vibeChart').getContext('2d');
+    const vibeChart = new Chart(ctxVibe, {
+        type: 'line',
+        data: { labels: [], datasets: [{ label: 'Vibration (g)', data: [], borderColor: '#FF9933', tension: 0.3 }] }
+    });
+
+    // Real-time Fetch Logic (From Backend)
+    function fetchData() {
+        fetch('https://predict.nvpredictive.com')
+            .then(res => res.json())
+            .then(data => {
+                // Update UI & Graphs
+                document.getElementById('vel').innerText = data.velocity;
+                document.getElementById('temp').innerText = data.temperature;
+                // Add new data point to Chart
+                vibeChart.data.labels.push(new Date().toLocaleTimeString());
+                vibeChart.data.datasets[0].data.push(data.vibration_g);
+                vibeChart.update();
+            });
+    }
+    setInterval(fetchData, 2000); // 2 Sec Update
+</script>
