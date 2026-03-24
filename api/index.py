@@ -4,7 +4,23 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-# Dashboard ko data dikhane ke liye (NeuroVibe 8699 Protocol)
+# --- 1. Login Logic (Iske bina "Offline" dikhayega) ---
+@app.route('/api/login', methods=['POST'])
+def login():
+    data = request.json
+    username = data.get('username')
+    password = data.get('password')
+
+    # NeuroVibe 8699 Credentials
+    if username == "admin@neurovibe.com" and password == "admin123":
+        return jsonify({
+            "status": "success", 
+            "user": {"email": username, "role": "admin"}
+        }), 200
+    else:
+        return jsonify({"error": "Invalid Credentials"}), 401
+
+# --- 2. System Status ---
 @app.route('/api/status', methods=['GET'])
 def get_status():
     return jsonify({
@@ -14,18 +30,16 @@ def get_status():
             "rpm": 1450,
             "velocity": 4.2,
             "vibration_g": 0.85,
-            "temp": 38.4,
-            "flux": 0.12,
-            "ultrasound": 22.5
+            "temp": 38.4
         }
     })
 
-# Hardware (i.MX6) se data lene ke liye logic
+# --- 3. Hardware Data Receive ---
 @app.route('/api/update', methods=['POST'])
 def receive_data():
     data = request.json
     return jsonify({"message": "Data received", "status": "success"})
 
-# Vercel ke liye Flask app export
+# Vercel Handler
 def handler(request):
     return app(request)
