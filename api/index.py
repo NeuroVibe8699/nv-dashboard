@@ -6,7 +6,7 @@ app = Flask(__name__)
 CORS(app)
 
 @app.route('/api/status', methods=['GET'])
-def status():
+def get_status():
     return jsonify({
         "metrics": {
             "velocity": round(random.uniform(3.5, 4.5), 2),
@@ -16,6 +16,5 @@ def status():
             "rpm": random.randint(1440, 1480),
             "ultrasound": round(random.uniform(25.0, 30.0), 1)
         },
-        # Spectrum Mode ke liye 30 random points
-        "spectrum": [random.uniform(1, 15) for _ in range(30)]
+        "spectrum": [random.uniform(2, 10) for _ in range(30)]
     })
