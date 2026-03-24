@@ -1,31 +1,36 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
+# Flask App Initialisation
 app = Flask(__name__)
 CORS(app)
 
-# --- 1. Login Logic (Iske bina "Offline" dikhayega) ---
+# 1. Login Route (HTML Login form isi se connect hoga)
 @app.route('/api/login', methods=['POST'])
 def login():
-    data = request.json
-    username = data.get('username')
-    password = data.get('password')
+    try:
+        data = request.json
+        username = data.get('username')
+        password = data.get('password')
 
-    # NeuroVibe 8699 Credentials
-    if username == "admin@neurovibe.com" and password == "admin123":
-        return jsonify({
-            "status": "success", 
-            "user": {"email": username, "role": "admin"}
-        }), 200
-    else:
-        return jsonify({"error": "Invalid Credentials"}), 401
+        # NeuroVibe 8699 Admin Credentials
+        if username == "admin@neurovibe.com" and password == "admin123":
+            return jsonify({
+                "status": "success",
+                "user": {"email": username, "role": "admin"}
+            }), 200
+        else:
+            return jsonify({"error": "Invalid Credentials"}), 401
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
-# --- 2. System Status ---
+# 2. System Status Route (Dashboard Connectivity Check)
 @app.route('/api/status', methods=['GET'])
 def get_status():
     return jsonify({
         "status": "Online",
         "company": "NeuroVibe AI Technologies",
+        "version": "8699.1",
         "metrics": {
             "rpm": 1450,
             "velocity": 4.2,
@@ -34,12 +39,12 @@ def get_status():
         }
     })
 
-# --- 3. Hardware Data Receive ---
+# 3. Hardware Update Route (i.MX6 Gateway se data lene ke liye)
 @app.route('/api/update', methods=['POST'])
 def receive_data():
     data = request.json
-    return jsonify({"message": "Data received", "status": "success"})
+    # Yahan logic hardware se data receive karega
+    return jsonify({"message": "Data received successfully", "status": "success"})
 
-# Vercel Handler
-def handler(request):
-    return app(request)
+# Vercel ke liye Flask app ko expose karna zaroori hai
+app = app
