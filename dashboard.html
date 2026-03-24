@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NeuroVibe Dashboard | 8699</title>
+    <!-- Fixed Chart.js Link -->
     <script src="https://cdn.jsdelivr.net"></script>
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
         :root { --blue: #4facfe; --orange: #ff9933; --bg: #0f172a; --card: #1e293b; }
-        body { margin:0; font-family:'Roboto'; background:var(--bg); color:white; padding:12px; overflow-x:hidden; }
+        body { margin:0; font-family:'Roboto', sans-serif; background:var(--bg); color:white; padding:12px; overflow-x:hidden; }
         
         .header { display:flex; justify-content:space-between; align-items:center; background:var(--card); padding:10px 15px; border-radius:12px; border-bottom:3px solid var(--orange); margin-bottom:15px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
         .logo-box { background:white; padding:4px; border-radius:6px; height:32px; width:32px; display:flex; align-items:center; justify-content:center; }
@@ -32,7 +33,12 @@
     <div class="header">
         <div style="display:flex; align-items:center; gap:10px;">
             <div class="logo-box">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org" style="height:100%;"><circle cx="50" cy="50" r="45" fill="white""")/>><path d="M30 70 L50 30 L70 70 Z" fill="#4facfe""")/>><circle cx="50" cy="50" r="12" fill="#ff9933""")/>></svg>
+                <!-- Cleaned SVG -->
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org" style="height:100%;">
+                    <circle cx="50" cy="50" r="45" fill="#f0f0f0""")/>>
+                    <path d="M30 70 L50 30 L70 70 Z" fill="#4facfe""")/>>
+                    <circle cx="50" cy="50" r="12" fill="#ff9933""")/>>
+                </svg>
             </div>
             <div style="line-height:1.2;">
                 <span style="font-family:'Orbitron'; color:var(--blue); font-size:14px; font-weight:bold;">NEUROVIBE AI</span><br>
@@ -81,7 +87,7 @@
                 },
                 options: {
                     responsive: true, maintainAspectRatio: false,
-                    scales: { y: { grid: { color: '#334155' }, ticks: { display: false } }, x: { grid: { display: false } } },
+                    scales: { y: { grid: { color: '#334155' }, ticks: { color: '#94a3b8', font: {size: 8} } }, x: { display: false } },
                     plugins: { legend: { display: false } }
                 }
             });
@@ -92,24 +98,29 @@
                 const response = await fetch('/api/status');
                 if (!response.ok) throw new Error('Offline');
                 const d = await response.json();
-                const mode = document.getElementById('dataMode').value;
+                
+                // Dashboard mapping
+                if (d.metrics) {
+                    const m = d.metrics;
+                    document.getElementById('v').innerText = m.velocity;
+                    document.getElementById('a').innerText = m.acceleration;
+                    document.getElementById('t').innerText = m.temp;
+                    document.getElementById('f').innerText = m.flux;
+                    document.getElementById('r').innerText = m.rpm;
+                    document.getElementById('u').innerText = m.ultrasound;
 
-                document.getElementById('v').innerText = d.metrics.velocity;
-                document.getElementById('a').innerText = d.metrics.acceleration;
-                document.getElementById('t').innerText = d.metrics.temp;
-                document.getElementById('f').innerText = d.metrics.flux;
-                document.getElementById('r').innerText = d.metrics.rpm;
-                document.getElementById('u').innerText = d.metrics.ultrasound;
-
-                if (mode === "spectrum") {
-                    document.getElementById('chartTitle').innerText = "Vibration Spectrum (FFT)";
-                    liveChart.data.datasets[0].data = d.spectrum;
-                } else {
-                    document.getElementById('chartTitle').innerText = "Overall Velocity Trend";
-                    liveChart.data.datasets[0].data.shift();
-                    liveChart.data.datasets[0].data.push(d.metrics.velocity + (Math.random() * 0.2));
+                    const mode = document.getElementById('dataMode').value;
+                    if (mode === "spectrum" && d.spectrum) {
+                        document.getElementById('chartTitle').innerText = "Vibration Spectrum (FFT)";
+                        liveChart.data.datasets[0].data = d.spectrum;
+                    } else {
+                        document.getElementById('chartTitle').innerText = "Overall Velocity Trend";
+                        liveChart.data.datasets[0].data.shift();
+                        liveChart.data.datasets[0].data.push(m.velocity);
+                    }
+                    liveChart.update('none');
                 }
-                liveChart.update('none');
+                
                 document.getElementById('status-badge').innerText = "● ONLINE";
                 document.getElementById('status-badge').style.color = "#00ff00";
             } catch (err) {
