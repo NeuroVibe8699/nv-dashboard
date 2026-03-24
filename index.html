@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | NeuroVibe AI Technologies</title>
-    <!-- Google Fonts for Professional Look -->
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
         :root {
-            --bhagwa: #FF9933; /* NeuroVibe Brand Color */
+            --bhagwa: #FF9933; 
             --dark-bg: #121212;
             --card-bg: #1c1c1c;
             --text-gray: #b0b0b0;
@@ -70,9 +69,7 @@
             transition: 0.3s;
         }
 
-        input:focus {
-            border-color: var(--bhagwa);
-        }
+        input:focus { border-color: var(--bhagwa); }
 
         button {
             width: 100%;
@@ -110,7 +107,7 @@
         
         <form id="loginForm">
             <div class="form-group">
-                <input type="text" id="username" placeholder="Enter User ID (Email)" required>
+                <input type="email" id="username" placeholder="Enter User ID (Email)" required>
             </div>
             <div class="form-group">
                 <input type="password" id="password" placeholder="Enter Password" required>
@@ -129,12 +126,11 @@
             const password = document.getElementById('password').value;
             const errorDiv = document.getElementById('errorMessage');
 
-            // --- NeuroVibe 8699 API Connection ---
-            // Yahan apna backend URL confirm karein
-            const API_URL = "https://predict.nvpredictive.com"; 
+            // NeuroVibe 8699 Routing
+            const API_ENDPOINT = "/api/login"; 
 
             try {
-                const response = await fetch(API_URL, {
+                const response = await fetch(API_ENDPOINT, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ username, password })
@@ -143,22 +139,17 @@
                 const data = await response.json();
 
                 if (response.ok) {
-                    // Login Success logic
-                    localStorage.setItem('nv_token', data.token); // Session Lock
-                    
-                    if (data.role === 'admin') {
-                        window.location.href = "admin.html"; // Admin Portal
-                    } else {
-                        window.location.href = "dashboard.html"; // Client Dashboard
-                    }
+                    // Success logic
+                    localStorage.setItem('nv_user', JSON.stringify(data.user)); 
+                    window.location.href = "dashboard.html"; 
                 } else {
-                    // Login Failed logic
-                    errorDiv.innerText = data.error || "Login Failed!";
+                    // Backend Error logic
+                    errorDiv.innerText = data.error || "Invalid Credentials!";
                     errorDiv.style.display = "block";
                 }
             } catch (err) {
                 console.error("Connection Error:", err);
-                errorDiv.innerText = "Backend Server is Offline!";
+                errorDiv.innerText = "Backend Server is Offline! (Check api/index.py)";
                 errorDiv.style.display = "block";
             }
         });
