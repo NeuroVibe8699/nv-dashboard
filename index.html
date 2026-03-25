@@ -1,24 +1,34 @@
-<script>
-async function handleLogin() {
-    const u = document.getElementById('user').value;
-    const p = document.getElementById('pass').value;
-
-    try {
-        const res = await fetch('/api/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username: u, password: p })
-        });
-        
-        if (res.ok) {
-            // Login success hone par Dashboard par bhejein
-            window.location.href = "dashboard.html"; 
-        } else {
-            alert("Invalid Credentials");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NeuroVibe AI Technologies Pvt Ltd | Login</title>
+    <style>
+        body { background: #0d1117; color: white; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        .login-card { background: #161b22; padding: 40px; border-radius: 15px; border: 1px solid #ff9933; text-align: center; width: 320px; }
+        h2 { color: #ff9933; margin: 0; }
+        input { width: 100%; padding: 12px; margin: 10px 0; background: #0d1117; border: 1px solid #334155; color: white; border-radius: 8px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #ff9933; border: none; color: white; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 15px; }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <h2>NEUROVIBE AI</h2>
+        <p style="font-size: 10px; color: #8b949e;">Technologies Pvt Ltd</p>
+        <input type="text" id="u" placeholder="Username" value="admin@neurovibe.com">
+        <input type="password" id="p" placeholder="Password" value="admin123">
+        <button onclick="handleLogin()">LOGIN</button>
+    </div>
+    <script>
+        async function handleLogin() {
+            const u = document.getElementById('u').value;
+            const p = document.getElementById('p').value;
+            try {
+                const res = await fetch('/api/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username: u, password: p }) });
+                if (res.ok) window.location.href = "dashboard.html";
+                else alert("Invalid Credentials");
+            } catch (e) { window.location.href = "dashboard.html"; } // Bypass for testing
         }
-    } catch (e) {
-        // Testing bypass agar backend offline ho
-        window.location.href = "dashboard.html";
-    }
-}
-</script>
+    </script>
+</body>
+</html>
