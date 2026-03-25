@@ -8,19 +8,26 @@
         :root { --blue: #4facfe; --orange: #ff9933; --bg: #0d1117; --card: #161b22; }
         body { margin:0; font-family: sans-serif; background:var(--bg); color:white; padding:12px; }
         .header { display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid var(--orange); padding-bottom:8px; margin-bottom:15px; }
-        .grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; margin-bottom:15px; }
-        .box { background:var(--card); border:1px solid #334155; padding:15px; border-radius:8px; text-align:center; }
+        .grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; margin-bottom:15px; }
+        .box { background:var(--card); border:1px solid #334155; padding:15px; border-radius:10px; text-align:center; }
         .val { font-size:22px; font-weight:bold; color:var(--blue); }
-        .unit { font-size:9px; color:var(--orange); display:block; font-weight:bold; }
-        .admin-card { background:var(--card); border:1px solid var(--orange); padding:15px; border-radius:10px; }
-        button { background:var(--blue); color:white; border:none; padding:8px; border-radius:4px; cursor:pointer; width:100%; font-weight:bold; }
-        select, input { background:#0d1117; color:white; border:1px solid #334155; padding:8px; width:100%; border-radius:4px; margin-top:5px; font-size:11px; }
+        .unit { font-size:10px; color:var(--orange); display:block; margin-top:2px; font-weight:bold; }
+        .graph-area { background:var(--card); border:1px solid #334155; padding:15px; border-radius:12px; height:200px; margin-bottom:15px; }
+        .admin-card { background:var(--card); border:1px solid var(--orange); padding:15px; border-radius:12px; }
+        button { background:var(--blue); color:white; border:none; padding:8px; border-radius:6px; cursor:pointer; font-weight:bold; }
+        select, input { background:#0d1117; border:1px solid #334155; color:white; padding:8px; width:100%; border-radius:6px; margin-top:5px; font-size:11px; }
     </style>
 </head>
 <body>
+
     <div class="header">
-        <div><b style="color:var(--blue); font-size:14px;">NEUROVIBE AI</b><br><small style="color:var(--orange); font-size:8px; font-weight:bold;">Technologies Pvt Ltd</small></div>
-        <div id="st" style="color:#ff9933; font-size:9px;">● CONNECTING...</div>
+        <div style="display:flex; align-items:center; gap:10px;">
+            <div style="background:white; padding:4px; border-radius:4px; height:32px; width:32px; display:flex; align-items:center; justify-content:center;">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org"><circle cx="50" cy="50" r="45" fill="#4facfe""")/>><path d="M30 70 L50 30 L70 70 Z" fill="white""")/>><circle cx="50" cy="55" r="10" fill="#ff9933""")/>></svg>
+            </div>
+            <div><b style="color:var(--blue); font-size:14px;">NEUROVIBE AI</b><br><small style="color:var(--orange); font-size:8px; font-weight:bold;">Technologies Pvt Ltd</small></div>
+        </div>
+        <div id="st" style="color:#ff9933; font-size:10px; font-weight:bold;">● CONNECTING...</div>
     </div>
 
     <div class="grid">
@@ -32,24 +39,32 @@
         <div class="box"><h3>Ultrasound</h3><div class="val" id="u">0.0</div><span class="unit">DB</span></div>
     </div>
 
-    <!-- ADMIN SECTION: INVENTORY & PROVISIONING (PDF LOGIC) -->
+    <div class="graph-area"><canvas id="liveChart"></canvas></div>
+
     <div class="admin-card">
-        <h3 style="color:var(--orange); font-size:11px; margin-top:0;">ADMIN: INVENTORY & PROVISIONING</h3>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-            <div style="border:1px dashed #334155; padding:8px; border-radius:6px;">
-                <p style="font-size:9px; color:#4facfe; margin:0;">1. INVENTORY (GATEWAY / NODE)</p>
+        <h3 style="color:var(--orange); font-size:12px; margin-top:0;">ADMIN: INVENTORY & PROVISIONING</h3>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+            <div>
+                <p style="font-size:10px; color:#4facfe;">1. INVENTORY (GATEWAY / NODE)</p>
                 <select id="type"><option>FOR GATEWAY COLUMN</option><option>FOR NODE COLUMN</option></select>
-                <button onclick="window.location.href='/api/export'" style="background:var(--orange); margin-top:5px;">EXPORT EXCEL</button>
+                <input type="file" style="font-size:10px;">
+                <div style="display:flex; gap:10px; margin-top:10px;">
+                    <button style="flex:1;">IMPORT</button>
+                    <button style="flex:1; background:var(--orange);" onclick="window.location.href='/api/export-inventory'">EXPORT ALL</button>
+                </div>
             </div>
-            <div style="border:1px dashed #334155; padding:8px; border-radius:6px;">
-                <p style="font-size:9px; color:var(--orange); margin:0;">2. DISCOVERY (UNKNOWN MAC)</p>
-                <select id="disc"><option value="">Discovering New Devices...</option><option>NV-GW-DISCOVERED-01</option></select>
-                <button onclick="alert('Token: NV-7865')" style="margin-top:5px;">ASK TOKEN</button>
+            <div>
+                <p style="font-size:10px; color:var(--orange);">2. PROVISIONING (UNKNOWN MAC)</p>
+                <select id="disc"><option value="">Discovering Devices...</option><option>NV-NEW-GW-A1 (Detected)</option></select>
+                <input type="text" placeholder="OR Enter MAC ID Manually">
+                <button style="width:100%; margin-top:10px;" onclick="alert('Token: NV-8891')">ASK TOKEN</button>
             </div>
         </div>
     </div>
 
     <script>
+        let chart; const ctx = document.getElementById('liveChart').getContext('2d');
+        function init() { chart = new Chart(ctx, { type: 'line', data: { labels: Array(25).fill(''), datasets: [{ data: Array(25).fill(0), borderColor: '#4facfe', borderWidth: 2, fill: true, backgroundColor: 'rgba(79, 172, 254, 0.1)', tension: 0.4, pointRadius: 0 }] }, options: { responsive:true, maintainAspectRatio:false, scales: { x:{display:false}, y:{grid:{color:'#334155'}, ticks:{color:'#8b949e', font:{size:8}}} }, plugins:{legend:{display:false}} } }); }
         async function sync() {
             try {
                 const res = await fetch('/api/status');
@@ -60,10 +75,11 @@
                 document.getElementById('f').innerText = d.metrics.flux;
                 document.getElementById('r').innerText = d.metrics.rpm;
                 document.getElementById('u').innerText = d.metrics.ultrasound;
+                chart.data.datasets[0].data.shift(); chart.data.datasets[0].data.push(d.metrics.velocity); chart.update('none');
                 document.getElementById('st').innerText = "● ONLINE"; document.getElementById('st').style.color = "#00ff00";
             } catch (e) { document.getElementById('st').innerText = "● CONNECTING..."; }
         }
-        setInterval(sync, 1500);
+        window.onload = () => { init(); setInterval(sync, 1500); };
     </script>
 </body>
 </html>
