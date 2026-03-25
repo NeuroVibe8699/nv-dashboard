@@ -2,29 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>NeuroVibe Admin | Inventory</title>
+    <title>NeuroVibe Admin | Inventory & Provisioning</title>
     <style>
-        body { background: #0d1117; color: white; font-family: sans-serif; padding: 20px; }
-        .card { background: #161b22; border: 1px solid #ff9933; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
-        button { background: #4facfe; border: none; padding: 10px 20px; color: white; border-radius: 5px; cursor: pointer; }
+        :root { --blue: #4facfe; --orange: #ff9933; --bg: #0d1117; --card: #161b22; }
+        body { background: var(--bg); color: white; font-family: sans-serif; padding: 20px; }
+        .card { background: var(--card); border: 1px solid #334155; padding: 20px; border-radius: 12px; margin-bottom: 20px; }
+        .btn-blue { background: var(--blue); color:white; border:none; padding:10px 20px; border-radius:6px; cursor:pointer; font-weight:bold; }
+        .btn-orange { background: var(--orange); color:white; border:none; padding:10px 20px; border-radius:6px; cursor:pointer; font-weight:bold; }
+        select, input { background:#0d1117; border:1px solid #334155; color:white; padding:10px; border-radius:6px; margin-right:10px; }
     </style>
 </head>
 <body>
-    <h1>Inventory & Provisioning</h1>
-    
+
+    <h2 style="color:var(--blue); font-family: 'Orbitron';">NEUROVIBE AI TECHNOLOGIES</h2>
+
+    <!-- Inventory Section -->
     <div class="card">
-        <h3>1. Gateway/Node Inventory (Excel Import)</h3>
-        <p style="font-size: 10px; color: gray;">SR NO | MODEL | IMEI | RADIO MAC | BLE MAC</p>
-        <input type="file" id="excelFile">
-        <button onclick="alert('Uploading Excel...')">Upload Inventory</button>
+        <h3>1. Inventory Management</h3>
+        <div style="margin-bottom: 15px;">
+            <select id="invType">
+                <option value="Gateway">GATEWAY COLUMN</option>
+                <option value="Node">NODE COLUMN</option>
+            </select>
+            <input type="file" id="excelFile">
+            <button class="btn-blue" onclick="alert('Importing...')">UPLOAD EXCEL</button>
+            <button class="btn-orange" onclick="window.location.href='/api/export-inventory'">EXPORT ALL (.xlsx)</button>
+        </div>
     </div>
 
+    <!-- Provisioning Section -->
     <div class="card">
-        <h3>2. Provisioning Protocol (Token Generation)</h3>
-        <input type="text" placeholder="Enter Device MAC ID">
-        <button onclick="alert('Provisioning Token Generated!')">ASK TOKEN NO</button>
+        <h3>2. Provisioning (Device Activation)</h3>
+        <div style="display:flex; align-items:center;">
+            <!-- Unknown MAC ke liye Discovery Dropdown -->
+            <select id="discoveredDevices">
+                <option value="">-- MAC ID Nahi Pata? Select Discovered --</option>
+                <option value="NV-MAC-99">New Gateway (Detected)</option>
+                <option value="NV-MAC-102">New Node (Detected)</option>
+            </select>
+            <span>OR</span>
+            <input type="text" id="manualMac" placeholder="Enter MAC ID Manually" style="margin-left:10px;">
+            <button class="btn-blue" onclick="alert('Token Generated: NV-7782')">ASK TOKEN NO</button>
+        </div>
     </div>
-    
-    <a href="dashboard.html" style="color: #4facfe;">Back to Live Dashboard</a>
+
+    <a href="dashboard.html" style="color:var(--blue); text-decoration:none;">← Back to Live Dashboard</a>
+
 </body>
 </html>
