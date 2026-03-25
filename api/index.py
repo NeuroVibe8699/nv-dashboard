@@ -7,7 +7,7 @@ import random
 app = Flask(__name__)
 CORS(app)
 
-# 1. Dashboard Status & Spectrum Logic
+# 1. Live Metrics for Dashboard
 @app.route('/api/status', methods=['GET'])
 def get_status():
     return jsonify({
@@ -18,20 +18,31 @@ def get_status():
             "flux": round(random.uniform(0.09, 0.11), 3),
             "rpm": random.randint(1440, 1480),
             "ultrasound": round(random.uniform(25.0, 30.0), 1)
-        },
-        "spectrum": [random.uniform(2, 10) for _ in range(30)] # Live Graphics Data
+        }
     })
 
-# 2. Export Inventory Logic (As per your request)
+# 2. Dynamic Token Generator (Har baar naya number)
+@app.route('/api/get-token', methods=['GET'])
+def get_token():
+    new_token = f"NV-{random.randint(1000, 9999)}"
+    return jsonify({"token": new_token})
+
+# 3. Export Inventory (Excel Logic)
 @app.route('/api/export-inventory', methods=['GET'])
 def export_inv():
-    data = [{"Type": "Gateway", "MAC": "GW-8699-01", "Status": "Active"}, {"Type": "Node", "MAC": "ND-05", "Status": "Active"}]
+    # Example columns as per PDF logic
+    data = [
+        {"Type": "Gateway", "MAC": "GW-86-01", "Model": "NV-G1", "Status": "Active"},
+        {"Type": "Node", "MAC": "ND-86-05", "Model": "NV-N3", "Status": "Active"}
+    ]
     df = pd.DataFrame(data)
     output = io.BytesIO()
     with pd.ExcelWriter(output, engine='openpyxl') as writer:
         df.to_excel(writer, index=False)
     output.seek(0)
-    return send_file(output, mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', as_attachment=True, download_name='NV_Inventory.xlsx')
+    return send_file(output, mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 
+                     as_attachment=True, download_name='NeuroVibe_Inventory.xlsx')
 
 if __name__ == "__main__":
     app.run()
+
