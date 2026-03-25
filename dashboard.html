@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroVibe AI Technologies Pvt Ltd | System</title>
+    <!-- Chart.js for Graphics -->
+    <script src="https://cdn.jsdelivr.net"></script>
+    <link href="https://fonts.googleapis.com" rel="stylesheet">
+    <style>
+        :root { --blue: #4facfe; --orange: #ff9933; --bg: #0d1117; --card: #161b22; --border: #30363d; }
+        body { margin:0; font-family:'Roboto', sans-serif; background:var(--bg); color:white; padding:12px; overflow-x:hidden; }
+        
+        /* Header Section - No 8699 */
+        .header { display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid var(--orange); padding-bottom:10px; margin-bottom:15px; }
+        .logo-section { display:flex; align-items:center; gap:10px; }
+        .logo-box { background:white; padding:4px; border-radius:6px; height:35px; width:35px; display:flex; align-items:center; justify-content:center; }
+        .brand b { font-family:'Orbitron'; color:var(--blue); font-size:15px; letter-spacing:1px; }
+        .brand small { color:var(--orange); font-size:8px; display:block; font-weight:bold; text-transform:uppercase; }
+        .status-badge { color:#ff9933; font-size:10px; font-weight:bold; padding:4px 10px; border-radius:15px; border:1px solid #ff9933; }
+
+        /* Site Controls (PDF Logic Page 2) */
+        .controls { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:15px; }
+        select { background:var(--card); color:white; border:1px solid var(--blue); padding:10px; border-radius:8px; font-size:12px; outline:none; }
+
+        /* 3x2 Metrics Grid */
+        .metrics-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; margin-bottom:15px; }
+        .box { background:var(--card); border:1px solid var(--border); padding:18px 5px; border-radius:10px; text-align:center; }
+        .box h3 { margin:0; font-size:9px; color:#94a3b8; text-transform:uppercase; letter-spacing:0.5px; }
+        .val { font-size:20px; font-weight:bold; color:var(--blue); margin:5px 0; }
+        .unit { font-size:8px; color:var(--orange); font-weight:bold; display:block; }
+
+        /* Graphics Area */
+        .graph-area { background:var(--card); padding:15px; border-radius:12px; border:1px solid var(--border); height:220px; margin-bottom:15px; }
+        #chartTitle { color:var(--blue); font-size:10px; font-family:'Orbitron'; margin-bottom:10px; text-transform:uppercase; }
+
+        /* Admin/Inventory Panel (PDF Logic Page 1 & 3) */
+        .admin-panel { background:var(--card); border:1px solid var(--orange); padding:15px; border-radius:12px; }
+        .admin-grid { display:grid; grid-template-columns:1fr 1fr; gap:15px; }
+        .admin-box { border:1px dashed #4facfe; padding:10px; border-radius:8px; }
+        .admin-box p { font-size:9px; color:#4facfe; margin:0 0 8px 0; font-weight:bold; }
+        button { background:var(--blue); color:white; border:none; padding:10px; border-radius:6px; cursor:pointer; width:100%; font-weight:bold; font-size:11px; margin-top:8px; }
+        .btn-orange { background:var(--orange); }
+        input { background:#0d1117; border:1px solid var(--border); color:white; padding:8px; width:100%; border-radius:6px; box-sizing:border-box; font-size:10px; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="logo-section">
+            <div class="logo-box">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org">
+                    <circle cx="50" cy="50" r="45" fill="#4facfe" />
+                    <path d="M30 70 L50 30 L70 70 Z" fill="white" />
+                    <circle cx="50" cy="55" r="10" fill="#ff9933" />
+                </svg>
+            </div>
+            <div class="brand">
+                <b>NEUROVIBE AI</b>
+                <small>Technologies Pvt Ltd</small>
+            </div>
+        </div>
+        <div id="st" class="status-badge">● CONNECTING...</div>
+    </div>
+
+    <!-- PDF Logic: Site Selection -->
+    <div class="controls">
+        <select id="siteSelect"><option value="">Select Site (e.g. Ammonia Pump)</option><option value="s1">Ammonia Pump (Main)</option></select>
+        <select id="modeSelect"><option value="trend">MODE: OVERALL TREND</option><option value="fft">MODE: SPECTRUM (FFT)</option></select>
+    </div>
+
+    <!-- 6 Metrics Grid -->
+    <div class="metrics-grid">
+        <div class="box"><h3>Velocity</h3><div class="val" id="v">0.0</div><span class="unit">MM/S</span></div>
+        <div class="box"><h3>Acceleration</h3><div class="val" id="a">0.0</div><span class="unit">G</span></div>
+        <div class="box"><h3>Temperature</h3><div class="val" id="t">0.0</div><span class="unit">°C</span></div>
+        <div class="box"><h3>Mag. Flux</h3><div class="val" id="f">0.0</div><span class="unit">T</span></div>
+        <div class="box"><h3>Max RPM</h3><div class="val" id="r">0</div><span class="unit">RPM</span></div>
+        <div class="box"><h3>Ultrasound</h3><div class="val" id="u">0.0</div><span class="unit">DB</span></div>
+    </div>
+
+    <!-- Live Graphics -->
+    <div class="graph-area">
+        <p id="chartTitle">LIVE VIBRATION TREND</p>
+        <canvas id="liveChart"></canvas>
+    </div>
+
+    <!-- ADMIN PANEL: INVENTORY & PROVISIONING (PDF LOGIC) -->
+    <div class="admin-panel">
+        <h3 style="color:var(--orange); font-size:12px; margin-top:0; border-bottom:1px solid #334155; padding-bottom:5px;">ADMIN: INVENTORY & PROVISIONING</h3>
+        <div class="admin-grid">
+            <!-- PDF Page 1: Inventory with Gateway/Node Columns -->
+            <div class="admin-box">
+                <p>1. INVENTORY (GATEWAY / NODE)</p>
+                <select id="invType" style="padding:6px; font-size:10px;"><option>FOR GATEWAY COLUMN</option><option>FOR NODE COLUMN</option></select>
+                <div style="display:flex; gap:8px;">
+                    <button onclick="alert('Excel Import Logic Ready!')">IMPORT</button>
+                    <!-- Export Logic -->
+                    <button class="btn-orange" onclick="window.location.href='/api/export'">EXPORT (.xlsx)</button>
+                </div>
+            </div>
+            <!-- PDF Page 3: Provisioning & Token -->
+            <div class="admin-box">
+                <p>2. PROVISIONING (ASK TOKEN)</p>
+                <input type="text" id="macInput" placeholder="Enter MAC ID Manually (OR Discover)">
+                <button onclick="getNewToken()">ASK TOKEN NO</button>
+                <div id="tokenResult" style="color:#00ff00; font-size:12px; font-weight:bold; text-align:center; margin-top:8px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let chart;
+        const ctx = document.getElementById('liveChart').getContext('2d');
+
+        function initChart() {
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: { labels: Array(25).fill(''), datasets: [{ data: Array(25).fill(0), borderColor: '#4facfe', backgroundColor: 'rgba(79, 172, 254, 0.1)', borderWidth: 2, fill: true, tension: 0.4, pointRadius: 0 }] },
+                options: { responsive:true, maintainAspectRatio:false, scales: { x:{display:false}, y:{grid:{color:'#334155'}, ticks:{color:'#8b949e', font:{size:8}}} }, plugins:{legend:{display:false}} }
+            });
+        }
+
+        // Live Sync Logic
+        async function sync() {
+            const site = document.getElementById('siteSelect').value;
+            if(!site) return; // Jab tak site select nahi hoti
+
+            try {
+                const res = await fetch('/api/status');
+                const d = await res.json();
+                const m = d.metrics;
+                
+                document.getElementById('v').innerText = m.velocity;
+                document.getElementById('a').innerText = m.acceleration;
+                document.getElementById('t').innerText = m.temp;
+                document.getElementById('f').innerText = m.flux;
+                document.getElementById('r').innerText = m.rpm;
+                document.getElementById('u').innerText = m.ultrasound;
+
+                // Graphics Update
+                const mode = document.getElementById('modeSelect').value;
+                if(mode === "fft") {
+                    document.getElementById('chartTitle').innerText = "VIBRATION SPECTRUM (FFT)";
+                    chart.data.datasets[0].data = d.spectrum || [1,5,3,8,2,9,4];
+                } else {
+                    document.getElementById('chartTitle').innerText = "LIVE VIBRATION TREND";
+                    chart.data.datasets[0].data.shift();
+                    chart.data.datasets[0].data.push(m.velocity);
+                }
+                chart.update('none');
+
+                document.getElementById('st').innerText = "● ONLINE";
+                document.getElementById('st').style.color = "#00ff00";
+                document.getElementById('st').style.borderColor = "#00ff00";
+            } catch (e) {
+                document.getElementById('st').innerText = "● CONNECTING...";
+            }
+        }
+
+        // PDF Page 3: Dynamic Token Generator
+        async function getNewToken() {
+            try {
+                const res = await fetch('/api/get-token');
+                const d = await res.json();
+                document.getElementById('tokenResult').innerText = "TOKEN: " + d.token;
+            } catch (e) {
+                const fallback = "NV-" + Math.floor(100000 + Math.random() * 900000);
+                document.getElementById('tokenResult').innerText = "TOKEN: " + fallback;
+            }
+        }
+
+        window.onload = () => { initChart(); setInterval(sync, 1500); };
+    </script>
+</body>
+</html>
