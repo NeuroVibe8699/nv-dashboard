@@ -1,47 +1,39 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 import pandas as pd
+import io
 import random
-import uuid
 
 app = Flask(__name__)
 CORS(app)
 
-# 1. Login Logic
-@app.route('/api/login', methods=['POST'])
-def login():
-    data = request.json
-    if data.get('username') == "admin@neurovibe.com" and data.get('password') == "admin123":
-        return jsonify({"status": "success", "role": "admin"}), 200
-    return jsonify({"error": "Invalid Credentials"}), 401
+# Dummy Database (Testing ke liye)
+inventory_db = [
+    {"type": "Gateway", "mac": "GW-8699-01", "model": "NV-G1", "status": "Active"},
+    {"type": "Node", "mac": "ND-8699-05", "model": "NV-V3", "status": "Pending"}
+]
 
-# 2. Live Status & Spectrum (PDF Logic Page 2)
-@app.route('/api/status', methods=['GET'])
-def get_status():
-    return jsonify({
-        "metrics": {
-            "velocity": round(random.uniform(3.5, 4.5), 2),
-            "acceleration": round(random.uniform(0.8, 1.2), 2),
-            "temp": round(random.uniform(38.0, 42.0), 1),
-            "flux": round(random.uniform(0.09, 0.11), 3),
-            "rpm": random.randint(1440, 1480),
-            "ultrasound": round(random.uniform(25.0, 30.0), 1)
-        },
-        "spectrum": [random.uniform(2, 12) for _ in range(30)] # FFT Data
-    })
+# 1. Export Logic (Excel file generate karega)
+@app.route('/api/export-inventory', methods=['GET'])
+def export_inv():
+    df = pd.DataFrame(inventory_db)
+    output = io.BytesIO()
+    with pd.ExcelWriter(output, engine='openpyxl') as writer:
+        df.to_excel(writer, index=False, sheet_name='Inventory')
+    output.seek(0)
+    return send_file(output, mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 
+                     as_attachment=True, download_name='NeuroVibe_Inventory.xlsx')
 
-# 3. Inventory Import (PDF Logic Page 1)
+# 2. Import Logic (Separate Columns for Gateway/Node)
 @app.route('/api/import-inventory', methods=['POST'])
 def import_inv():
-    if 'file' not in request.files: return jsonify({"error": "No file"}), 400
-    # Logic to process SR NO, MODEL, IMEI, MAC IDs
-    return jsonify({"status": "success", "message": "Inventory successfully imported from Excel!"})
+    inv_type = request.form.get('type') # 'Gateway' or 'Node'
+    file = request.files['file']
+    # Logic: Excel read karke specific table mein save karna
+    return jsonify({"status": "success", "message": f"{inv_type} Imported!"})
 
-# 4. Provisioning Token (PDF Logic Page 3)
-@app.route('/api/generate-token', methods=['POST'])
-def gen_token():
-    token = "NV-" + str(uuid.uuid4().hex[:6]).upper()
-    return jsonify({"token": token})
-
-if __name__ == "__main__":
-    app.run()
+# 3. Discovery Logic (Agar MAC ID nahi pata)
+@app.route('/api/discover', methods=['GET'])
+def discover():
+    # Network par jo naye devices mile hain (Random simulation)
+    return jsonify([{"mac": "DISCOVERED-MAC-01"}, {"mac": "DISCOVERED-MAC-02"}])
