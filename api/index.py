@@ -1,13 +1,11 @@
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, jsonify, request
 from flask_cors import CORS
-import pandas as pd
-import io
 import random
 
 app = Flask(__name__)
 CORS(app)
 
-# 1. Live Metrics for Dashboard
+# 1. Live Status Logic
 @app.route('/api/status', methods=['GET'])
 def get_status():
     return jsonify({
@@ -21,28 +19,12 @@ def get_status():
         }
     })
 
-# 2. Dynamic Token Generator (Har baar naya number)
-@app.route('/api/get-token', methods=['GET'])
-def get_token():
-    new_token = f"NV-{random.randint(1000, 9999)}"
+# 2. Dynamic Token Logic (Har Gateway ke liye alag)
+@app.route('/api/generate-token', methods=['GET'])
+def generate_token():
+    # Naya unique 6-digit token
+    new_token = f"NV-{random.randint(100000, 999999)}"
     return jsonify({"token": new_token})
-
-# 3. Export Inventory (Excel Logic)
-@app.route('/api/export-inventory', methods=['GET'])
-def export_inv():
-    # Example columns as per PDF logic
-    data = [
-        {"Type": "Gateway", "MAC": "GW-86-01", "Model": "NV-G1", "Status": "Active"},
-        {"Type": "Node", "MAC": "ND-86-05", "Model": "NV-N3", "Status": "Active"}
-    ]
-    df = pd.DataFrame(data)
-    output = io.BytesIO()
-    with pd.ExcelWriter(output, engine='openpyxl') as writer:
-        df.to_excel(writer, index=False)
-    output.seek(0)
-    return send_file(output, mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 
-                     as_attachment=True, download_name='NeuroVibe_Inventory.xlsx')
 
 if __name__ == "__main__":
     app.run()
-
