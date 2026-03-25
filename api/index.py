@@ -7,9 +7,9 @@ import random
 app = Flask(__name__)
 CORS(app)
 
-# 1. Live Data (Har 1.5 sec mein change hoga)
+# 1. Live Dashboard Metrics (As per PDF Logic)
 @app.route('/api/status', methods=['GET'])
-def status():
+def get_status():
     return jsonify({
         "metrics": {
             "velocity": round(random.uniform(3.5, 4.5), 2),
@@ -18,13 +18,13 @@ def status():
             "flux": round(random.uniform(0.09, 0.11), 3),
             "rpm": random.randint(1440, 1480),
             "ultrasound": round(random.uniform(25.0, 30.0), 1)
-        },
-        "spectrum": [random.uniform(2, 10) for _ in range(30)]
+        }
     })
 
-# 2. Dynamic Token Generator (Har baar naya number aayega)
+# 2. Dynamic Token Logic (Har baar naya number generate hoga)
 @app.route('/api/get-token', methods=['GET'])
 def get_token():
+    # PDF Logic: Cloud side ASK Token Number
     new_token = f"NV-{random.randint(100000, 999999)}"
     return jsonify({"token": new_token})
 
@@ -38,3 +38,6 @@ def export_inv():
         df.to_excel(writer, index=False)
     output.seek(0)
     return send_file(output, mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', as_attachment=True, download_name='NeuroVibe_Inventory.xlsx')
+
+if __name__ == "__main__":
+    app.run()
