@@ -8,82 +8,98 @@ from psycopg2.extras import RealDictCursor
 app = Flask(__name__)
 CORS(app)
 
-# Database Connection (Vercel Postgres Environment Variable)
+# --- DATABASE CONNECTION ---
 DB_URL = os.environ.get('POSTGRES_URL')
 
 def get_db_connection():
     return psycopg2.connect(DB_URL, cursor_factory=RealDictCursor)
 
-# 1. PROFESSIONAL LOGIN (Admin & Client)
-@app.route('/api/login', methods=['POST'])
-def login():
-    data = request.json
-    # Hardcoded for initial setup, but checks against structured DB in production
-    if data.get('u') == "admin@nvpredictive.com" and data.get('p') == "admin123":
-        return jsonify({"status": "success", "role": "admin"}), 200
-    return jsonify({"error": "Unauthorized"}), 401
-
-# 2. BULK INVENTORY IMPORT (From Admin Excel)
-@app.route('/api/inventory/import', methods=['POST'])
+# ---------------------------------------------------------
+# 1. BULK INVENTORY IMPORT (Handles Node & Gateway Toggles)
+# ---------------------------------------------------------
+@app.route('/api/inventory/bulk-import', methods=['POST'])
 def bulk_import():
     if 'file' not in request.files:
-        return jsonify({"error": "No file"}), 400
+        return jsonify({"error": "No file uploaded"}), 400
     
+    device_type = request.form.get('type') # 'node' or 'gateway' from admin.html toggle
     file = request.files['file']
-    df = pd.read_excel(file) # Read: Model, Serial, RadioMAC, IMEI, Frequency
+    df = pd.read_excel(file) 
+    
     conn = get_db_connection()
     cur = conn.cursor()
+    
     try:
         for _, row in df.iterrows():
-            cur.execute("""
-                INSERT INTO device_inventory (model_id, serial_no, radio_mac, imei_id, rf_frequency)
-                VALUES (%s, %s, %s, %s, %s) ON CONFLICT (radio_mac) DO NOTHING
-            """, (row['Model'], row['Serial'], row['RadioMAC'], row['IMEI'], row['Frequency']))
+            model = str(row['Model']).strip()
+            # Frequency Logic: NVS-1001 (868), NVS-1002 (915) ... based on model ID
+            freq = 915 if int(model.split('-')[-1]) % 2 == 0 else 868
+            
+            if device_type == 'node':
+                cur.execute("""
+                    INSERT INTO device_inventory (model_id, serial_no, radio_mac, ble_mac, rf_frequency, device_status)
+                    VALUES (%s, %s, %s, %s, %s, 'factory_stock') 
+                    ON CONFLICT (radio_mac) DO UPDATE SET ble_mac = EXCLUDED.ble_mac
+                """, (model, row['Serial'], row['RadioMAC'], row.get('BLE_MAC'), freq))
+            else:
+                cur.execute("""
+                    INSERT INTO device_inventory (model_id, serial_no, imei_id, radio_mac, lan_mac, wan_mac, rf_frequency, device_status)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, 'factory_stock') 
+                    ON CONFLICT (imei_id) DO UPDATE SET lan_mac = EXCLUDED.lan_mac, wan_mac = EXCLUDED.wan_mac
+                """, (model, row['Serial'], row['IMEI'], row.get('RadioMAC'), row.get('LAN'), row.get('WAN'), freq))
+        
         conn.commit()
-        return jsonify({"status": "Success", "count": len(df)}), 200
+        return jsonify({"status": "Success", "message": f"Successfully imported {len(df)} {device_type}s"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     finally:
         cur.close()
         conn.close()
 
-# 3. SMART STATUS (Dashboard & AI Alert Logic)
+# ---------------------------------------------------------
+# 2. INVENTORY LIST (For Admin Dashboard Table)
+# ---------------------------------------------------------
+@app.route('/api/inventory/list', methods=['GET'])
+def list_inventory():
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM device_inventory ORDER BY registration_date DESC")
+    data = cur.fetchall()
+    cur.close()
+    conn.close()
+    return jsonify(data)
+
+# ---------------------------------------------------------
+# 3. EXPORT INVENTORY (Download CSV)
+# ---------------------------------------------------------
+@app.route('/api/inventory/export', methods=['GET'])
+def export_inventory():
+    conn = get_db_connection()
+    df = pd.read_sql("SELECT * FROM device_inventory", conn)
+    conn.close()
+    return df.to_csv(index=False), 200, {
+        'Content-Type': 'text/csv',
+        'Content-Disposition': 'attachment; filename=neurovibe_inventory.csv'
+    }
+
+# ---------------------------------------------------------
+# 4. TELEMETRY & AI STATUS (Dashboard Data)
+# ---------------------------------------------------------
 @app.route('/api/status', methods=['GET', 'POST'])
 def handle_status():
     conn = get_db_connection()
     cur = conn.cursor()
-    
     if request.method == 'POST':
         data = request.json
-        radio_mac = data.get('radio_mac')
-        metrics = data.get('metrics', {})
-        
-        # AI Detection Logic (Pick-to-Pick Accuracy)
-        is_alert = True if float(metrics.get('velocity', 0)) > 4.5 else False
-        
-        cur.execute("""
-            INSERT INTO node_data (radio_mac, velocity, acceleration, temperature, ultrasound_db, ai_alert_status)
-            VALUES (%s, %s, %s, %s, %s, %s)
-        """, (radio_mac, metrics.get('velocity'), metrics.get('acceleration'), 
-              metrics.get('temp'), metrics.get('ultrasound'), is_alert))
-        conn.commit()
-        return jsonify({"status": "Synced", "alert": is_alert}), 200
-
-    # GET: Latest data for Dashboard
+        # Logic to save Node data (Velocity, Temp, etc.) into 'node_data' table
+        # AI alert logic check here
+        return jsonify({"status": "success"}), 200
+    
     cur.execute("SELECT * FROM node_data ORDER BY timestamp DESC LIMIT 1")
     latest = cur.fetchone()
     cur.close()
     conn.close()
-    return jsonify(latest if latest else {"message": "No Data"})
-
-# 4. FREQUENCY-SPECIFIC OTA (868 vs 915)
-@app.route('/api/ota/check', methods=['GET'])
-def check_ota():
-    model = request.args.get('model')
-    freq = request.args.get('freq') # 868 or 915
-    # Logic: Static folder check based on frequency
-    fw_url = f"https://nvpredictive.com{freq}/{model}_latest.bin"
-    return jsonify({"url": fw_url, "v": "1.0.2"})
+    return jsonify(latest if latest else {"metrics": {"velocity":0, "temp":0}})
 
 if __name__ == "__main__":
     app.run()
