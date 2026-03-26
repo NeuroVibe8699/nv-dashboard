@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroVibe AI | Secure Login</title>
-    <!-- Font Awesome for Icons -->
+    <title>NeuroVibe AI | Secure Access</title>
+    <!-- Updated Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com">
     <style>
         :root {
@@ -16,25 +16,21 @@
 
         body {
             margin: 0; padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             background: var(--bg);
             background-image: radial-gradient(circle at 50% 50%, #1a2a6c, #0b0e14);
             height: 100vh;
             display: flex; align-items: center; justify-content: center;
-            color: white;
-            overflow: hidden;
+            color: white; overflow: hidden;
         }
 
         .login-card {
             background: var(--glass);
             backdrop-filter: blur(20px);
-            padding: 40px;
-            border-radius: 24px;
-            width: 380px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px; border-radius: 24px;
+            width: 380px; border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            text-align: center;
-            animation: fadeIn 0.8s ease-out;
+            text-align: center; animation: fadeIn 0.8s ease-out;
         }
 
         @keyframes fadeIn {
@@ -43,47 +39,30 @@
         }
 
         .brand-logo {
-            font-size: 28px;
-            font-weight: 800;
-            color: var(--primary);
-            letter-spacing: 3px;
-            margin-bottom: 10px;
-            text-transform: uppercase;
+            font-size: 28px; font-weight: 800;
+            color: var(--primary); letter-spacing: 3px;
+            margin-bottom: 5px; text-transform: uppercase;
         }
 
         .brand-subtext {
-            font-size: 10px;
-            color: var(--accent);
-            font-weight: bold;
-            letter-spacing: 2px;
-            margin-bottom: 40px;
-            display: block;
+            font-size: 10px; color: var(--accent);
+            font-weight: bold; letter-spacing: 2px;
+            margin-bottom: 40px; display: block;
         }
 
-        .input-group {
-            position: relative;
-            margin-bottom: 20px;
-        }
+        .input-group { position: relative; margin-bottom: 20px; }
 
         .input-group i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #888;
+            position: absolute; left: 15px; top: 50%;
+            transform: translateY(-50%); color: #888;
         }
 
         input {
-            width: 100%;
-            padding: 14px 15px 14px 45px;
+            width: 100%; padding: 14px 15px 14px 45px;
             background: rgba(255, 255, 255, 0.03);
-            border: 1px solid #30363d;
-            border-radius: 12px;
-            color: white;
-            font-size: 15px;
-            outline: none;
-            transition: 0.3s;
-            box-sizing: border-box;
+            border: 1px solid #30363d; border-radius: 12px;
+            color: white; font-size: 15px; outline: none;
+            transition: 0.3s; box-sizing: border-box;
         }
 
         input:focus {
@@ -93,38 +72,24 @@
         }
 
         .btn-login {
-            width: 100%;
-            padding: 15px;
-            margin-top: 20px;
+            width: 100%; padding: 15px; margin-top: 20px;
             background: linear-gradient(135deg, #00d2ff, #3a7bd5);
-            border: none;
-            border-radius: 12px;
-            color: #000;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
+            border: none; border-radius: 12px; color: #000;
+            font-size: 16px; font-weight: 700; cursor: pointer;
             transition: 0.4s;
         }
 
         .btn-login:hover {
             transform: scale(1.02);
             box-shadow: 0 0 20px rgba(0, 210, 255, 0.4);
-            filter: brightness(1.1);
         }
 
         #error-msg {
-            margin-top: 20px;
-            font-size: 14px;
-            color: #ff4d4d;
-            height: 20px;
-            font-weight: 500;
+            margin-top: 20px; font-size: 14px;
+            color: #ff4d4d; font-weight: 500; min-height: 20px;
         }
 
-        .footer-text {
-            margin-top: 30px;
-            font-size: 12px;
-            color: #666;
-        }
+        .footer-text { margin-top: 30px; font-size: 11px; color: #666; }
     </style>
 </head>
 <body>
@@ -135,22 +100,22 @@
 
         <form id="loginForm">
             <div class="input-group">
-                <i class="fa-solid fa-envelope"></i>
-                <input type="text" id="user" placeholder="Admin Username" required>
+                <i class="fa-solid fa-user-shield"></i>
+                <input type="text" id="user" placeholder="Username / Email" required autocomplete="off">
             </div>
             
             <div class="input-group">
-                <i class="fa-solid fa-lock"></i>
-                <input type="password" id="pass" placeholder="Master Password" required>
+                <i class="fa-solid fa-key"></i>
+                <input type="password" id="pass" placeholder="Password" required>
             </div>
 
-            <button type="submit" class="btn-login" id="loginBtn">ACCESS CONTROL CENTER</button>
+            <button type="submit" class="btn-login" id="loginBtn">AUTHORIZE ACCESS</button>
         </form>
 
         <div id="error-msg"></div>
 
         <div class="footer-text">
-            &copy; 2026 NeuroVibe Industrial IoT Ecosystem
+            INDUSTRIAL IOT ECOSYSTEM &copy; 2026
         </div>
     </div>
 
@@ -163,12 +128,11 @@
             const msg = document.getElementById('error-msg');
             const btn = document.getElementById('loginBtn');
 
-            // Visual feedback
-            btn.innerText = "VERIFYING...";
+            btn.innerText = "AUTHENTICATING...";
             btn.disabled = true;
+            msg.innerText = "";
 
             try {
-                // Backend API Request (Matching u and p keys)
                 const response = await fetch('/api/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -179,18 +143,19 @@
 
                 if (response.ok && result.status === "success") {
                     msg.style.color = "#00ff88";
-                    msg.innerText = "Login Successful! Redirecting...";
+                    msg.innerText = "Access Granted! Redirecting...";
+                    // Redirect based on backend response (Admin to admin.html, Client to dashboard.html)
                     setTimeout(() => {
-                        window.location.href = "/admin.html"; 
-                    }, 1000);
+                        window.location.href = result.redirect || "/admin.html"; 
+                    }, 800);
                 } else {
-                    msg.innerText = "Invalid Credentials. Access Denied.";
-                    btn.innerText = "ACCESS CONTROL CENTER";
+                    msg.innerText = result.message || "Unauthorized: Check Credentials";
+                    btn.innerText = "AUTHORIZE ACCESS";
                     btn.disabled = false;
                 }
             } catch (err) {
-                msg.innerText = "System Error: Connection Failed.";
-                btn.innerText = "ACCESS CONTROL CENTER";
+                msg.innerText = "Connection Failure: Check Server Status";
+                btn.innerText = "AUTHORIZE ACCESS";
                 btn.disabled = false;
             }
         });
