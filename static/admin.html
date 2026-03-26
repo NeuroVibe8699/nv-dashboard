@@ -1,1 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NeuroVibe Admin | Inventory Master</title>
+    <style>
+        body { background: #020617; color: white; font-family: sans-serif; padding: 30px; }
+        .card { background: #161b22; border: 1px solid #334155; padding: 25px; border-radius: 15px; margin-bottom: 25px; max-width: 600px; }
+        h3 { color: #ff9933; border-bottom: 1px solid #334155; padding-bottom: 10px; margin-top: 0; }
+        select, input { width: 100%; padding: 12px; margin: 10px 0; background: #0d1117; border: 1px solid #334155; color: white; border-radius: 8px; box-sizing: border-box; }
+        .btn-box { display: flex; gap: 10px; margin-top: 15px; }
+        button { flex: 1; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; color: white; }
+        .blue { background: #4facfe; }
+        .orange { background: #ff9933; }
+    </style>
+</head>
+<body>
+    <h2 style="color:#4facfe;">ADMIN CONTROL: INVENTORY & MAPPING</h2>
+
+    <div class="card">
+        <h3>1. BULK INVENTORY (EXCEL)</h3>
+        <p style="font-size: 11px; color: gray;">Fields: Model, Serial, IMEI, Radio MAC, BLE MAC, LAN/WAN</p>
+        <input type="file" id="excelFile">
+        <div class="btn-box">
+            <button class="blue" onclick="alert('Uploading to Database...')">IMPORT EXCEL</button>
+            <button class="orange" onclick="window.location.href='/api/export'">EXPORT REPORT (.xlsx)</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>2. MANUAL PROVISIONING</h3>
+        <select id="model_select">
+            <option>SELECT NODE MODEL (NVS-1001 to 1010)</option>
+            <option>NVS-1001 (868MHz - EU/IN)</option>
+            <option>NVS-1002 (915MHz - US/AU)</option>
+            <option>NVS-1010 (AI-DRIVEN)</option>
+        </select>
+        <input type="text" placeholder="Radio MAC ID (Primary Identifier)">
+        <button class="blue" style="width:100%;" onclick="alert('Device Registered!')">REGISTER DEVICE</button>
+    </div>
+
+    <a href="dashboard.html" style="color:#4facfe; text-decoration:none; font-size:12px;">← Back to Dashboard</a>
+</body>
+</html>
 
