@@ -1,4 +1,16 @@
-# --- 1. USER & SITE MAPPING ---
+# --- 1. LOGIN SYSTEM (Professional Fix) ---
+@app.route('/api/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    # Dashboard 'u' (username) aur 'p' (password) bhej raha hai
+    u = data.get('u')
+    p = data.get('p')
+    
+    if u == "admin@nvpredictive.com" and p == "admin123":
+        return jsonify({"status": "success", "role": "admin"}), 200
+    return jsonify({"status": "error", "message": "Invalid Credentials"}), 401
+
+# --- 2. USER & SITE MAPPING ---
 @app.route('/api/admin/create-client', methods=['POST'])
 def create_client():
     data = request.json
@@ -23,7 +35,7 @@ def site_mapping():
         return jsonify({"status": "success"}), 200
     except Exception as e: return jsonify({"error": str(e)}), 500
 
-# --- 2. DEVICE DETAILS ---
+# --- 3. DEVICE DETAILS ---
 @app.route('/api/admin/device-details/<id>', methods=['GET'])
 def device_details(id):
     conn = get_db_connection()
