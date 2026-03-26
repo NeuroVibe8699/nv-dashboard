@@ -1,1 +1,46 @@
-.keep
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NeuroVibe AI | Secure Login</title>
+    <style>
+        :root { --blue: #4facfe; --orange: #ff9933; --glass: rgba(255, 255, 255, 0.05); }
+        body { margin:0; font-family: 'Poppins', sans-serif; background: radial-gradient(circle, #0f172a, #020617); color:white; display:flex; align-items:center; justify-content:center; height:100vh; overflow:hidden; }
+        .login-card { background: var(--glass); backdrop-filter: blur(15px); padding: 50px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.1); width: 320px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .logo { width: 60px; height: 60px; background: white; border-radius: 12px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; }
+        h2 { margin: 0; color: var(--blue); letter-spacing: 2px; font-size: 20px; }
+        p { color: var(--orange); font-size: 10px; font-weight: bold; margin-bottom: 30px; letter-spacing: 1px; }
+        input { width: 100%; padding: 14px; margin: 10px 0; background: rgba(0,0,0,0.3); border: 1px solid #334155; color: white; border-radius: 10px; box-sizing: border-box; outline: none; }
+        input:focus { border-color: var(--blue); }
+        button { width: 100%; padding: 14px; background: linear-gradient(135deg, var(--blue), #00f2fe); border: none; color: white; font-weight: bold; border-radius: 10px; cursor: pointer; margin-top: 20px; transition: 0.3s; }
+        button:hover { transform: scale(1.02); box-shadow: 0 0 20px rgba(79, 172, 254, 0.4); }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <div class="logo">
+            <svg viewBox="0 0 100 100" width="40"><circle cx="50" cy="50" r="45" fill="#4facfe"/><path d="M30 70 L50 30 L70 70 Z" fill="white"/><circle cx="50" cy="55" r="10" fill="#ff9933"/></svg>
+        </div>
+        <h2>NEUROVIBE AI</h2>
+        <p>TECHNOLOGIES PVT LTD</p>
+        <input type="text" id="u" placeholder="Username" value="admin@nvpredictive.com">
+        <input type="password" id="p" placeholder="Password" value="admin123">
+        <button onclick="login()">SECURE LOGIN</button>
+    </div>
+
+    <script>
+        async function login() {
+            const u = document.getElementById('u').value;
+            const p = document.getElementById('p').value;
+            const res = await fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ u, p })
+            });
+            if (res.ok) window.location.href = "dashboard.html";
+            else alert("Invalid Credentials");
+        }
+    </script>
+</body>
+</html>
+
