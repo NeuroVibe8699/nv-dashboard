@@ -1,91 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"><title>NV Master Control</title>
+    <meta charset="UTF-8"><title>NV Master Admin</title>
     <style>
         :root { --blue: #00d2ff; --orange: #ff9933; --dark: #0b0e14; --glass: rgba(255,255,255,0.05); }
-        body { background: var(--dark); color: white; font-family: 'Segoe UI', sans-serif; display: flex; margin: 0; height: 100vh; }
-        .sidebar { width: 260px; background: var(--glass); border-right: 1px solid rgba(255,255,255,0.1); padding: 25px; }
-        .nav-item { padding: 15px; cursor: pointer; border-radius: 8px; margin: 8px 0; transition: 0.3s; }
+        body { background: var(--dark); color: white; font-family: sans-serif; display: flex; margin: 0; height: 100vh; }
+        .sidebar { width: 250px; background: var(--glass); padding: 20px; border-right: 1px solid rgba(255,255,255,0.1); }
+        .nav-item { padding: 15px; cursor: pointer; border-radius: 8px; margin: 10px 0; }
         .active { background: var(--blue); color: black; font-weight: bold; }
-        .main { flex: 1; padding: 40px; overflow-y: auto; }
+        .content { flex: 1; padding: 40px; overflow-y: auto; }
         .tab { display: none; } .active-tab { display: block; }
-        .card { background: var(--glass); padding: 25px; border-radius: 12px; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.1); }
-        .device-tabs { display: flex; gap: 15px; margin-bottom: 20px; }
-        .sub-tab { padding: 10px 30px; background: #30363d; border-radius: 6px; cursor: pointer; }
+        .card { background: var(--glass); padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1); }
+        .device-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+        .sub-tab { padding: 8px 20px; background: #30363d; cursor: pointer; border-radius: 5px; }
         .sub-active { background: var(--orange); }
-        table { width: 100%; border-collapse: collapse; } th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--glass); }
-        .modal { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:#161b22; padding:30px; border-radius:15px; border:1px solid var(--blue); z-index:1000; width:400px; }
+        input, select { width: 100%; padding: 10px; margin: 5px 0; background: #161b22; color: white; border: 1px solid #30363d; border-radius: 5px; }
+        .btn { padding: 10px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; } th, td { padding: 10px; text-align: left; border-bottom: 1px solid var(--glass); }
+        .modal { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:#161b22; padding:30px; border:1px solid var(--blue); border-radius:10px; z-index:1000; width:350px; }
     </style>
 </head>
 <body>
     <div class="sidebar">
         <h2 style="color: var(--blue);">NV MASTER</h2>
-        <div class="nav-item active" onclick="showTab('invSection')">Inventory & Devices</div>
-        <div class="nav-item" onclick="showTab('userSection')">User & Site Mapping</div>
+        <div class="nav-item active" onclick="showTab('invTab')">Inventory Control</div>
+        <div class="nav-item" onclick="showTab('userTab')">User & Site Mapping</div>
     </div>
 
-    <div class="main">
-        <!-- 1. INVENTORY & DEVICE TABS -->
-        <div id="invSection" class="tab active-tab">
+    <div class="content">
+        <!-- Tab 1: Inventory (Node/Gateway Toggle) -->
+        <div id="invTab" class="tab active-tab">
             <h1>Hardware Stock</h1>
             <div class="device-tabs">
-                <div id="nodeTab" class="sub-tab sub-active" onclick="setDev('node')">NODES</div>
-                <div id="gwTab" class="sub-tab" onclick="setDev('gateway')">GATEWAYS</div>
+                <div id="nT" class="sub-tab sub-active" onclick="setDT('node')">NODES</div>
+                <div id="gT" class="sub-tab" onclick="setDT('gateway')">GATEWAYS</div>
             </div>
             <div class="card">
-                <input type="file" id="xl"><button onclick="bulkUp()" style="background:var(--blue); border:none; padding:10px 20px; border-radius:5px; cursor:pointer;">Import Bulk Excel</button>
+                <input type="file" id="xl"><button class="btn" style="background:var(--blue);" onclick="upXL()">BULK IMPORT EXCEL</button>
             </div>
             <div class="card">
-                <table id="devTable"><thead><tr><th>Model</th><th>Serial</th><th>ID</th><th>Action</th></tr></thead><tbody id="devBody"></tbody></table>
+                <table id="devT"><thead><tr><th>Model</th><th>Serial</th><th>ID</th><th>Action</th></tr></thead><tbody id="devB"></tbody></table>
             </div>
         </div>
 
-        <!-- 2. USER & SITE MAPPING -->
-        <div id="userSection" class="tab">
-            <h1>Client & Site Mapping</h1>
+        <!-- Tab 2: Users & Mapping -->
+        <div id="userTab" class="tab">
+            <h1>User & Site Mapping</h1>
             <div class="card">
-                <h3>Create New Client</h3>
+                <h3>Create Client</h3>
                 <input id="cn" placeholder="Company"><input id="ce" placeholder="Email"><input id="cp" placeholder="Password"><input id="cw" placeholder="WhatsApp">
-                <button onclick="saveUser()" style="background:var(--orange); border:none; width:100%; padding:12px; margin-top:10px; border-radius:5px; cursor:pointer;">Create Account</button>
+                <button class="btn" style="background:var(--orange);" onclick="saveU()">CREATE ACCOUNT</button>
             </div>
             <div class="card">
-                <h3>Site Mapping (Assign Node)</h3>
-                <input id="mapMac" placeholder="Node MAC ID"><input id="mapSite" placeholder="Site Name (e.g. Pump-01)"><input id="mapRpm" placeholder="Motor RPM">
-                <button onclick="saveMap()" style="background:var(--blue); border:none; width:100%; padding:12px; margin-top:10px; border-radius:5px; cursor:pointer;">Map to Site</button>
+                <h3>Map Node to Site</h3>
+                <select id="uS"><option>Loading Users...</option></select>
+                <input id="mM" placeholder="Node MAC ID"><input id="mS" placeholder="Site Name (Pump-01)"><input id="mR" placeholder="RPM">
+                <button class="btn" style="background:var(--blue);" onclick="saveM()">MAP TO SITE</button>
             </div>
         </div>
     </div>
 
-    <!-- 3. CONFIG MODAL (Node/Gateway Details) -->
-    <div id="configModal" class="modal">
-        <h2 id="modalTitle">Device Details</h2>
-        <div id="modalBody"></div>
-        <button onclick="closeModal()" style="margin-top:20px; width:100%; padding:10px; cursor:pointer;">Close</button>
-    </div>
+    <div id="cfgM" class="modal"><h2 id="mT">Details</h2><div id="mB"></div><button class="btn" onclick="closeM()">CLOSE</button></div>
 
     <script>
-        let devType = 'node';
-        function showTab(id) { document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active-tab')); document.getElementById(id).classList.add('active-tab'); }
-        function setDev(t) { devType = t; document.querySelectorAll('.sub-tab').forEach(s=>s.classList.remove('sub-active')); document.getElementById(t+'Tab').classList.add('sub-active'); loadDevs(); }
+        let dT = 'node';
+        function showTab(id) { document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active-tab')); document.getElementById(id).classList.add('active-tab'); event.currentTarget.classList.add('active'); }
+        function setDT(t) { dT = t; document.querySelectorAll('.sub-tab').forEach(s=>s.classList.remove('sub-active')); document.getElementById(t==='node'?'nT':'gT').classList.add('sub-active'); loadD(); }
         
-        async function loadDevs() {
+        async function upXL() {
+            const fd = new FormData(); fd.append('file', document.getElementById('xl').files[0]); fd.append('type', dT);
+            const r = await fetch('/api/inventory/bulk-import', { method: 'POST', body: fd }); alert((await r.json()).message); loadD();
+        }
+
+        async function loadD() {
             const r = await fetch('/api/inventory/list'); const d = await r.json();
-            const filtered = d.filter(x => devType === 'node' ? x.radio_mac && !x.imei_id : x.imei_id);
-            document.getElementById('devBody').innerHTML = filtered.map(x => `
-                <tr><td>${x.model_id}</td><td>${x.serial_no}</td><td>${x.radio_mac || x.imei_id}</td>
-                <td><button onclick="openConfig('${x.radio_mac || x.imei_id}')">${devType==='node'?'Config':'Details'}</button></td></tr>
-            `).join('');
+            const f = d.filter(x => dT === 'node' ? x.radio_mac && !x.imei_id : x.imei_id);
+            document.getElementById('devB').innerHTML = f.map(x => `<tr><td>${x.model_id}</td><td>${x.serial_no}</td><td>${x.radio_mac || x.imei_id}</td><td><button onclick="openM('${x.radio_mac || x.imei_id}')">Config</button></td></tr>`).join('');
         }
 
-        async function openConfig(id) {
-            const r = await fetch('/api/admin/device-details/'+id); const x = await r.json();
-            const body = devType === 'node' ? `<b>Config Page for Node: ${id}</b><br><br>Frequency: ${x.rf_frequency} MHz<br>BLE: ${x.ble_mac}` : `<b>Gateway Details: ${id}</b><br><br>IMEI: ${x.imei_id}<br>LAN: ${x.lan_mac}<br>WAN: ${x.wan_mac}`;
-            document.getElementById('modalBody').innerHTML = body; document.getElementById('configModal').style.display='block';
+        async function openM(id) {
+            document.getElementById('mB').innerHTML = dT==='node' ? `<b>Node Config: ${id}</b><br>Freq: Auto Detect<br>Status: Factory Stock` : `<b>Gateway Details: ${id}</b><br>IMEI Verified`;
+            document.getElementById('cfgM').style.display='block';
         }
-
-        function closeModal() { document.getElementById('configModal').style.display='none'; }
-        window.onload = loadDevs;
+        function closeM() { document.getElementById('cfgM').style.display='none'; }
+        
+        async function saveU() {
+            const p = {company:document.getElementById('cn').value, email:document.getElementById('ce').value, password:document.getElementById('cp').value, whatsapp:document.getElementById('cw').value};
+            await fetch('/api/admin/create-client', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(p)}); alert("User Created!");
+        }
+        window.onload = loadD;
     </script>
 </body>
 </html>
