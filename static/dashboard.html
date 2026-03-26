@@ -6,156 +6,105 @@
     <title>NeuroVibe AI | Live Dashboard</title>
     <script src="https://cdn.jsdelivr.net"></script>
     <style>
-        :root { --blue: #4facfe; --orange: #ff9933; --glass: rgba(255, 255, 255, 0.07); --text: #e2e8f0; }
-        body { margin:0; font-family: 'Poppins', sans-serif; background: radial-gradient(circle at top, #0f172a, #020617); color:var(--text); display:flex; height:100vh; overflow:hidden; }
+        :root { --blue: #00d2ff; --orange: #ff9933; --glass: rgba(255, 255, 255, 0.05); --text: #e2e8f0; }
+        body { margin:0; font-family: 'Segoe UI', sans-serif; background: #0b0e14; color:var(--text); display:flex; height:100vh; overflow:hidden; }
         
         /* Glass Sidebar */
-        .sidebar { width: 70px; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(15px); border-right: 1px solid rgba(255,255,255,0.1); display:flex; flex-direction:column; align-items:center; padding:25px 0; gap:35px; z-index: 100; }
-        .menu-item { font-size: 20px; cursor:pointer; transition:0.4s; opacity:0.5; filter: grayscale(1); }
-        .menu-item:hover { opacity:1; filter: grayscale(0); transform: translateY(-3px); }
-        .active { opacity:1; filter: grayscale(0); border-left: 3px solid var(--blue); padding-left: 5px; }
+        .sidebar { width: 80px; background: rgba(15, 23, 42, 0.9); border-right: 1px solid rgba(255,255,255,0.1); display:flex; flex-direction:column; align-items:center; padding:30px 0; gap:40px; }
+        .menu-item { font-size: 22px; cursor:pointer; opacity:0.5; transition:0.3s; }
+        .menu-item:hover, .active { opacity:1; color: var(--blue); transform: scale(1.1); }
 
-        /* Content Area */
-        .main { flex:1; padding:25px; overflow-y:auto; scroll-behavior: smooth; }
-        .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:25px; border-bottom: 1.5px solid var(--orange); padding-bottom:12px; }
-        .logo-box { background:white; padding:6px; border-radius:10px; width:45px; height:45px; display:flex; align-items:center; justify-content:center; box-shadow: 0 0 15px rgba(79, 172, 254, 0.4); }
-        .brand b { color:var(--blue); font-size:20px; letter-spacing:1.5px; text-shadow: 0 0 10px rgba(79, 172, 254, 0.3); }
+        /* Main Content */
+        .main { flex:1; padding:30px; overflow-y:auto; background: radial-gradient(circle at top right, #1a2a6c33, #0b0e14); }
+        .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:30px; border-bottom: 1px solid var(--glass); padding-bottom:15px; }
+        .brand b { color:var(--blue); font-size:22px; letter-spacing:2px; }
 
-        /* Site & Node Selectors */
-        .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
-        select { background: var(--glass); border: 1px solid rgba(255,255,255,0.1); color:white; padding:12px; border-radius:10px; outline:none; cursor:pointer; font-size: 13px; }
+        /* Selectors */
+        .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px; }
+        select { background: #161b22; border: 1px solid #30363d; color:white; padding:12px; border-radius:10px; cursor:pointer; width: 100%; }
 
         /* Metrics Grid */
-        .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:18px; }
-        .card { background: var(--glass); border: 1px solid rgba(255,255,255,0.08); padding:22px; border-radius:20px; text-align:center; backdrop-filter: blur(8px); transition: 0.3s; }
-        .card:hover { border-color: var(--blue); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .card h3 { font-size:11px; color: var(--orange); margin:0; text-transform: uppercase; letter-spacing: 1px; }
-        .val { font-size:30px; font-weight:700; color: var(--blue); margin:12px 0; font-variant-numeric: tabular-nums; }
-        .unit { font-size: 9px; color: #94a3b8; font-weight: 600; }
-
-        /* Chart Section */
-        .graph-panel { background: var(--glass); margin-top:25px; padding:25px; border-radius:22px; border: 1px solid rgba(79, 172, 254, 0.15); box-shadow: inset 0 0 20px rgba(0,0,0,0.2); }
-        
-        /* WhatsApp Floating */
-        .float-btn { position:fixed; bottom:25px; right:25px; background:linear-gradient(135deg, #25d366, #128c7e); width:55px; height:55px; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 25px rgba(37, 211, 102, 0.4); cursor:pointer; font-size: 24px; text-decoration: none; z-index: 1000; transition: 0.3s; }
-        .float-btn:hover { transform: scale(1.1) rotate(10deg); }
+        .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:20px; }
+        .card { background: var(--glass); border: 1px solid rgba(255,255,255,0.1); padding:25px; border-radius:20px; text-align:center; transition: 0.3s; }
+        .card:hover { border-color: var(--blue); transform: translateY(-5px); }
+        .card h3 { font-size:12px; color: var(--orange); margin:0; text-transform: uppercase; }
+        .val { font-size:35px; font-weight:700; color: #fff; margin:15px 0; }
+        .unit { font-size: 10px; color: #888; }
 
         /* AI Alert Popup */
-        #alert-notif { display:none; background: rgba(239, 68, 68, 0.9); padding: 15px 30px; border-radius: 50px; position: fixed; top: 30px; left: 50%; transform: translateX(-50%); border: 2px solid white; font-weight: bold; box-shadow: 0 0 30px rgba(239, 68, 68, 0.6); z-index: 9999; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% {transform: translateX(-50%) scale(1);} 50% {transform: translateX(-50%) scale(1.05);} 100% {transform: translateX(-50%) scale(1);} }
+        #alert-notif { display:none; background: #ef4444; color: white; padding: 15px 30px; border-radius: 50px; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); font-weight: bold; z-index: 1000; box-shadow: 0 0 20px rgba(239, 68, 68, 0.5); }
     </style>
 </head>
 <body>
 
-    <div id="alert-notif">⚠️ AI ALERT: ANOMALOUS VIBRATION DETECTED</div>
+    <div id="alert-notif">⚠️ CRITICAL: ANOMALY DETECTED BY AI</div>
 
     <div class="sidebar">
-        <div class="menu-item active" title="Live Dashboard">🏠</div>
-        <div class="menu-item" title="Spectrum Pro">📊</div>
-        <div class="menu-item" title="Node Configuration">⚙️</div>
-        <div class="menu-item" onclick="location.href='index.html'" title="Secure Logout">🔒</div>
+        <div class="menu-item active">🏠</div>
+        <div class="menu-item">📊</div>
+        <div class="menu-item">⚙️</div>
+        <div class="menu-item" onclick="location.href='/login.html'">🔒</div>
     </div>
 
     <div class="main">
         <div class="header">
-            <div style="display:flex; align-items:center; gap:15px;">
-                <div class="logo-box">
-                    <svg viewBox="0 0 100 100" width="30"><circle cx="50" cy="50" r="45" fill="#4facfe""")/>><path d="M30 70 L50 30 L70 70 Z" fill="white""")/>><circle cx="50" cy="55" r="10" fill="#ff9933""")/>></svg>
-                </div>
-                <div><b>NEUROVIBE AI</b><br><small style="color:var(--orange)">Technologies Pvt Ltd</small></div>
-            </div>
-            <div style="text-align: right;">
-                <div style="color:var(--blue); font-weight: bold; font-size: 14px;">CLIENT PORTAL</div>
-                <div style="color:#22c55e; font-size:10px;">● SYSTEM ONLINE</div>
-            </div>
+            <div class="brand"><b>NEUROVIBE AI</b><br><small style="color:var(--orange)">Industrial Monitoring Ecosystem</small></div>
+            <div style="text-align: right;"><div style="color:#22c55e;">● SYSTEM LIVE</div></div>
         </div>
 
         <div class="controls">
-            <select id="siteSelect">
-                <option>SELECT SITE (Ammonia Plant, etc.)</option>
-                <option selected>Site-01: Main Plant</option>
-            </select>
-            <select id="nodeSelect">
-                <option>SELECT NODE (NVS-1001 to 1010)</option>
-                <option selected>NVS-1010 (AI-Driven)</option>
+            <select id="siteSelect"><option>Site-01: Main Plant</option></select>
+            <select id="nodeSelect" onchange="fetchData()">
+                <option value="NVS-1010">NVS-1010 (AI Driven)</option>
+                <option value="NVS-1001">NVS-1001 (Standard)</option>
             </select>
         </div>
 
         <div class="grid">
-            <div class="card"><h3>Velocity</h3><div class="val" id="v">--</div><span class="unit">MM/S (ISO 10816)</span></div>
-            <div class="card"><h3>Acceleration</h3><div class="val" id="a">--</div><span class="unit">G (Peak-to-Peak)</span></div>
-            <div class="card"><h3>Temperature</h3><div class="val" id="t">--</div><span class="unit">°C (Surface)</span></div>
-            <div class="card"><h3>RPM</h3><div class="val" id="r">--</div><span class="unit">Motor Capacity</span></div>
-            <div class="card"><h3>Ultrasound</h3><div class="val" id="u">--</div><span class="unit">dB (Acoustic)</span></div>
+            <div class="card"><h3>Velocity</h3><div class="val" id="v">--</div><span class="unit">mm/s</span></div>
+            <div class="card"><h3>Acceleration</h3><div class="val" id="a">--</div><span class="unit">g (P-P)</span></div>
+            <div class="card"><h3>Temperature</h3><div class="val" id="t">--</div><span class="unit">°C</span></div>
+            <div class="card"><h3>RPM</h3><div class="val" id="r">--</div><span class="unit">Calculated</span></div>
+            <div class="card"><h3>Ultrasound</h3><div class="val" id="u">--</div><span class="unit">dB</span></div>
         </div>
 
-        <div class="graph-panel">
-            <h4 style="margin:0 0 15px 0; font-size:12px; color:var(--blue);">VIBRATION SPECTRUM ANALYSIS (FFT)</h4>
-            <canvas id="spectrumChart" height="90"></canvas>
+        <div style="margin-top:30px; background:var(--glass); padding:20px; border-radius:20px; height: 250px;">
+            <canvas id="liveChart"></canvas>
         </div>
     </div>
 
-    <a href="https://wa.me" class="float-btn" title="Contact Support">💬</a>
-
     <script>
-        // --- Live Data Sync ---
         async function fetchData() {
+            const mac = document.getElementById('nodeSelect').value;
             try {
-                const res = await fetch('/api/status');
+                // Fetch data from your NEW API that queries the DATABASE
+                const res = await fetch(`/api/status?radio_mac=${mac}`);
                 const d = await res.json();
                 
-                // Update Dashboard Metrics
-                document.getElementById('v').innerText = d.metrics.velocity;
-                document.getElementById('a').innerText = d.metrics.acceleration;
-                document.getElementById('t').innerText = d.metrics.temp;
-                document.getElementById('r').innerText = d.metrics.rpm;
-                document.getElementById('u').innerText = d.metrics.ultrasound;
-                
-                // Toggle AI Alert Visuals
-                const alertBox = document.getElementById('alert-notif');
-                if(d.alert) alertBox.style.display = 'block';
-                else alertBox.style.display = 'none';
-
-                // Update Chart Animation
-                updateGraph(d.metrics.velocity);
-
-            } catch (e) { console.log("Reconnecting to NeuroVibe AI Cloud..."); }
-        }
-
-        // --- Chart Configuration ---
-        const ctx = document.getElementById('spectrumChart').getContext('2d');
-        const myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: Array.from({length: 30}, (_, i) => i + ' Hz'),
-                datasets: [{
-                    label: 'Magnitude',
-                    data: Array.from({length: 30}, () => Math.random() * 5),
-                    borderColor: '#4facfe',
-                    backgroundColor: 'rgba(79, 172, 254, 0.1)',
-                    fill: true,
-                    tension: 0.4,
-                    pointRadius: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { display: false } },
-                scales: { 
-                    y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { display: false } },
-                    x: { grid: { display: false } }
+                if(d && !d.message) {
+                    document.getElementById('v').innerText = d.velocity || '--';
+                    document.getElementById('a').innerText = d.acceleration || '--';
+                    document.getElementById('t').innerText = d.temperature || '--';
+                    document.getElementById('r').innerText = d.calculated_rpm || '1440';
+                    document.getElementById('u').innerText = d.ultrasound_db || '--';
+                    
+                    // Show/Hide AI Alert
+                    document.getElementById('alert-notif').style.display = d.ai_alert_status ? 'block' : 'none';
                 }
-            }
-        });
-
-        function updateGraph(val) {
-            myChart.data.datasets[0].data.push(val);
-            myChart.data.datasets[0].data.shift();
-            myChart.update();
+            } catch (e) { console.log("Cloud sync error..."); }
         }
 
-        // Refresh Intervals
-        setInterval(fetchData, 3000); // Fetch Metrics
+        // Auto-refresh every 5 seconds
+        setInterval(fetchData, 5000);
+        window.onload = fetchData;
+
+        // Simple Chart Visualization
+        const ctx = document.getElementById('liveChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: { labels: ['1s','2s','3s','4s','5s'], datasets: [{ label: 'Vibration Trend', data: [1.2, 1.5, 2.1, 1.8, 2.4], borderColor: '#00d2ff', tension: 0.4 }] },
+            options: { maintainAspectRatio: false, plugins: { legend: { display: false } } }
+        });
     </script>
 </body>
 </html>
