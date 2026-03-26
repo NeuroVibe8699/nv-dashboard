@@ -1,34 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"><title>NV Master Admin</title>
+    <meta charset="UTF-8"><title>NV Master Admin | NeuroVibe AI</title>
     <style>
         :root { --blue: #00d2ff; --orange: #ff9933; --dark: #0b0e14; --glass: rgba(255,255,255,0.05); }
-        body { background: var(--dark); color: white; font-family: sans-serif; display: flex; margin: 0; height: 100vh; }
-        .sidebar { width: 250px; background: var(--glass); padding: 20px; border-right: 1px solid rgba(255,255,255,0.1); }
-        .nav-item { padding: 15px; cursor: pointer; border-radius: 8px; margin: 10px 0; }
+        body { background: var(--dark); color: white; font-family: 'Segoe UI', sans-serif; display: flex; margin: 0; height: 100vh; overflow: hidden; }
+        .sidebar { width: 250px; background: var(--glass); padding: 25px; border-right: 1px solid rgba(255,255,255,0.1); }
+        .nav-item { padding: 15px; cursor: pointer; border-radius: 8px; margin: 10px 0; transition: 0.3s; }
         .active { background: var(--blue); color: black; font-weight: bold; }
         .content { flex: 1; padding: 40px; overflow-y: auto; }
         .tab { display: none; } .active-tab { display: block; }
-        .card { background: var(--glass); padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1); }
+        .card { background: var(--glass); padding: 25px; border-radius: 12px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1); }
         .device-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
-        .sub-tab { padding: 8px 20px; background: #30363d; cursor: pointer; border-radius: 5px; }
+        .sub-tab { padding: 10px 25px; background: #30363d; cursor: pointer; border-radius: 5px; }
         .sub-active { background: var(--orange); }
-        input, select { width: 100%; padding: 10px; margin: 5px 0; background: #161b22; color: white; border: 1px solid #30363d; border-radius: 5px; }
-        .btn { padding: 10px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; } th, td { padding: 10px; text-align: left; border-bottom: 1px solid var(--glass); }
-        .modal { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:#161b22; padding:30px; border:1px solid var(--blue); border-radius:10px; z-index:1000; width:350px; }
+        input, select { width: 100%; padding: 12px; margin: 8px 0; background: #161b22; color: white; border: 1px solid #30363d; border-radius: 8px; box-sizing: border-box; }
+        .btn { padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; transition: 0.3s; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; } th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--glass); }
+        .modal { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:#161b22; padding:30px; border:1px solid var(--blue); border-radius:12px; z-index:1000; width:400px; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
     </style>
 </head>
 <body>
     <div class="sidebar">
-        <h2 style="color: var(--blue);">NV MASTER</h2>
-        <div class="nav-item active" onclick="showTab('invTab')">Inventory Control</div>
-        <div class="nav-item" onclick="showTab('userTab')">User & Site Mapping</div>
+        <h2 style="color: var(--blue); letter-spacing: 2px;">NV MASTER</h2>
+        <div class="nav-item active" onclick="showTab('invTab')">📦 Inventory Control</div>
+        <div class="nav-item" onclick="showTab('userTab')">🔗 Site Mapping</div>
+        <div style="position: absolute; bottom: 20px; width: 200px;">
+            <button class="btn" style="background: #ff4d4d; color: white;" onclick="location.href='/login.html'">Logout</button>
+        </div>
     </div>
 
     <div class="content">
-        <!-- Tab 1: Inventory (Node/Gateway Toggle) -->
+        <!-- Tab 1: Inventory -->
         <div id="invTab" class="tab active-tab">
             <h1>Hardware Stock</h1>
             <div class="device-tabs">
@@ -36,10 +39,11 @@
                 <div id="gT" class="sub-tab" onclick="setDT('gateway')">GATEWAYS</div>
             </div>
             <div class="card">
-                <input type="file" id="xl"><button class="btn" style="background:var(--blue);" onclick="upXL()">BULK IMPORT EXCEL</button>
+                <h3>Bulk Excel Import</h3>
+                <input type="file" id="xl"><button class="btn" style="background:var(--blue);" onclick="upXL()">START IMPORT</button>
             </div>
             <div class="card">
-                <table id="devT"><thead><tr><th>Model</th><th>Serial</th><th>ID</th><th>Action</th></tr></thead><tbody id="devB"></tbody></table>
+                <table id="devT"><thead><tr><th>Model</th><th>Serial</th><th>ID (MAC/IMEI)</th><th>Action</th></tr></thead><tbody id="devB"></tbody></table>
             </div>
         </div>
 
@@ -47,47 +51,99 @@
         <div id="userTab" class="tab">
             <h1>User & Site Mapping</h1>
             <div class="card">
-                <h3>Create Client</h3>
-                <input id="cn" placeholder="Company"><input id="ce" placeholder="Email"><input id="cp" placeholder="Password"><input id="cw" placeholder="WhatsApp">
-                <button class="btn" style="background:var(--orange);" onclick="saveU()">CREATE ACCOUNT</button>
+                <h3>1. Create Client Account</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <input id="cn" placeholder="Company Name">
+                    <input id="ce" placeholder="Email">
+                    <input id="cp" placeholder="Password">
+                    <input id="cw" placeholder="WhatsApp Number">
+                </div>
+                <button class="btn" style="background:var(--orange); color: white;" onclick="saveU()">CREATE ACCOUNT</button>
             </div>
             <div class="card">
-                <h3>Map Node to Site</h3>
-                <select id="uS"><option>Loading Users...</option></select>
-                <input id="mM" placeholder="Node MAC ID"><input id="mS" placeholder="Site Name (Pump-01)"><input id="mR" placeholder="RPM">
-                <button class="btn" style="background:var(--blue);" onclick="saveM()">MAP TO SITE</button>
+                <h3>2. Map Node to Client Site</h3>
+                <select id="userSelect"><option>Loading Clients...</option></select>
+                <select id="nodeSelect"><option>Loading Available Nodes...</option></select>
+                <input id="mS" placeholder="Machine/Site Name (e.g. Compressor-01)">
+                <input id="mR" placeholder="Rated RPM (e.g. 1440)" type="number">
+                <button class="btn" style="background:var(--blue); color: black;" onclick="saveM()">CONFIRM MAPPING</button>
             </div>
         </div>
     </div>
 
-    <div id="cfgM" class="modal"><h2 id="mT">Details</h2><div id="mB"></div><button class="btn" onclick="closeM()">CLOSE</button></div>
+    <!-- Details Modal -->
+    <div id="cfgM" class="modal"><h2 id="mT">Device Config</h2><div id="mB"></div><button class="btn" onclick="closeM()" style="background: #30363d; color: white;">CLOSE</button></div>
 
     <script>
         let dT = 'node';
-        function showTab(id) { document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active-tab')); document.getElementById(id).classList.add('active-tab'); event.currentTarget.classList.add('active'); }
-        function setDT(t) { dT = t; document.querySelectorAll('.sub-tab').forEach(s=>s.classList.remove('sub-active')); document.getElementById(t==='node'?'nT':'gT').classList.add('sub-active'); loadD(); }
+
+        function showTab(id) { 
+            document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active-tab')); 
+            document.getElementById(id).classList.add('active-tab'); 
+            document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            if(id === 'userTab') loadMappingData();
+        }
+
+        function setDT(t) { 
+            dT = t; 
+            document.querySelectorAll('.sub-tab').forEach(s=>s.classList.remove('sub-active')); 
+            document.getElementById(t==='node'?'nT':'gT').classList.add('sub-active'); 
+            loadD(); 
+        }
         
         async function upXL() {
-            const fd = new FormData(); fd.append('file', document.getElementById('xl').files[0]); fd.append('type', dT);
-            const r = await fetch('/api/inventory/bulk-import', { method: 'POST', body: fd }); alert((await r.json()).message); loadD();
+            const fd = new FormData(); 
+            fd.append('file', document.getElementById('xl').files[0]); 
+            fd.append('type', dT);
+            const r = await fetch('/api/inventory/bulk-import', { method: 'POST', body: fd }); 
+            const res = await r.json();
+            alert(res.message || res.error); 
+            loadD();
         }
 
         async function loadD() {
-            const r = await fetch('/api/inventory/list'); const d = await r.json();
+            const r = await fetch('/api/inventory/list'); 
+            const d = await r.json();
             const f = d.filter(x => dT === 'node' ? x.radio_mac && !x.imei_id : x.imei_id);
-            document.getElementById('devB').innerHTML = f.map(x => `<tr><td>${x.model_id}</td><td>${x.serial_no}</td><td>${x.radio_mac || x.imei_id}</td><td><button onclick="openM('${x.radio_mac || x.imei_id}')">Config</button></td></tr>`).join('');
+            document.getElementById('devB').innerHTML = f.map(x => `
+                <tr><td>${x.model_id}</td><td>${x.serial_no}</td><td>${x.radio_mac || x.imei_id}</td>
+                <td><button onclick="openM('${x.radio_mac || x.imei_id}')" style="cursor:pointer;">Config</button></td></tr>
+            `).join('');
         }
 
-        async function openM(id) {
-            document.getElementById('mB').innerHTML = dT==='node' ? `<b>Node Config: ${id}</b><br>Freq: Auto Detect<br>Status: Factory Stock` : `<b>Gateway Details: ${id}</b><br>IMEI Verified`;
+        async function loadMappingData() {
+            const r = await fetch('/api/admin/get-mapping-data');
+            const d = await r.json();
+            document.getElementById('userSelect').innerHTML = d.users.map(u => `<option value="${u.id}">${u.company_name}</option>`).join('');
+            document.getElementById('nodeSelect').innerHTML = d.nodes.map(n => `<option value="${n.radio_mac}">${n.radio_mac}</option>`).join('');
+        }
+
+        async function saveU() {
+            const p = {company:document.getElementById('cn').value, email:document.getElementById('ce').value, password:document.getElementById('cp').value, whatsapp:document.getElementById('cw').value};
+            const r = await fetch('/api/admin/create-client', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(p)});
+            if(r.ok) { alert("Client Created!"); loadMappingData(); }
+        }
+
+        async function saveM() {
+            const p = {
+                uid: document.getElementById('userSelect').value,
+                mac: document.getElementById('nodeSelect').value,
+                site: document.getElementById('mS').value,
+                rpm: document.getElementById('mR').value,
+                limit: 4.5
+            };
+            const r = await fetch('/api/admin/site-map', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(p)});
+            if(r.ok) alert("Mapping Successful!");
+            else alert("Mapping Failed!");
+        }
+
+        function openM(id) {
+            document.getElementById('mB').innerHTML = dT==='node' ? `<b>Node: ${id}</b><br><br>Status: Ready for Mapping<br>AI Edge: Active` : `<b>Gateway: ${id}</b><br><br>IMEI Verified<br>WAN/LAN: Active`;
             document.getElementById('cfgM').style.display='block';
         }
         function closeM() { document.getElementById('cfgM').style.display='none'; }
         
-        async function saveU() {
-            const p = {company:document.getElementById('cn').value, email:document.getElementById('ce').value, password:document.getElementById('cp').value, whatsapp:document.getElementById('cw').value};
-            await fetch('/api/admin/create-client', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(p)}); alert("User Created!");
-        }
         window.onload = loadD;
     </script>
 </body>
