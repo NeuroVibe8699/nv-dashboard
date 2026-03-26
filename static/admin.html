@@ -2,44 +2,148 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>NeuroVibe Admin | Inventory Master</title>
+    <title>NeuroVibe AI | Factory Inventory Master</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com">
     <style>
-        body { background: #020617; color: white; font-family: sans-serif; padding: 30px; }
-        .card { background: #161b22; border: 1px solid #334155; padding: 25px; border-radius: 15px; margin-bottom: 25px; max-width: 600px; }
-        h3 { color: #ff9933; border-bottom: 1px solid #334155; padding-bottom: 10px; margin-top: 0; }
-        select, input { width: 100%; padding: 12px; margin: 10px 0; background: #0d1117; border: 1px solid #334155; color: white; border-radius: 8px; box-sizing: border-box; }
-        .btn-box { display: flex; gap: 10px; margin-top: 15px; }
-        button { flex: 1; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; color: white; }
-        .blue { background: #4facfe; }
-        .orange { background: #ff9933; }
+        :root { --blue: #00d2ff; --orange: #ff9933; --dark: #0d1117; --glass: rgba(255,255,255,0.05); }
+        body { background: var(--dark); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 20px; }
+        
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--glass); padding-bottom: 15px; margin-bottom: 25px; }
+        .btn { padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; transition: 0.3s; }
+        .btn-blue { background: var(--blue); color: #000; }
+        .btn-outline { background: transparent; border: 1px solid var(--blue); color: var(--blue); }
+        
+        /* Toggle Switch for Node/Gateway */
+        .type-selector { display: flex; gap: 10px; margin-bottom: 20px; background: var(--glass); padding: 5px; border-radius: 12px; width: fit-content; }
+        .type-btn { padding: 8px 25px; border-radius: 8px; cursor: pointer; transition: 0.3s; }
+        .type-btn.active { background: var(--orange); color: white; box-shadow: 0 0 15px rgba(255,153,51,0.4); }
+
+        /* Forms & Containers */
+        .card { background: var(--glass); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; padding: 25px; margin-bottom: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        input, select { background: #161b22; border: 1px solid #30363d; color: white; padding: 12px; border-radius: 8px; width: 100%; box-sizing: border-box; }
+        
+        /* Table Styling */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 13px; }
+        th { text-align: left; background: rgba(0,210,255,0.1); color: var(--blue); padding: 12px; }
+        td { padding: 12px; border-bottom: 1px solid var(--glass); }
+        
+        .badge { padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: bold; }
+        .868 { border: 1px solid var(--blue); color: var(--blue); }
+        .915 { border: 1px solid var(--orange); color: var(--orange); }
     </style>
 </head>
 <body>
-    <h2 style="color:#4facfe;">ADMIN CONTROL: INVENTORY & MAPPING</h2>
 
-    <div class="card">
-        <h3>1. BULK INVENTORY (EXCEL)</h3>
-        <p style="font-size: 11px; color: gray;">Fields: Model, Serial, IMEI, Radio MAC, BLE MAC, LAN/WAN</p>
-        <input type="file" id="excelFile">
-        <div class="btn-box">
-            <button class="blue" onclick="alert('Uploading to Database...')">IMPORT EXCEL</button>
-            <button class="orange" onclick="window.location.href='/api/export'">EXPORT REPORT (.xlsx)</button>
+    <div class="header">
+        <div>
+            <h1 style="margin:0; font-size: 22px; color: var(--blue);">Inventory Control Center</h1>
+            <small style="color: var(--orange);">NeuroVibe AI Technologies Pvt Ltd | Factory Batch v2.6</small>
+        </div>
+        <div style="display: flex; gap: 10px;">
+            <button class="btn btn-outline" onclick="exportInventory()"><i class="fa-solid fa-file-export"></i> Export CSV</button>
+            <button class="btn btn-blue" onclick="document.getElementById('excelInput').click()"><i class="fa-solid fa-file-excel"></i> Bulk Import</button>
+            <input type="file" id="excelInput" hidden onchange="handleBulkUpload(this)">
         </div>
     </div>
 
-    <div class="card">
-        <h3>2. MANUAL PROVISIONING</h3>
-        <select id="model_select">
-            <option>SELECT NODE MODEL (NVS-1001 to 1010)</option>
-            <option>NVS-1001 (868MHz - EU/IN)</option>
-            <option>NVS-1002 (915MHz - US/AU)</option>
-            <option>NVS-1010 (AI-DRIVEN)</option>
-        </select>
-        <input type="text" placeholder="Radio MAC ID (Primary Identifier)">
-        <button class="blue" style="width:100%;" onclick="alert('Device Registered!')">REGISTER DEVICE</button>
+    <!-- Toggle Selector -->
+    <div class="type-selector">
+        <div id="nodeTab" class="type-btn active" onclick="switchType('node')">NODE (NVS-1001 to 1010)</div>
+        <div id="gwTab" class="type-btn" onclick="switchType('gateway')">GATEWAY (NV-1001 to 1002)</div>
     </div>
 
-    <a href="dashboard.html" style="color:#4facfe; text-decoration:none; font-size:12px;">← Back to Dashboard</a>
+    <!-- Manual Entry Card -->
+    <div class="card">
+        <h3 style="margin-top:0;"><i class="fa-solid fa-plus-circle"></i> Manual Device Creation</h3>
+        <form id="manualForm" class="grid">
+            <input type="text" id="model" placeholder="Model (e.g. NVS-1010)" required>
+            <input type="text" id="serial" placeholder="Serial Number" required>
+            <input type="text" id="radio" placeholder="Radio MAC Address">
+            
+            <!-- Dynamic Fields for Node/Gateway -->
+            <input type="text" id="ble" class="node-only" placeholder="BLE MAC Address">
+            <input type="text" id="imei" class="gw-only" style="display:none;" placeholder="IMEI Number">
+            <input type="text" id="lan" class="gw-only" style="display:none;" placeholder="LAN MAC Address">
+            <input type="text" id="wan" class="gw-only" style="display:none;" placeholder="WAN MAC Address">
+            
+            <button type="submit" class="btn btn-blue">Register Device</button>
+        </form>
+    </div>
+
+    <!-- Inventory List View -->
+    <div class="card">
+        <h3><i class="fa-solid fa-list-check"></i> Registered Stock</h3>
+        <table id="inventoryTable">
+            <thead>
+                <tr>
+                    <th>Model</th>
+                    <th>Serial No</th>
+                    <th>Main ID (Radio/IMEI)</th>
+                    <th>Region (Freq)</th>
+                    <th>Batch</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="inventoryBody">
+                <!-- Data will load here via JS -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        let currentType = 'node';
+
+        function switchType(type) {
+            currentType = type;
+            document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(type + 'Tab').classList.add('active');
+            
+            // Toggle form fields
+            const nodeFields = document.querySelectorAll('.node-only');
+            const gwFields = document.querySelectorAll('.gw-only');
+            
+            if(type === 'node') {
+                nodeFields.forEach(f => f.style.display = 'block');
+                gwFields.forEach(f => f.style.display = 'none');
+            } else {
+                nodeFields.forEach(f => f.style.display = 'none');
+                gwFields.forEach(f => f.style.display = 'block');
+            }
+        }
+
+        async function handleBulkUpload(input) {
+            const formData = new FormData();
+            formData.append('file', input.files[0]);
+            formData.append('type', currentType);
+
+            const res = await fetch('/api/inventory/bulk-import', { method: 'POST', body: formData });
+            const data = await res.json();
+            alert(data.message || data.error);
+            loadInventory();
+        }
+
+        async function loadInventory() {
+            const res = await fetch('/api/inventory/list');
+            const data = await res.json();
+            const body = document.getElementById('inventoryBody');
+            body.innerHTML = data.map(d => `
+                <tr>
+                    <td><b>${d.model_id}</b></td>
+                    <td>${d.serial_no}</td>
+                    <td>${d.radio_mac || d.imei_id}</td>
+                    <td><span class="badge ${d.rf_frequency}">${d.rf_frequency} MHz</span></td>
+                    <td>${d.production_batch || 'FACTORY_01'}</td>
+                    <td style="color: ${d.device_status === 'active' ? '#00ff00' : '#888'}">${d.device_status}</td>
+                </tr>
+            `).join('');
+        }
+
+        async function exportInventory() {
+            window.location.href = '/api/inventory/export';
+        }
+
+        window.onload = loadInventory;
+    </script>
 </body>
 </html>
-
