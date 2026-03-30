@@ -1,7 +1,18 @@
 {
   "version": 2,
+  "buildCommand": "pnpm install --frozen-lockfile && pnpm --filter @workspace/neurovibe-dashboard run build",
+  "outputDirectory": "artifacts/neurovibe-dashboard/dist/public",
+  "functions": {
+    "api/index.ts": {
+      "maxDuration": 30
+    }
+  },
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/index.py" },
-    { "source": "/(.*)", "destination": "/static/$1" }
-  ]
+    { "source": "/api/(.*)", "destination": "/api/index" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ],
+  "env": {
+    "BASE_PATH": "/",
+    "NODE_ENV": "production"
+  }
 }
