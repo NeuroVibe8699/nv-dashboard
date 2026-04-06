@@ -1,21 +1,9 @@
 {
   "version": 2,
-  "public": true,
   "buildCommand": "cd artifacts/neurovibe-dashboard && npm install && npm run build",
   "outputDirectory": "artifacts/neurovibe-dashboard/dist",
+  "framework": "vite",
   "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/api/index"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/artifacts/neurovibe-dashboard/dist/$1",
-      "continue": true
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/artifacts/neurovibe-dashboard/dist/index.html"
-    }
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
