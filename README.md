@@ -75,6 +75,7 @@ PORT=8080       # API server port
 ## Development Setup
 
 ```bash
+ 
 pnpm install
 pnpm --filter @workspace/db run push        # Apply DB schema
 pnpm --filter @workspace/api-spec run codegen  # Generate API client
